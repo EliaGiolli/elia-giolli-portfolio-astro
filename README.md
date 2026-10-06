@@ -49,7 +49,7 @@ I case studies (`src/content/case-studies/<slug>.md`) usano invece `challenge`, 
 ## 🚀 Dopo il primo deploy su Vercel
 
 1. Aggiorna `site` in `astro.config.mjs` con l'URL reale (canonical, sitemap, robots, RSS e OG dipendono da lì).
-2. GA4 è già configurato con l'ID `G-V8J1ESE2BC` (`GA_MEASUREMENT_ID` in `constants.ts`), attivo solo nelle build di produzione. `PUBLIC_GA_MEASUREMENT_ID` serve solo come override.
+2. GA4 è già configurato con l'ID `G-P6B0WQEQ3H` (`GA_MEASUREMENT_ID` in `constants.ts`), attivo solo nelle build di produzione. `PUBLIC_GA_MEASUREMENT_ID` serve solo come override.
 3. In Search Console aggiungi la proprietà con il metodo "tag HTML", copia il valore `content` in `PUBLIC_GOOGLE_SITE_VERIFICATION`, rifai il deploy e invia `/sitemap-index.xml`.
 4. Misura la baseline con PageSpeed Insights e aggiungi i numeri al case study dell'audit.
 

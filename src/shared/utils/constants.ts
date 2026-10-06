@@ -26,4 +26,4 @@ export const CONTACT_LINK = { label: "Contatti", href: "/#contact" } as const
 export const CONSENT_STORAGE_KEY = "analytics-consent"
 
 // GA4 measurement IDs are public by design (they ship in every page): not a secret.
-export const GA_MEASUREMENT_ID = "G-V8J1ESE2BC"
+export const GA_MEASUREMENT_ID = "G-P6B0WQEQ3H"
