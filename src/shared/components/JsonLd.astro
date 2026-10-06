@@ -1,0 +1,11 @@
+---
+interface Props {
+	schema: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { schema } = Astro.props;
+// "</" would close the script element early if it ever appeared inside a string value.
+const json = JSON.stringify(schema).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

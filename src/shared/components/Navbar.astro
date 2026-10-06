@@ -1,8 +1,8 @@
 ---
-import { Image } from "astro:assets";
 import Button from "../ui/Button.astro";
+import NavLink from "./NavLink.astro";
 
-import { LOGO_ALT_TEXT } from "../utils/constants";
+import { CONTACT_LINK, LOGO_ALT_TEXT, NAV_LINKS } from "../utils/constants";
 ---
 
 <header
@@ -15,24 +15,23 @@ import { LOGO_ALT_TEXT } from "../utils/constants";
       <a
         class="flex items-center gap-3 rounded-full px-2 py-1.5 text-indigo-600 no-underline transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50"
         href="/"
-        aria-label="Homepage"
+        aria-label="Elia Giolli, homepage"
       >
         <div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-indigo-200 bg-white shadow-sm shadow-indigo-100">
-          <Image src="/logo.svg" width={44} height={44} alt={LOGO_ALT_TEXT} class="h-full w-full object-contain" />
+          <img src="/logo.svg" width="44" height="44" alt={LOGO_ALT_TEXT} class="h-full w-full object-contain" />
         </div>
         <div class="hidden sm:block">
-          <div class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Portfolio</div>
+          <div class="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">Developer → SEO</div>
           <div class="text-base font-bold text-indigo-700">Elia Giolli</div>
         </div>
-        <h1 class="hidden" aria-label="main-title">Portfolio Elia Giolli</h1>
       </a>
 
-      <nav class="hidden md:block" aria-label="Main navigation">
+      <nav class="hidden md:block" aria-label="Navigazione principale">
         <ul class="flex list-none items-center gap-2 p-0">
-          <li><a class="rounded-full px-3.5 py-2 text-sm font-semibold text-slate-700 no-underline transition-all duration-200 hover:bg-indigo-100 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" href="#about">Su di me</a></li>
-          <li><a class="rounded-full px-3.5 py-2 text-sm font-semibold text-slate-700 no-underline transition-all duration-200 hover:bg-indigo-100 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" href="#projects">Certificati</a></li>
-          <li><a class="rounded-full px-3.5 py-2 text-sm font-semibold text-slate-700 no-underline transition-all duration-200 hover:bg-indigo-100 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" href="#certificates">Progetti</a></li>
-          <li><a class="rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white no-underline shadow-sm shadow-indigo-200 transition-all duration-200 hover:bg-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500" href="#contact">Contatti</a></li>
+          {NAV_LINKS.map((link) => (
+            <li><NavLink href={link.href}>{link.label}</NavLink></li>
+          ))}
+          <li><NavLink href={CONTACT_LINK.href} variant="cta">{CONTACT_LINK.label}</NavLink></li>
         </ul>
       </nav>
 
@@ -46,7 +45,6 @@ import { LOGO_ALT_TEXT } from "../utils/constants";
           aria-controls="mobile-navigation"
           x-on:click="open = !open"
         >
-          <span class="sr-only">Menu</span>
           <span class="flex flex-col gap-1.5" aria-hidden="true">
             <span class="block h-0.5 w-5 rounded-full bg-current transition-transform duration-200" :class="open ? 'translate-y-2 rotate-45' : ''"></span>
             <span class="block h-0.5 w-5 rounded-full bg-current transition-opacity duration-200" :class="open ? 'opacity-0' : ''"></span>
@@ -63,21 +61,18 @@ import { LOGO_ALT_TEXT } from "../utils/constants";
       x-show="open"
       x-transition.origin.top.duration.200ms
       @click.outside="open = false"
-      aria-label="Mobile navigation"
+      aria-label="Navigazione mobile"
     >
       <ul class="m-0 flex list-none flex-col gap-1.5 p-0">
-        <li><a class="block rounded-2xl px-4 py-3 font-semibold text-slate-800 no-underline transition-colors hover:bg-indigo-100 hover:text-indigo-700" href="#about" @click="open = false">Su di me</a></li>
-        <li><a class="block rounded-2xl px-4 py-3 font-semibold text-slate-800 no-underline transition-colors hover:bg-indigo-100 hover:text-indigo-700" href="#projects" @click="open = false">Progetti</a></li>
-        <li><a class="block rounded-2xl px-4 py-3 font-semibold text-slate-800 no-underline transition-colors hover:bg-indigo-100 hover:text-indigo-700" href="#certificates" @click="open = false">Certificati</a></li>
-        <li><a class="mt-1 block rounded-2xl bg-indigo-600 px-4 py-3 font-semibold text-white no-underline shadow-sm shadow-indigo-200 transition-colors hover:bg-indigo-700" href="#contact" @click="open = false">Contatti</a></li>
+        {NAV_LINKS.map((link) => (
+          <li><NavLink href={link.href} variant="mobile" @click="open = false">{link.label}</NavLink></li>
+        ))}
+        <li><NavLink href={CONTACT_LINK.href} variant="mobile-cta" @click="open = false">{CONTACT_LINK.label}</NavLink></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <script>
-  // @ts-expect-error Alpine is used at runtime and its package has no declarations.
-  import Alpine from "alpinejs";
-
-  Alpine.start();
+  import "../lib/alpine";
 </script>

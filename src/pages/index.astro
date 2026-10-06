@@ -1,19 +1,38 @@
 ---
+import { getImage } from "astro:assets";
 import MainLayout from "../core/layouts/MainLayout.astro";
 import HeroSection from "../features/home/HeroSection.astro";
-import ContactMe from "../features/contact/ContactMe.astro";
 import AboutSection from "../features/home/AboutSection.astro";
 import CertificatesSection from "../features/certificates/CertificatesSection.astro";
-import ProjectsSection from "../features/projects/ProjectsSection.astro";
+import CaseStudiesSection from "../features/case-studies/CaseStudiesSection.astro";
+import LatestPostsSection from "../features/blog/LatestPostsSection.astro";
+import ContactMe from "../features/contact/ContactMe.astro";
+import JsonLd from "../shared/components/JsonLd.astro";
+import { buildPersonSchema } from "../helpers";
+import { AUTHOR_NAME, GITHUB_URL, LINKEDIN_URL, SITE_DESCRIPTION, SITE_TAGLINE } from "../shared/utils/constants";
+import profilePhoto from "../features/home/assets/foto-elia.jpg";
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const photo = await getImage({ src: profilePhoto, width: 400, format: "jpg" });
+
+const personSchema = buildPersonSchema({
+	name: AUTHOR_NAME,
+	jobTitle: SITE_TAGLINE,
+	description: SITE_DESCRIPTION,
+	url: siteUrl.href,
+	image: new URL(photo.src, siteUrl).href,
+	sameAs: [LINKEDIN_URL, GITHUB_URL],
+	knowsAbout: ["Technical SEO", "Core Web Vitals", "Schema.org", "Google Analytics 4", "Google Search Console", "Front-end development", "Digital marketing"],
+});
 ---
 
-<MainLayout>
-	<HeroSection />
+<MainLayout ogType="profile">
+	<JsonLd slot="head" schema={personSchema} />
 
-	<main>
-		<AboutSection />
-		<CertificatesSection />
-		<ProjectsSection />
-		<ContactMe />
-	</main>
+	<HeroSection />
+	<AboutSection />
+	<CaseStudiesSection />
+	<CertificatesSection />
+	<LatestPostsSection />
+	<ContactMe />
 </MainLayout>

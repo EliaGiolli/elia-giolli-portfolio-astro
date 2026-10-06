@@ -1,0 +1,10 @@
+import type { APIRoute } from "astro";
+
+// Generated rather than kept in /public, so the sitemap URL follows `site` in astro.config.mjs.
+export const GET: APIRoute = ({ site }) => {
+	const sitemapUrl = new URL("sitemap-index.xml", site);
+
+	return new Response(`User-agent: *\nAllow: /\n\nSitemap: ${sitemapUrl.href}\n`, {
+		headers: { "Content-Type": "text/plain; charset=utf-8" },
+	});
+};

@@ -1,24 +1,24 @@
 ---
-import { Image } from "astro:assets";
-import { BLOG_NAME, LOGO_ALT_TEXT } from "../../shared/utils/constants";
+import BaseHead, { type SeoProps } from "../../shared/components/BaseHead.astro";
+import CookieConsent from "../../shared/components/CookieConsent.astro";
+import SkipLink from "../../shared/components/SkipLink.astro";
+import { LOGO_ALT_TEXT } from "../../shared/utils/constants";
 import "../../styles/global.css";
+
+type Props = SeoProps;
 ---
 
 <html lang="it" class="bg-[#f6f4ee] text-[#17252b]">
 	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="Curriculum vitae di Elia Giolli, tecnico IT Support e help desk." />
-		<title>{BLOG_NAME}</title>
+		<BaseHead {...Astro.props} />
 	</head>
 	<body class="min-h-screen bg-[#f6f4ee] text-[#17252b]">
+		<SkipLink />
 		<header class="border-b border-[#31454c] bg-[#17252b] text-white">
 			<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 lg:px-8">
 				<a href="/" aria-label="Torna alla home" class="flex items-center gap-3 rounded-full px-2 py-1.5 text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]">
 					<div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/5 shadow-sm shadow-black/20">
-						<Image src="/logo.svg" width={44} height={44} alt={LOGO_ALT_TEXT} class="h-full w-full object-contain" />
+						<img src="/logo.svg" width="44" height="44" alt={LOGO_ALT_TEXT} class="h-full w-full object-contain" />
 					</div>
 					<div class="hidden sm:block">
 						<div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-300">Portfolio</div>
@@ -33,5 +33,6 @@ import "../../styles/global.css";
 		</header>
 
 		<slot />
+		<CookieConsent />
 	</body>
 </html>

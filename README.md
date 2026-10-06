@@ -1,77 +1,73 @@
 # Elia Giolli · Portfolio
 
-Portfolio personale di Elia Giolli, tecnico IT Support orientato a troubleshooting, networking e infrastrutture Windows.
+Portfolio personale di Elia Giolli, **front-end developer turned Technical SEO & Analytics specialist**.
 
-Il progetto racconta il lavoro attraverso case study tecnici: non solo cosa è stato costruito, ma come è stato diagnosticato, verificato e documentato.
+Il sito racconta il passaggio dallo sviluppo web alla SEO tecnica e alla web analytics attraverso case studies documentati e un blog i cui articoli vengono poi ripresi e riscritti per LinkedIn.
 
 ## ✦ Esperienza
 
-- **Hero**: ruolo professionale, competenze principali, CTA verso il CV e scroll diretto alla sezione progetti.
-- **Profilo**: esperienza in Help Desk, Service Desk, Microsoft 365, Windows e supporto enterprise.
-- **Progetti**: carousel accessibile alimentato dalla content collection `projects`, con pannelli tab in home page.
-- **Case study**: route dinamiche con causa, metodo di troubleshooting, verifica e documentazione completa; il ritorno porta alla home.
-- **CV**: pagina dedicata con layout minimale, branding del portfolio e pulsante per tornare alla home.
-- **Certificazioni**: carousel con immagini ottimizzate tramite Astro Image.
-- **Contatti**: form accessibile con EmailJS e fallback diretto via client email.
-- **Navigazione**: smooth scroll per ancore interne, navbar sticky e supporto a `prefers-reduced-motion`.
+- **Hero**: posizionamento "developer turned SEO", competenze, CTA verso case studies, blog e CV.
+- **Profilo**: il percorso lingue → codice → supporto IT → SEO.
+- **Case studies** (`/case-studies`): collection `caseStudies`, con sfida, approccio, risultato e il racconto completo.
+- **Blog** (`/blog`): collection `blog`, con tempo di lettura, JSON-LD `BlogPosting`, feed RSS e link al post LinkedIn.
+- **Certificazioni**: dati in `src/features/certificates/certificates.ts`, immagini ottimizzate con Astro Image.
+- **CV** (`/cv`), **Contatti** (EmailJS con fallback `mailto:`), **Privacy** (`/privacy`).
+
+## 🔎 SEO e analytics
+
+- `BaseHead.astro`: title, description, canonical (con slash finale), robots, Open Graph, Twitter Card, verifica Search Console.
+- `@astrojs/sitemap` → `/sitemap-index.xml`; `src/pages/robots.txt.ts` genera il robots.txt dal `site` in `astro.config.mjs`.
+- JSON-LD: `Person` (home), `BlogPosting` (articoli), `BreadcrumbList` (blog, case studies, privacy). Builder in `src/helpers/structuredData.ts`.
+- Core Web Vitals: font via `<link>` + `preconnect`, immagini WebP con `widths`/`sizes`, prefetch dei link interni, nessuno script di terze parti prima del consenso.
+- Accessibilità: skip link, un solo `h1` per pagina, un unico `<main>`, `aria-current` nel menu, tab delle certificazioni navigabili con le frecce.
+- **Google Analytics 4** con Consent Mode v2 "basic": `gtag.js` viene scaricato solo dopo "Accetta" nel banner (Alpine.js). Logica in `src/helpers/analyticsConsent.ts`.
+
+## ✍️ Scrivere un articolo
+
+Crea `src/content/blog/<slug>.md`: lo slug del file diventa l'URL `/blog/<slug>/`.
+
+```md
+---
+title: "Titolo (50-60 caratteri)"
+description: "Meta description, massimo 170 caratteri."
+pubDate: 2026-10-06
+updatedDate: 2026-10-20        # opzionale
+tags: ["Technical SEO", "GA4"] # il primo tag compare come etichetta
+linkedinUrl: "https://www.linkedin.com/posts/..."  # opzionale, dopo il repurposing
+cover: "./cover.jpg"           # opzionale, richiede coverAlt
+coverAlt: "Descrizione dell'immagine"
+draft: true                    # visibile solo in `astro dev`
+---
+
+Testo in Markdown. Usa titoli `##` e `###` (l'`h1` è il title).
+```
+
+Flusso consigliato: articolo completo sul sito → post LinkedIn riscritto (hook, 3-5 punti, link all'articolo nel primo commento) → aggiungi `linkedinUrl` all'articolo.
+
+I case studies (`src/content/case-studies/<slug>.md`) usano invece `challenge`, `approach`, `result` e opzionalmente `githubUrl` e `liveUrl`.
+
+## 🚀 Dopo il primo deploy su Vercel
+
+1. Aggiorna `site` in `astro.config.mjs` con l'URL reale (canonical, sitemap, robots, RSS e OG dipendono da lì).
+2. Crea una proprietà GA4 e imposta `PUBLIC_GA_MEASUREMENT_ID` nelle variabili d'ambiente di Vercel.
+3. In Search Console aggiungi la proprietà con il metodo "tag HTML", copia il valore `content` in `PUBLIC_GOOGLE_SITE_VERIFICATION`, rifai il deploy e invia `/sitemap-index.xml`.
+4. Misura la baseline con PageSpeed Insights e aggiungi i numeri al case study dell'audit.
 
 ## 🧭 Architettura
 
-Il progetto usa Astro per il rendering statico, Alpine.js per le interazioni leggere e una content collection tipizzata per i progetti.
-
 ```text
-portfolio-astro/
-├── public/                     # Asset statici serviti senza trasformazione
-├── src/
-│   ├── core/layouts/           # Shell globale, layout principale e layout CV dedicato
-│   │   ├── MainLayout.astro
-│   │   └── CvLayout.astro
-│   ├── features/               # Slice per dominio: home, CV, progetti, certificati, contatti
-│   │   ├── certificates/assets/
-│   │   ├── cv/
-│   │   ├── home/assets/
-│   │   ├── home/
-│   │   ├── projects/
-│   │   └── contact/
-│   ├── shared/                 # UI, form, utility e componenti riutilizzabili
-│   │   ├── components/
-│   │   ├── forms/
-│   │   ├── lib/
-│   │   ├── ui/
-│   │   └── utils/
-│   ├── content/projects/       # Markdown dei progetti e case study
-│   ├── content.config.ts       # Schema tipizzato della collection projects
-│   ├── helpers/                 # Helper condivisi per testo e date
-│   ├── pages/                  # Route Astro: home, /cv e /projects/[...slug]
-│   ├── styles/                 # Stili globali del portfolio
-├── tsconfig.json               # Configurazione TypeScript ereditata da Astro
-├── astro.config.mjs
-├── package.json
-├── PALETTE.md
-├── ROADMAP.md
-├── FINAL-REVISION.md
-└── README.md
+src/
+├── content/
+│   ├── blog/                 # Articoli Markdown
+│   └── case-studies/         # Case studies Markdown
+├── content.config.ts         # Schemi delle collection blog e caseStudies
+├── core/layouts/             # MainLayout e CvLayout (entrambi usano BaseHead)
+├── features/                 # blog, case-studies, certificates, contact, cv, home
+├── helpers/                  # Logica pura: SEO, JSON-LD, tempo di lettura, consenso analytics
+├── pages/                    # /, /blog, /case-studies, /cv, /privacy, rss.xml, robots.txt
+├── shared/                   # BaseHead, Navbar, Footer, Breadcrumbs, PageHeader, UI, Alpine bootstrap
+└── styles/global.css         # Tailwind + stile .prose-document per i contenuti lunghi
 ```
-
-### Flusso dei progetti
-
-```text
-src/content/projects/*.md
-          │
-          ▼
-   content.config.ts
-          │
-          ├── Home page → ProjectsSection → tabbed carousel
-          │
-          └── ProjectCard → /projects/:slug
-                                             │
-                                             ▼
-                                  ProjectDetail
-                                             │
-                                             └── markdown completo + case study
-```
-
-Nota: la home page contiene la sezione progetti; il CTA del hero usa un link anchor verso `#projects` invece di una route dedicata a `/projects`.
 
 ## 🛠️ Stack
 
@@ -80,6 +76,7 @@ Nota: la home page contiene la sezione progetti; il CTA del hero usa un link anc
 - [Alpine.js](https://alpinejs.dev/) · carousel, menu mobile e stato locale
 - `Card.astro`, `Button.astro`, `Input.astro` e `Form.astro` · primitive UI condivise
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/) · contenuti progetto tipizzati
+- `@astrojs/sitemap` e `@astrojs/rss` · sitemap e feed
 - [Astro Image](https://docs.astro.build/en/guides/images/) + `sharp` · ottimizzazione immagini
 - [EmailJS](https://www.emailjs.com/) · invio del form di contatto
 - TypeScript · helper e contratti dei componenti
@@ -121,18 +118,11 @@ Il form usa EmailJS quando sono presenti queste variabili pubbliche. In assenza 
 PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+PUBLIC_GOOGLE_SITE_VERIFICATION=
 ```
 
 Il template EmailJS deve prevedere almeno i campi `from_name`, `reply_to`, `subject` e `message`.
-
-## ♿ Accessibilità
-
-- landmark semantici: `header`, `main`, `nav`, `section`, `article`, `footer`;
-- relazioni esplicite tra tab e pannelli con `aria-controls`, `aria-labelledby` e `aria-selected`;
-- label associate ai campi, stati obbligatori e messaggi live per il form;
-- focus visibile per link, pulsanti e controlli interattivi;
-- testo alternativo per fotografie e certificati;
-- supporto a `prefers-reduced-motion` nello smooth scroll.
 
 ## 🧪 Verifica
 
@@ -143,12 +133,6 @@ npm run build
 ```
 
 La build verifica content collection, route dinamiche, trasformazione delle immagini e bundle client delle interazioni.
-
-## 📌 Stato del progetto
-
-Le fasi 1–9 del [ROADMAP.md](ROADMAP.md) sono completate. La struttura segue una separazione feature-based tra `core`, `features` e `shared`.
-
-In particolare, la pagina CV è disponibile in `/cv`, usa un layout dedicato con branding minimale e torna alla home tramite pulsante dedicato; i link interni del navbar e i CTA della homepage puntano alla sezione corretta in home page senza creare route non esistenti.
 
 ## 🔗 Riferimenti
 

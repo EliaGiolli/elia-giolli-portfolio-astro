@@ -1,0 +1,86 @@
+---
+import { getImage, Image } from "astro:assets";
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../core/layouts/MainLayout.astro";
+import LinkedInCallout from "../../features/blog/LinkedInCallout.astro";
+import PostMeta from "../../features/blog/PostMeta.astro";
+import { buildBlogPostingSchema, publishedEntries, readingTime } from "../../helpers";
+import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
+import JsonLd from "../../shared/components/JsonLd.astro";
+import PageHeader from "../../shared/components/PageHeader.astro";
+import TagList from "../../shared/ui/TagList.astro";
+import { OG_IMAGE_PATH } from "../../shared/utils/constants";
+
+export async function getStaticPaths() {
+	const posts = publishedEntries(await getCollection("blog"), import.meta.env.DEV);
+
+	return posts.map((post) => ({
+		params: { id: post.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const { Content } = await render(post);
+
+const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+const postPath = `/blog/${post.id}/`;
+// The post's own cover becomes the social/search image; the site card otherwise.
+const imagePath = data.cover ? (await getImage({ src: data.cover, format: "jpg", width: 1200 })).src : OG_IMAGE_PATH;
+
+const schema = buildBlogPostingSchema({
+	title: data.title,
+	description: data.description,
+	author: data.author,
+	pubDate: data.pubDate,
+	updatedDate: data.updatedDate,
+	tags: data.tags,
+	url: new URL(postPath, siteUrl).href,
+	imageUrl: new URL(imagePath, siteUrl).href,
+	siteUrl: siteUrl.href,
+});
+---
+
+<MainLayout
+	title={data.title}
+	description={data.description}
+	ogType="article"
+	ogImage={imagePath}
+	publishedTime={data.pubDate}
+	modifiedTime={data.updatedDate ?? data.pubDate}
+>
+	<JsonLd slot="head" schema={schema} />
+
+	<article aria-labelledby="page-title">
+		<PageHeader kicker={data.tags[0] ?? "Articolo"} title={data.title} dek={data.description}>
+			<Breadcrumbs
+				slot="before"
+				items={[
+					{ name: "Home", href: "/" },
+					{ name: "Blog", href: "/blog/" },
+					{ name: data.title, href: postPath },
+				]}
+			/>
+			<p class="mt-6 text-sm text-slate-300">di <strong class="font-semibold text-white">{data.author}</strong></p>
+			<PostMeta pubDate={data.pubDate} updatedDate={data.updatedDate} minutes={readingTime(post.body ?? "")} class="mt-1 text-slate-300" />
+		</PageHeader>
+
+		<div class="mx-auto max-w-3xl px-6 py-14 lg:py-20">
+			{data.cover && (
+				<Image src={data.cover} alt={data.coverAlt ?? ""} class="mb-10 h-auto w-full rounded-2xl border border-[#d9d6cb]" loading="eager" fetchpriority="high" widths={[480, 768, 1200]} sizes="(min-width: 768px) 720px, 100vw" />
+			)}
+			<div class="prose-document">
+				<Content />
+			</div>
+
+			<div class="mt-12 border-t border-[#d9d6cb] pt-8">
+				<TagList tags={data.tags} label="Argomenti dell'articolo" />
+			</div>
+
+			<div class="mt-12">
+				<LinkedInCallout linkedinUrl={data.linkedinUrl} />
+			</div>
+		</div>
+	</article>
+</MainLayout>

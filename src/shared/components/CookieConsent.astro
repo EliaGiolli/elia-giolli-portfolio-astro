@@ -1,0 +1,43 @@
+---
+const measurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID ?? "";
+---
+
+{measurementId && (
+	<div
+		x-data={`cookieConsent(${JSON.stringify(measurementId)})`}
+		x-show="visible"
+		x-cloak
+		x-transition.opacity.duration.200ms
+		role="dialog"
+		aria-modal="false"
+		aria-labelledby="cookie-consent-title"
+		aria-describedby="cookie-consent-text"
+		class="fixed inset-x-4 bottom-4 z-60 mx-auto max-w-2xl rounded-2xl border border-white/10 bg-[#17252b] p-5 text-white shadow-[8px_8px_0_#f2b84b] sm:p-6"
+	>
+		<h2 id="cookie-consent-title" class="text-lg font-extrabold">Statistiche anonime, solo se vuoi</h2>
+		<p id="cookie-consent-text" class="mt-2 text-sm leading-6 text-slate-300">
+			Uso Google Analytics 4 per capire quali contenuti sono utili. Nessun cookie viene installato finché non accetti.{" "}
+			<a href="/privacy" class="font-bold text-[#f2b84b] underline underline-offset-4 hover:text-[#ffd477]">Privacy e cookie</a>
+		</p>
+		<div class="mt-4 flex flex-wrap gap-3">
+			<button
+				type="button"
+				x-on:click="choose('granted')"
+				class="rounded-lg bg-[#f2b84b] px-4 py-2 text-sm font-bold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+			>
+				Accetta
+			</button>
+			<button
+				type="button"
+				x-on:click="choose('denied')"
+				class="rounded-lg border border-white/25 px-4 py-2 text-sm font-bold text-white transition-colors hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+			>
+				Rifiuta
+			</button>
+		</div>
+	</div>
+)}
+
+<script>
+	import "../lib/alpine";
+</script>

@@ -1,37 +1,23 @@
 ---
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import Card from "../../shared/ui/Card.astro";
 import profilePhoto from "../home/assets/foto-elia.jpg";
 
 const technicalSkills = [
+	["SEO tecnica", "Core Web Vitals · HTML semantico · dati strutturati Schema.org · sitemap, robots.txt e canonical"],
+	["Web analytics", "Google Analytics 4 · Google Search Console · Consent Mode v2"],
+	["Digital marketing", "Inbound marketing · SEO on-page e contenuti · HubSpot"],
+	["Sviluppo front-end", "HTML · CSS · JavaScript · Astro · Tailwind CSS · Alpine.js"],
 	["Ticketing e collaborazione", "ServiceNow · Microsoft 365 / Office 365 · Microsoft Teams"],
-	["Directory Services", "Active Directory · DNS · Group Policy · utenti, gruppi e OU"],
-	["Reti", "TCP/IP · LAN/WAN · Cisco Packet Tracer · VLAN · routing di base"],
-	["Sistemi e virtualizzazione", "Linux (Ubuntu, Debian) · Windows · Windows Server · VMware · VirtualBox"],
-	["Scripting e automazione", "Bash · PowerShell · Python · JavaScript / Node.js"],
-	["Database", "MySQL · PostgreSQL · Microsoft SQL Server · query e amministrazione di base"],
+	["Sistemi e reti", "TCP/IP · DNS · Windows e Linux · Active Directory"],
+	["Scripting e dati", "Python · PowerShell · Bash · SQL (MySQL, PostgreSQL)"],
 ];
 
-const projects = [
-	{
-		title: "Active Directory Homelab",
-		copy: "Dominio Windows Server costruito da zero con AD DS, DNS, Domain Controller, client joinato, OU per reparti e ruoli, utenti, gruppi e GPO testate.",
-		link: "/projects/active-directory-homelab",
-	},
-	{
-		title: "Scripting e automazione sistemistica",
-		copy: "Suite PowerShell per auditing e automazione Windows, oltre a un tool cross-platform di cleanup e backup implementato in Python e PowerShell con dry-run, logging e scheduling.",
-		link: "/projects/cleanup-and-backup-script",
-	},
-	{
-		title: "Reti Cisco Packet Tracer",
-		copy: "Lab di configurazione e troubleshooting enterprise con VLAN, trunking, routing inter-VLAN, subnetting, DHCP/DNS/NAT, ACL e accesso SSH.",
-		link: "/projects/cisco-packet-tracer-labs",
-	},
-];
+const caseStudies = (await getCollection("caseStudies")).filter((entry) => !entry.data.draft);
 ---
 
-<main class="bg-[#f6f4ee] text-[#17252b]" aria-labelledby="cv-title">
+<main id="main-content" tabindex="-1" class="bg-[#f6f4ee] text-[#17252b] focus:outline-none" aria-labelledby="cv-title">
 	<header class="border-b border-[#31454c] bg-[#17252b] text-white">
 		<div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-[auto_1fr] lg:items-center lg:px-8 lg:py-20">
 			<div class="flex items-center gap-5">
@@ -41,7 +27,7 @@ const projects = [
 			<div>
 				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-[#f2b84b]">Curriculum vitae</p>
 				<h1 id="cv-title" class="text-4xl font-extrabold tracking-tight sm:text-6xl">Elia Giolli</h1>
-				<p class="mt-3 text-xl font-medium text-slate-200">IT Support · Help Desk · Service Desk</p>
+				<p class="mt-3 text-xl font-medium text-slate-200">Front-end developer turned Technical SEO &amp; Analytics specialist</p>
 				<p class="mt-5 max-w-3xl text-sm leading-6 text-slate-300">Peccioli (PI) · Patente B, automunito · Disponibile al trasferimento e agli spostamenti in Italia e in Europa</p>
 				<nav class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm" aria-label="Contatti CV">
 					<a href="tel:+393405335525" class="text-[#f2b84b] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">+39 340 5335525</a>
@@ -57,8 +43,8 @@ const projects = [
 		<div class="space-y-16">
 			<section aria-labelledby="profile-title">
 				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Profilo</p>
-				<h2 id="profile-title" class="text-3xl font-extrabold tracking-tight">Supporto tecnico con visione di sistema</h2>
-				<p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Tecnico IT Support con esperienza di help desk in ambiente enterprise, gestione ticket su ServiceNow e supporto Microsoft 365. Ho solide basi su reti TCP/IP, Active Directory, sistemi Linux e Windows e database relazionali SQL. Il background di sviluppo software accelera il troubleshooting e la comprensione dei sistemi. Parlo cinque lingue straniere e lavoro bene in contesti di service desk multilingue e internazionali.</p>
+				<h2 id="profile-title" class="text-3xl font-extrabold tracking-tight">Dal codice alla SERP</h2>
+				<p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Front-end developer con esperienza di supporto IT in ambiente enterprise, oggi in transizione verso la SEO tecnica e la web analytics. Certificato HubSpot Digital Marketing, unisco la conoscenza di HTML, performance e architettura web all'analisi dei dati con Google Analytics 4 e Search Console. Laureato in Lingue, parlo cinque lingue straniere: un vantaggio per la SEO internazionale e per contenuti chiari.</p>
 			</section>
 
 			<section aria-labelledby="experience-title">
@@ -88,14 +74,14 @@ const projects = [
 			</section>
 
 			<section aria-labelledby="projects-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">GitHub · github.com/EliaGiolli</p>
-				<h2 id="projects-title" class="text-3xl font-extrabold tracking-tight">Progetti tecnici</h2>
+				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Lavori documentati</p>
+				<h2 id="projects-title" class="text-3xl font-extrabold tracking-tight">Case studies</h2>
 				<div class="mt-8 grid gap-5">
-					{projects.map((project) => (
+					{caseStudies.map((caseStudy) => (
 						<Card as="article" class="p-6">
-							<h3 class="text-xl font-extrabold">{project.title}</h3>
-							<p class="mt-3 leading-7 text-slate-600">{project.copy}</p>
-							<a href={project.link} class="mt-5 inline-flex font-bold text-indigo-600 underline-offset-4 hover:text-violet-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">Apri il case study <span class="ml-2" aria-hidden="true">→</span></a>
+							<h3 class="text-xl font-extrabold">{caseStudy.data.title}</h3>
+							<p class="mt-3 leading-7 text-slate-600">{caseStudy.data.description}</p>
+							<a href={`/case-studies/${caseStudy.id}/`} class="mt-5 inline-flex font-bold text-indigo-600 underline-offset-4 hover:text-violet-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">Apri il case study <span class="ml-2" aria-hidden="true">→</span></a>
 						</Card>
 					))}
 				</div>
@@ -120,6 +106,7 @@ const projects = [
 				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Formazione</p>
 				<h2 id="education-title" class="text-2xl font-extrabold">Certificazioni e istruzione</h2>
 				<ul class="mt-6 space-y-5 text-sm leading-6 text-slate-600">
+					<li><strong class="text-[#17252b]">Digital Marketing Certified</strong><br />HubSpot Academy · settembre 2026, valida fino a ottobre 2028</li>
 					<li><strong class="text-[#17252b]">Active Directory & Group Policy Lab</strong><br />Udemy, 7 ore · completato agosto 2026</li>
 					<li><strong class="text-[#17252b]">Cisco Networking Academy</strong><br />Networking Basics · Network Devices and Initial Configuration · Network Support and Security · Introduction to Cybersecurity</li>
 					<li><strong class="text-[#17252b]">Tecnico di reti IT</strong><br />Talentform, patrocinato da Forma.Temp</li>
