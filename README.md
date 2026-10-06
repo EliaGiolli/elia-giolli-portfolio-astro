@@ -50,7 +50,7 @@ I case studies (`src/content/case-studies/<slug>.md`) usano invece `challenge`, 
 
 1. Aggiorna `site` in `astro.config.mjs` con l'URL reale (canonical, sitemap, robots, RSS e OG dipendono da lì).
 2. GA4 è già configurato con l'ID `G-P6B0WQEQ3H` (`GA_MEASUREMENT_ID` in `constants.ts`), attivo solo nelle build di produzione. `PUBLIC_GA_MEASUREMENT_ID` serve solo come override.
-3. In Search Console aggiungi la proprietà con il metodo "tag HTML", copia il valore `content` in `PUBLIC_GOOGLE_SITE_VERIFICATION`, rifai il deploy e invia `/sitemap-index.xml`.
+3. Search Console è verificato con il tag HTML (`GOOGLE_SITE_VERIFICATION` in `constants.ts`; `PUBLIC_GOOGLE_SITE_VERIFICATION` serve solo come override). Invia `/sitemap-index.xml` dalla sezione Sitemap.
 4. Misura la baseline con PageSpeed Insights e aggiungi i numeri al case study dell'audit.
 
 ## 🧭 Architettura
@@ -119,7 +119,7 @@ PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
 PUBLIC_GA_MEASUREMENT_ID=          # opzionale: sovrascrive l'ID GA4 nel codice
-PUBLIC_GOOGLE_SITE_VERIFICATION=
+PUBLIC_GOOGLE_SITE_VERIFICATION=   # opzionale: sovrascrive il token nel codice
 ```
 
 Il template EmailJS deve prevedere almeno i campi `from_name`, `reply_to`, `subject` e `message`.

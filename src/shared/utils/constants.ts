@@ -27,3 +27,6 @@ export const CONSENT_STORAGE_KEY = "analytics-consent"
 
 // GA4 measurement IDs are public by design (they ship in every page): not a secret.
 export const GA_MEASUREMENT_ID = "G-P6B0WQEQ3H"
+
+// Search Console "HTML tag" verification token: public too, it is printed in every page head.
+export const GOOGLE_SITE_VERIFICATION = "WrPrcSwf5ah2sfaoB0iRvxd8Qt-qN2BNTn0Rx32ibWM"
