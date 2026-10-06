@@ -28,3 +28,7 @@ ROADMAP.md
 FINAL-REVISION.md
 # playwright mcp output
 .playwright-mcp/
+
+# test output
+test-results/
+playwright-report/
