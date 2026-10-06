@@ -80,6 +80,8 @@ src/
 - [Astro Image](https://docs.astro.build/en/guides/images/) + `sharp` · ottimizzazione immagini
 - [EmailJS](https://www.emailjs.com/) · invio del form di contatto
 - TypeScript · helper e contratti dei componenti
+- [Vitest](https://vitest.dev/) + jsdom · test unitari e di integrazione
+- [Playwright](https://playwright.dev/) · test end-to-end
 
 ## 🚀 Avvio locale
 
@@ -124,15 +126,36 @@ PUBLIC_GOOGLE_SITE_VERIFICATION=   # opzionale: sovrascrive il token nel codice
 
 Il template EmailJS deve prevedere almeno i campi `from_name`, `reply_to`, `subject` e `message`.
 
-## 🧪 Verifica
+## 🧪 Test
 
-Prima di una modifica importante:
+| Comando | Cosa verifica |
+| --- | --- |
+| `npm run test:unit` | Helpers e utility (Vitest), file `*.test.ts` accanto al codice che testano |
+| `npm run test:integration` | Fa una build di produzione e analizza l'HTML generato con jsdom: SEO, dati strutturati, accessibilità, link, contenuti |
+| `npm run test:e2e` | Build + Playwright su Chromium contro la build servita in locale |
+| `npm test` | Tutte e tre le suite in sequenza |
 
-```sh
-npm run build
+Prima volta: `npx playwright install chromium`.
+
+```text
+src/**/*.test.ts            # unit: seo, structuredData, readingTime, publishedEntries,
+                            #       navigation, formatDate, analyticsConsent, cn…
+tests/
+├── integration/
+│   ├── setup/buildSite.ts  # una sola `astro build` per tutta la suite
+│   ├── utils/dist.ts       # lettura e parsing delle pagine in dist/
+│   ├── seo.test.ts         # route, robots, sitemap, RSS, title/description/canonical/OG
+│   ├── structuredData.test.ts
+│   ├── accessibility.test.ts
+│   ├── links.test.ts       # nessun link interno o ancora rotta
+│   └── content.test.ts     # home, blog, case study, CV, GDPR
+└── e2e/
+    ├── fixtures.ts         # blocca ogni richiesta a Google: i test non toccano GA4
+    ├── server.mjs          # serve dist/ in primo piano per Playwright
+    ├── navigation.spec.ts  # navbar, menu mobile, skip link, 404
+    ├── consent.spec.ts     # banner cookie e caricamento di GA4 solo dopo il consenso
+    └── content.spec.ts     # blog, case study, tab certificazioni, form contatti
 ```
-
-La build verifica content collection, route dinamiche, trasformazione delle immagini e bundle client delle interazioni.
 
 ## 🔗 Riferimenti
 
