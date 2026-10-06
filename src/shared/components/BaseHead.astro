@@ -2,6 +2,7 @@
 import { buildCanonicalUrl, buildPageTitle } from "../../helpers";
 import {
 	BLOG_NAME,
+	GOOGLE_SITE_VERIFICATION,
 	OG_IMAGE_HEIGHT,
 	OG_IMAGE_PATH,
 	OG_IMAGE_WIDTH,
@@ -37,7 +38,7 @@ const pageTitle = buildPageTitle(title, BLOG_NAME);
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const canonicalUrl = buildCanonicalUrl(Astro.url.pathname, siteUrl);
 const ogImageUrl = new URL(ogImage, siteUrl);
-const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION;
+const googleVerification = import.meta.env.PUBLIC_GOOGLE_SITE_VERIFICATION || GOOGLE_SITE_VERIFICATION;
 ---
 
 <meta charset="utf-8" />
