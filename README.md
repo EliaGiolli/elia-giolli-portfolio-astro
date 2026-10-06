@@ -1,12 +1,12 @@
 # Elia Giolli · Portfolio
 
-Portfolio personale di Elia Giolli, **front-end developer turned Technical SEO & Analytics specialist**.
+Portfolio personale di Elia Giolli, **da front-end developer a Technical SEO & Analytics specialist**.
 
 Il sito racconta il passaggio dallo sviluppo web alla SEO tecnica e alla web analytics attraverso case studies documentati e un blog i cui articoli vengono poi ripresi e riscritti per LinkedIn.
 
 ## ✦ Esperienza
 
-- **Hero**: posizionamento "developer turned SEO", competenze, CTA verso case studies, blog e CV.
+- **Hero**: posizionamento "da developer a SEO", competenze, CTA verso case studies, blog e CV.
 - **Profilo**: il percorso lingue → codice → supporto IT → SEO.
 - **Case studies** (`/case-studies`): collection `caseStudies`, con sfida, approccio, risultato e il racconto completo.
 - **Blog** (`/blog`): collection `blog`, con tempo di lettura, JSON-LD `BlogPosting`, feed RSS e link al post LinkedIn.
@@ -49,7 +49,7 @@ I case studies (`src/content/case-studies/<slug>.md`) usano invece `challenge`, 
 ## 🚀 Dopo il primo deploy su Vercel
 
 1. Aggiorna `site` in `astro.config.mjs` con l'URL reale (canonical, sitemap, robots, RSS e OG dipendono da lì).
-2. Crea una proprietà GA4 e imposta `PUBLIC_GA_MEASUREMENT_ID` nelle variabili d'ambiente di Vercel.
+2. GA4 è già configurato con l'ID `G-V8J1ESE2BC` (`GA_MEASUREMENT_ID` in `constants.ts`), attivo solo nelle build di produzione. `PUBLIC_GA_MEASUREMENT_ID` serve solo come override.
 3. In Search Console aggiungi la proprietà con il metodo "tag HTML", copia il valore `content` in `PUBLIC_GOOGLE_SITE_VERIFICATION`, rifai il deploy e invia `/sitemap-index.xml`.
 4. Misura la baseline con PageSpeed Insights e aggiungi i numeri al case study dell'audit.
 
@@ -118,7 +118,7 @@ Il form usa EmailJS quando sono presenti queste variabili pubbliche. In assenza 
 PUBLIC_EMAILJS_SERVICE_ID=your_service_id
 PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
 PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
-PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+PUBLIC_GA_MEASUREMENT_ID=          # opzionale: sovrascrive l'ID GA4 nel codice
 PUBLIC_GOOGLE_SITE_VERIFICATION=
 ```
 
