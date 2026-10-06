@@ -193,3 +193,21 @@ body {
 	border-radius: 0.75rem;
 	border: 1px solid #d9d6cb;
 }
+
+.prose-document .contains-task-list {
+	list-style: none;
+	padding-left: 0;
+}
+
+.prose-document .task-list-item input {
+	margin-right: 0.5rem;
+	accent-color: #4f46e5;
+}
+
+/* Caption written as an italic line right under a Markdown image. */
+.prose-document p:has(> img) + p > em:only-child {
+	display: block;
+	margin-top: -0.5rem;
+	font-size: 0.9rem;
+	color: #64748b;
+}
