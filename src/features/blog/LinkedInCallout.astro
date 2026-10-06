@@ -1,0 +1,27 @@
+---
+import { LINKEDIN_URL } from "../../shared/utils/constants";
+
+interface Props {
+	linkedinUrl?: string;
+}
+
+const { linkedinUrl } = Astro.props;
+---
+
+<aside class="rounded-2xl bg-[#17252b] p-6 text-white shadow-[8px_8px_0_#f2b84b] sm:p-8" aria-labelledby="linkedin-callout-title">
+	<h2 id="linkedin-callout-title" class="text-xl font-extrabold">Continuiamo la conversazione su LinkedIn</h2>
+	<p class="mt-2 leading-7 text-slate-300">
+		{linkedinUrl
+			? "Ho condiviso una versione breve di questo articolo su LinkedIn: lì trovi la discussione e i commenti."
+			: "Pubblico su LinkedIn riflessioni brevi su SEO tecnica e analytics. Seguimi per non perdere i prossimi articoli."}
+	</p>
+	<a
+		href={linkedinUrl ?? LINKEDIN_URL}
+		target="_blank"
+		rel="noopener noreferrer"
+		class="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#f2b84b] px-4 py-2 font-bold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+	>
+		{linkedinUrl ? "Leggi il post su LinkedIn" : "Seguimi su LinkedIn"}
+		<span aria-hidden="true">↗</span>
+	</a>
+</aside>

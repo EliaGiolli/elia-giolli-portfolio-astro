@@ -1,0 +1,35 @@
+---
+import MainLayout from "../core/layouts/MainLayout.astro";
+import Breadcrumbs from "../shared/components/Breadcrumbs.astro";
+import PageHeader from "../shared/components/PageHeader.astro";
+import { AUTHOR_NAME, CONTACT_EMAIL } from "../shared/utils/constants";
+---
+
+<MainLayout title="Privacy e cookie" description="Informativa privacy e cookie del sito di Elia Giolli: quali dati vengono raccolti, con Google Analytics 4 solo previo consenso.">
+	<PageHeader kicker="Informativa" title="Privacy e cookie">
+		<Breadcrumbs slot="before" items={[{ name: "Home", href: "/" }, { name: "Privacy e cookie", href: "/privacy/" }]} />
+	</PageHeader>
+
+	<div class="prose-document mx-auto max-w-3xl px-6 py-14 lg:py-20">
+		<h2>Titolare del trattamento</h2>
+		<p>{AUTHOR_NAME}, contattabile all'indirizzo <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
+
+		<h2>Statistiche di navigazione (Google Analytics 4)</h2>
+		<p>
+			Il sito usa Google Analytics 4, fornito da Google Ireland Ltd., per misurare in forma aggregata le visite e capire quali contenuti sono utili.
+			Lo script di Google Analytics viene caricato <strong>solo dopo che hai cliccato "Accetta"</strong> nel banner: prima del consenso non viene installato alcun cookie di analisi.
+		</p>
+		<p>Puoi cambiare idea in qualsiasi momento dal link "Preferenze cookie" nel footer.</p>
+
+		<h2>Modulo di contatto</h2>
+		<p>
+			I dati inseriti nel modulo (nome, email, oggetto, messaggio) vengono inviati tramite il servizio EmailJS al solo scopo di rispondere alla tua richiesta e non vengono usati per altre finalità.
+		</p>
+
+		<h2>Memorizzazione locale</h2>
+		<p>La tua scelta sul consenso viene salvata nel <code>localStorage</code> del browser, così il banner non ricompare a ogni visita.</p>
+
+		<h2>I tuoi diritti</h2>
+		<p>Puoi chiedere accesso, rettifica o cancellazione dei tuoi dati scrivendo all'indirizzo indicato sopra, e hai diritto di proporre reclamo al Garante per la protezione dei dati personali.</p>
+	</div>
+</MainLayout>

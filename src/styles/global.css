@@ -1,5 +1,7 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
+
+/* Noto Sans is loaded with <link> + preconnect in BaseHead.astro: an @import here would
+   chain the font request behind this stylesheet and delay the first render (LCP). */
 
 :root {
 	font-family: "Noto Sans", sans-serif;
@@ -12,6 +14,12 @@
 html {
 	scroll-behavior: smooth;
 	scroll-padding-top: 5.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }
 
 body {
@@ -45,4 +53,143 @@ body {
 
 [x-cloak] {
 	display: none !important;
+}
+
+/* Long-form Markdown: blog posts and case studies share the same reading style. */
+.prose-document {
+	color: #475569;
+	font-size: 1.0625rem;
+	line-height: 1.8;
+}
+
+.prose-document h2,
+.prose-document h3,
+.prose-document h4 {
+	margin-top: 2.25rem;
+	margin-bottom: 0.75rem;
+	color: #17252b;
+	font-weight: 800;
+	line-height: 1.2;
+}
+
+.prose-document h2 {
+	border-top: 1px solid #d9d6cb;
+	padding-top: 1.5rem;
+	font-size: 1.75rem;
+}
+
+.prose-document h3 {
+	font-size: 1.25rem;
+}
+
+.prose-document > :first-child {
+	margin-top: 0;
+	border-top: 0;
+	padding-top: 0;
+}
+
+.prose-document p,
+.prose-document ul,
+.prose-document ol,
+.prose-document blockquote,
+.prose-document table,
+.prose-document pre {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}
+
+.prose-document ul,
+.prose-document ol {
+	padding-left: 1.5rem;
+}
+
+.prose-document ul {
+	list-style: disc;
+}
+
+.prose-document ol {
+	list-style: decimal;
+}
+
+.prose-document li + li {
+	margin-top: 0.4rem;
+}
+
+.prose-document strong {
+	color: #17252b;
+}
+
+.prose-document a {
+	color: #4f46e5;
+	font-weight: 700;
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+}
+
+.prose-document a:hover {
+	color: #7c3aed;
+}
+
+.prose-document code {
+	border-radius: 0.35rem;
+	background: #ebe9e1;
+	padding: 0.15rem 0.35rem;
+	color: #17252b;
+	font-size: 0.9em;
+}
+
+.prose-document pre {
+	overflow-x: auto;
+	border-radius: 0.75rem;
+	background: #17252b !important;
+	padding: 1rem;
+	color: #e2e8f0;
+}
+
+.prose-document pre code {
+	background: transparent;
+	padding: 0;
+	color: inherit;
+}
+
+.prose-document blockquote {
+	border-left: 4px solid #f2b84b;
+	padding-left: 1rem;
+	font-weight: 600;
+	color: #334155;
+}
+
+.prose-document hr {
+	margin: 2rem 0;
+	border: 0;
+	border-top: 1px solid #d9d6cb;
+}
+
+.prose-document table {
+	display: block;
+	overflow-x: auto;
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.95rem;
+}
+
+.prose-document th,
+.prose-document td {
+	border: 1px solid #d9d6cb;
+	padding: 0.65rem 0.75rem;
+	text-align: left;
+	vertical-align: top;
+}
+
+.prose-document th {
+	background: #ebe9e1;
+	color: #17252b;
+	font-weight: 800;
+}
+
+.prose-document img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 0.75rem;
+	border: 1px solid #d9d6cb;
 }

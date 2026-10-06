@@ -1,14 +1,23 @@
 ---
-import { BLOG_NAME } from "../utils/constants";
+import { BLOG_NAME, CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TAGLINE } from "../utils/constants";
+
+const linkClass = "transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]";
+const hasAnalytics = Boolean(import.meta.env.PUBLIC_GA_MEASUREMENT_ID);
 ---
 
-
-	<footer class="border-t border-slate-700 bg-[#17252b] text-slate-300">
+<footer class="border-t border-slate-700 bg-[#17252b] text-slate-300">
 	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-6 text-sm max-[600px]:flex-col max-[600px]:items-start lg:px-8">
-		<p>&copy; {new Date().getFullYear()} {BLOG_NAME}</p>
+		<p>&copy; {new Date().getFullYear()} {BLOG_NAME} · {SITE_TAGLINE}</p>
 		<nav class="flex flex-wrap gap-5" aria-label="Link del footer">
-			<a class="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]" href="mailto:eliagiolli22@gmail.com">Email</a>
-			<a class="transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]" href="https://www.linkedin.com/in/eliagiolli" target="_blank" rel="noreferrer">LinkedIn</a>
+			<a class={linkClass} href="/blog">Blog</a>
+			<a class={linkClass} href="/rss.xml">RSS</a>
+			<a class={linkClass} href={`mailto:${CONTACT_EMAIL}`}>Email</a>
+			<a class={linkClass} href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+			<a class={linkClass} href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
+			<a class={linkClass} href="/privacy">Privacy</a>
+			{hasAnalytics && (
+				<button type="button" class={`cursor-pointer ${linkClass}`} x-data x-on:click="$dispatch('open-cookie-preferences')">Preferenze cookie</button>
+			)}
 		</nav>
 	</div>
 </footer>

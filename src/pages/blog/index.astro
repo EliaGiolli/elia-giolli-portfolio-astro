@@ -1,0 +1,35 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../core/layouts/MainLayout.astro";
+import PostCard from "../../features/blog/PostCard.astro";
+import { publishedEntries } from "../../helpers";
+import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
+import PageHeader from "../../shared/components/PageHeader.astro";
+
+const posts = publishedEntries(await getCollection("blog"), import.meta.env.DEV);
+---
+
+<MainLayout
+	title="Blog su SEO tecnica e analytics"
+	description="Articoli di Elia Giolli su Technical SEO, Core Web Vitals, dati strutturati, Google Analytics 4 e Search Console, scritti da un ex front-end developer."
+>
+	<PageHeader
+		kicker="Blog"
+		title="SEO tecnica e analytics, spiegate da uno sviluppatore"
+		dek="Appunti di studio, esperimenti e casi pratici dal mio percorso da front-end developer a SEO specialist."
+	>
+		<Breadcrumbs slot="before" items={[{ name: "Home", href: "/" }, { name: "Blog", href: "/blog/" }]} />
+	</PageHeader>
+
+	<section class="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20" aria-label="Elenco degli articoli">
+		{posts.length > 0 ? (
+			<ul class="grid gap-6 md:grid-cols-2">
+				{posts.map((post) => (
+					<li><PostCard post={post} /></li>
+				))}
+			</ul>
+		) : (
+			<p class="text-lg leading-8 text-slate-600">Il primo articolo è in arrivo. Nel frattempo puoi leggere i <a href="/case-studies/" class="font-bold text-indigo-600 underline underline-offset-4">case studies</a>.</p>
+		)}
+	</section>
+</MainLayout>

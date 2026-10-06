@@ -1,0 +1,22 @@
+---
+interface Props {
+	kicker: string;
+	title: string;
+	dek?: string;
+	id?: string;
+}
+
+const { kicker, title, dek, id = "page-title" } = Astro.props;
+---
+
+<header class="border-b border-[#31454c] bg-[#17252b] text-white">
+	<div class="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
+		<slot name="before" />
+		<div class="mt-8 max-w-4xl">
+			<p class="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-[#f2b84b]">{kicker}</p>
+			<h1 id={id} class="text-4xl font-extrabold tracking-tight text-balance sm:text-5xl lg:text-6xl">{title}</h1>
+			{dek && <p class="mt-5 max-w-3xl text-lg leading-8 text-slate-300 text-pretty">{dek}</p>}
+			<slot />
+		</div>
+	</div>
+</header>

@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import MainLayout from "../../core/layouts/MainLayout.astro";
+import CaseStudyCard from "../../features/case-studies/CaseStudyCard.astro";
+import { publishedEntries } from "../../helpers";
+import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
+import PageHeader from "../../shared/components/PageHeader.astro";
+
+const caseStudies = publishedEntries(await getCollection("caseStudies"), import.meta.env.DEV);
+---
+
+<MainLayout
+	title="Case studies SEO e Analytics"
+	description="Case studies di Technical SEO e web analytics di Elia Giolli: audit, Core Web Vitals, dati strutturati e misurazione con GA4 e Search Console."
+>
+	<PageHeader
+		kicker="Lavori documentati"
+		title="Case studies"
+		dek="Dal problema alla misurazione: come analizzo un sito, quali interventi scelgo e come verifico che abbiano funzionato."
+	>
+		<Breadcrumbs slot="before" items={[{ name: "Home", href: "/" }, { name: "Case studies", href: "/case-studies/" }]} />
+	</PageHeader>
+
+	<section class="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20" aria-label="Elenco dei case studies">
+		<ul class="grid gap-6 md:grid-cols-2">
+			{caseStudies.map((caseStudy) => (
+				<li><CaseStudyCard caseStudy={caseStudy} headingLevel="h2" /></li>
+			))}
+		</ul>
+	</section>
+</MainLayout>

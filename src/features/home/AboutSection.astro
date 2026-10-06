@@ -1,6 +1,26 @@
 ---
 import { Image } from "astro:assets";
+import SectionHeading from "../../shared/components/SectionHeading.astro";
 import graduationPhoto from "./assets/foto-laurea.jpg";
+
+const story = [
+	{
+		icon: "◈",
+		title: "Da chi costruisce a chi fa trovare",
+		paragraphs: [
+			"Vengo dallo sviluppo front-end e dal supporto IT: so come nasce una pagina, come viene servita e perché a volte si rompe. Oggi metto questa esperienza al servizio della SEO tecnica e dell'analytics.",
+			"Mi interessa la parte misurabile del digital marketing: indicizzazione, Core Web Vitals, dati strutturati, Google Analytics 4 e Search Console. Meno social, più dati.",
+		],
+	},
+	{
+		icon: "⌁",
+		title: "Metodo, dati e lingue",
+		paragraphs: [
+			"Dal debug ho imparato un metodo che applico alla SEO: osservo il sintomo, raccolgo evidenze, cambio una variabile alla volta e verifico il risultato con i numeri.",
+			"Sono laureato in Lingue e parlo cinque lingue straniere, con inglese e russo a livello C1: un vantaggio concreto per la SEO internazionale e per scrivere contenuti chiari.",
+		],
+	},
+];
 ---
 
 <section
@@ -9,12 +29,13 @@ import graduationPhoto from "./assets/foto-laurea.jpg";
 	aria-labelledby="about-title"
 >
 	<div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-		<div class="mb-12 max-w-2xl">
-			<p class="mb-4 text-sm font-semibold uppercase tracking-[0.18em] text-indigo-600">Profilo</p>
-			<h2 id="about-title" class="text-3xl font-bold tracking-tight text-neutral-900 sm:text-4xl">Su di me</h2>
-			<p class="mt-4 text-lg leading-8 text-slate-600">
-				Supporto tecnico, curiosità e documentazione: il mio modo di trasformare problemi complessi in soluzioni comprensibili.
-			</p>
+		<div class="mb-12">
+			<SectionHeading
+				id="about-title"
+				kicker="Profilo"
+				title="Su di me"
+				intro="Un percorso non lineare: lingue, codice, supporto tecnico e ora SEO. Ogni tappa aggiunge un pezzo."
+			/>
 		</div>
 
 		<div class="grid gap-10 lg:grid-cols-[0.8fr_1fr_1fr] lg:gap-12">
@@ -29,38 +50,20 @@ import graduationPhoto from "./assets/foto-laurea.jpg";
 						loading="lazy"
 					/>
 				</div>
-				<figcaption class="mt-3 text-sm text-slate-500">Una formazione linguistica al servizio della comunicazione tecnica.</figcaption>
+				<figcaption class="mt-3 text-sm text-slate-600">Una formazione linguistica al servizio di contenuti chiari e SEO internazionale.</figcaption>
 			</figure>
 
-			<article class="border-t-2 border-[#17252b] pt-5">
-				<div class="mb-5 flex items-center gap-3">
-					<span class="text-2xl text-[#d89418]" aria-hidden="true">◈</span>
-					<h3 class="text-xl font-bold text-[#17252b]">Un supporto che parte dalle persone</h3>
-				</div>
-				<div class="space-y-5 text-base leading-7 text-slate-600">
-					<p>
-						Sono un tecnico IT Support con esperienza pratica in ambienti enterprise: gestione dei ticket su ServiceNow, assistenza di primo livello su Windows e Microsoft 365 e troubleshooting di software aziendali.
-					</p>
-					<p>
-						Il mio obiettivo è capire la situazione, comunicare con chiarezza e riportare rapidamente le persone al lavoro, senza perdere di vista la causa reale del problema.
-					</p>
-				</div>
-			</article>
-
-			<article class="border-t-2 border-[#17252b] pt-5">
-				<div class="mb-5 flex items-center gap-3">
-					<span class="text-2xl text-[#d89418]" aria-hidden="true">⌁</span>
-					<h3 class="text-xl font-bold text-[#17252b]">Metodo, sistemi e comunicazione</h3>
-				</div>
-				<div class="space-y-5 text-base leading-7 text-slate-600">
-					<p>
-						La mia esperienza nello sviluppo software mi aiuta a leggere un guasto anche sotto la superficie: applicazioni, database e comunicazione client-server diventano indizi per arrivare alla radice, che sia una porta di rete configurata male o un servizio che non raggiunge il database.
-					</p>
-					<p>
-						Sono metodico, curioso e abituato a documentare ciò che trovo. Parlo cinque lingue, con inglese e russo a livello C1, e sto consolidando le mie competenze di networking e infrastruttura in vista del CCNA.
-					</p>
-				</div>
-			</article>
+			{story.map((block) => (
+				<article class="border-t-2 border-[#17252b] pt-5">
+					<div class="mb-5 flex items-center gap-3">
+						<span class="text-2xl text-[#d89418]" aria-hidden="true">{block.icon}</span>
+						<h3 class="text-xl font-bold text-[#17252b]">{block.title}</h3>
+					</div>
+					<div class="space-y-5 text-base leading-7 text-slate-600">
+						{block.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+					</div>
+				</article>
+			))}
 		</div>
 	</div>
 </section>

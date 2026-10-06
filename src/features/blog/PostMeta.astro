@@ -1,0 +1,18 @@
+---
+import { formatDate, toIsoDate } from "../../helpers";
+
+interface Props {
+	pubDate: Date;
+	updatedDate?: Date;
+	minutes: number;
+	class?: string;
+}
+
+const { pubDate, updatedDate, minutes, class: extraClass } = Astro.props;
+---
+
+<p class:list={["flex flex-wrap gap-x-4 gap-y-1 text-sm", extraClass]}>
+	<time datetime={toIsoDate(pubDate)}>{formatDate(pubDate)}</time>
+	{updatedDate && <span>Aggiornato il <time datetime={toIsoDate(updatedDate)}>{formatDate(updatedDate)}</time></span>}
+	{minutes > 0 && <span>{minutes} min di lettura</span>}
+</p>

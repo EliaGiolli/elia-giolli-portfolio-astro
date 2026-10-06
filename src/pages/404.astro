@@ -6,20 +6,21 @@ import MainLayout from "../core/layouts/MainLayout.astro";
 import Button from "../shared/ui/Button.astro";
 ---
 
-<MainLayout>
-    <Button href="/" variant="primary" class="mx-10 mt-10">Torna alla home</Button>
-    <div class="flex flex-col items-center justify-items-center gap-7">
-        <Image 
-            src={image404}
-            width={250} 
-            height={200} 
-            alt="Un cartello giallo simile a quello per i lavori con la scritta 404"
-        />
-        <h1 class="text-5xl text-indigo-700">404 - Pagina non trovata</h1>
-        <p class="text-2xl mb-10">
-            Mi dispiace, ma non siamo riusciti a trovare la pagina che stai cercando
-        </p>
-
-    </div>
-
+<MainLayout title="Pagina non trovata" description="La pagina che cerchi non esiste o è stata spostata." noindex>
+	<section class="mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 py-20 text-center" aria-labelledby="not-found-title">
+		<Image
+			src={image404}
+			width={250}
+			height={200}
+			alt=""
+		/>
+		<h1 id="not-found-title" class="text-5xl font-extrabold text-indigo-700">404 · Pagina non trovata</h1>
+		<p class="text-xl text-slate-600">
+			La pagina che stai cercando non esiste o è stata spostata. Magari ti interessa il blog o i case studies.
+		</p>
+		<div class="flex flex-wrap justify-center gap-4">
+			<Button href="/" variant="primary">Torna alla home</Button>
+			<Button href="/blog/" variant="secondary">Vai al blog</Button>
+		</div>
+	</section>
 </MainLayout>
