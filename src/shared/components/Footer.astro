@@ -1,8 +1,9 @@
 ---
+import { ANALYTICS_ID } from "../utils/analytics";
 import { BLOG_NAME, CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TAGLINE } from "../utils/constants";
 
 const linkClass = "transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]";
-const hasAnalytics = Boolean(import.meta.env.PUBLIC_GA_MEASUREMENT_ID);
+const hasAnalytics = Boolean(ANALYTICS_ID);
 ---
 
 <footer class="border-t border-slate-700 bg-[#17252b] text-slate-300">

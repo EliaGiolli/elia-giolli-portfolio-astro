@@ -9,7 +9,7 @@ import LatestPostsSection from "../features/blog/LatestPostsSection.astro";
 import ContactMe from "../features/contact/ContactMe.astro";
 import JsonLd from "../shared/components/JsonLd.astro";
 import { buildPersonSchema } from "../helpers";
-import { AUTHOR_NAME, GITHUB_URL, LINKEDIN_URL, SITE_DESCRIPTION, SITE_TAGLINE } from "../shared/utils/constants";
+import { AUTHOR_NAME, GITHUB_URL, JOB_TITLE, LINKEDIN_URL, SITE_DESCRIPTION } from "../shared/utils/constants";
 import profilePhoto from "../features/home/assets/foto-elia.jpg";
 
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
@@ -17,7 +17,7 @@ const photo = await getImage({ src: profilePhoto, width: 400, format: "jpg" });
 
 const personSchema = buildPersonSchema({
 	name: AUTHOR_NAME,
-	jobTitle: SITE_TAGLINE,
+	jobTitle: JOB_TITLE,
 	description: SITE_DESCRIPTION,
 	url: siteUrl.href,
 	image: new URL(photo.src, siteUrl).href,
