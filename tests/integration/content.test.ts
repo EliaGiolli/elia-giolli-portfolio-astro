@@ -3,6 +3,13 @@ import { loadPage, pages } from "./utils/dist";
 
 const text = (element: Element | null | undefined) => element?.textContent?.replace(/\s+/g, " ").trim() ?? "";
 
+// What a screen reader announces: the text without decorative, aria-hidden parts (the arrows).
+const accessibleText = (element: Element | null | undefined) => {
+	const clone = element?.cloneNode(true) as Element | undefined;
+	clone?.querySelectorAll('[aria-hidden="true"]').forEach((hidden) => hidden.remove());
+	return text(clone);
+};
+
 describe("homepage", () => {
 	const { document } = loadPage("/");
 
@@ -97,11 +104,15 @@ describe("analytics and GDPR", () => {
 
 describe("blog", () => {
 	it("lists every published post, newest first", () => {
-		const titles = [...loadPage("/blog/").document.querySelectorAll("main article h2")].map(text);
+		const titles = [...loadPage("/blog/").document.querySelectorAll('main [aria-label="Elenco degli articoli"] h2')].map(accessibleText);
 
 		expect(titles).toHaveLength(2);
 		expect(titles).toContain("SEO tecnica in pratica: come ho preparato il mio sito per Google");
 		expect(titles).toContain("Da front-end developer a SEO specialist: perché il codice è un vantaggio");
+		// The arrow that closes the link is decorative: hidden from assistive technologies.
+		for (const arrow of loadPage("/blog/").document.querySelectorAll('main [aria-label="Elenco degli articoli"] h2 a > span')) {
+			expect(arrow.getAttribute("aria-hidden")).toBe("true");
+		}
 	});
 
 	it("shows author, date and reading time on an article", () => {
@@ -136,9 +147,10 @@ describe("case study", () => {
 	const { document } = loadPage("/case-studies/audit-seo-tecnico-portfolio/");
 
 	it("shows the challenge, approach and result steps", () => {
-		const steps = [...document.querySelectorAll("main ol > li h2")].map(text);
+		const steps = document.querySelector('[aria-label="Il case study in tre passaggi"]');
 
-		expect(steps).toEqual(["01 / Sfida", "02 / Approccio", "03 / Risultato"]);
+		expect([...(steps?.querySelectorAll("h2") ?? [])].map(text)).toEqual(["Sfida", "Approccio", "Risultato"]);
+		expect([...(steps?.querySelectorAll("li > p:first-child") ?? [])].map(text)).toEqual(["01", "02", "03"]);
 	});
 
 	it("renders the full Markdown write-up", () => {

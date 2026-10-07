@@ -37,7 +37,7 @@ test.describe("main navigation", () => {
 	test("reaches a homepage section from another page", async ({ page }) => {
 		await page.goto("/blog/");
 
-		await page.getByRole("navigation", { name: "Navigazione principale" }).getByRole("link", { name: "Su di me" }).click();
+		await page.getByRole("navigation", { name: "Navigazione principale" }).getByRole("link", { name: "Chi sono" }).click();
 		await expect(page).toHaveURL(/\/#about$/);
 		await expect(page.locator("#about")).toBeInViewport();
 	});
@@ -64,8 +64,9 @@ test.describe("mobile menu", () => {
 		await expect(toggle).toHaveAttribute("aria-expanded", "true");
 		await expect(menu).toBeVisible();
 
-		await menu.getByRole("link", { name: "Case studies" }).click();
-		await expect(page).toHaveURL(/#case-studies$/);
+		await menu.getByRole("link", { name: "Case study" }).click();
+		await expect(page).toHaveURL(/\/case-studies\/$/);
+		await expect(menu).toBeHidden();
 	});
 
 	test("closes with the Escape key", async ({ page }) => {

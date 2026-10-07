@@ -114,6 +114,36 @@
 	}
 }
 
+/* Print: the light palette of the design system (paper, ink, accent-strong). Every utility reads
+   these variables, so the whole page flips to dark text on white without per-component styles. */
+@media print {
+	:root {
+		--color-bg: #ffffff;
+		--color-surface: #ffffff;
+		--color-surface-2: var(--color-paper);
+		--color-line: #c9d0e0;
+		--color-toc-line: #8a94ad;
+		--color-text: var(--color-ink);
+		--color-text-body: #2b3550;
+		--color-text-muted: #4a5778;
+		--color-accent: var(--color-accent-strong);
+		--shadow-card: none;
+		--shadow-logo: none;
+		color-scheme: light;
+	}
+
+	body {
+		print-color-adjust: exact;
+	}
+
+	/* Shadow utilities inline their values, so they are switched off here rather than via tokens. */
+	*,
+	*::before,
+	*::after {
+		box-shadow: none !important;
+	}
+}
+
 [x-cloak] {
 	display: none !important;
 }

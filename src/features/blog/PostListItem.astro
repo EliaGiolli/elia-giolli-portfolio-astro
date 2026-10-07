@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatShortDate, toIsoDate } from "../../helpers";
+import ListCard from "../../shared/ui/ListCard.astro";
+
+// An article in a list (homepage, /blog/): date, title, description and, on the blog page, tags.
+interface Props {
+	post: CollectionEntry<"blog">;
+	headingLevel?: "h2" | "h3";
+	showTags?: boolean;
+}
+
+const { post, headingLevel = "h3", showTags = false } = Astro.props;
+const { id, data } = post;
+---
+
+<ListCard
+	meta={formatShortDate(data.pubDate)}
+	datetime={toIsoDate(data.pubDate)}
+	title={data.draft ? `${data.title} (bozza)` : data.title}
+	href={`/blog/${id}/`}
+	description={data.description}
+	tags={showTags ? data.tags : []}
+	headingLevel={headingLevel}
+/>

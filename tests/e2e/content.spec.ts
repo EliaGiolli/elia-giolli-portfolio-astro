@@ -45,12 +45,12 @@ test.describe("blog", () => {
 });
 
 test.describe("case studies", () => {
-	test("opens the audit from its whole card", async ({ page }) => {
+	test("opens the audit from its title", async ({ page }) => {
 		await page.goto("/case-studies/");
 
 		await page.getByRole("link", { name: "Audit SEO tecnico del mio portfolio" }).click();
 		await expect(page).toHaveURL(/\/case-studies\/audit-seo-tecnico-portfolio\/$/);
-		await expect(page.getByRole("heading", { name: "01 / Sfida" })).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Sfida" })).toBeVisible();
 		await expect(page.getByRole("heading", { name: "Il case study completo" })).toBeVisible();
 	});
 });

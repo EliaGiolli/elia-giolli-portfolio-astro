@@ -3,6 +3,7 @@ import BaseHead, { type SeoProps } from "../../shared/components/BaseHead.astro"
 import CookieConsent from "../../shared/components/CookieConsent.astro";
 import Footer from "../../shared/components/Footer.astro";
 import Navbar from "../../shared/components/Navbar.astro";
+import PageContainer from "../../shared/components/PageContainer.astro";
 import SkipLink from "../../shared/components/SkipLink.astro";
 import SmoothScroll from "../../shared/components/SmoothScroll.astro";
 import "../../styles/global.css";
@@ -10,19 +11,21 @@ import "../../styles/global.css";
 type Props = SeoProps;
 ---
 
-<html lang="it" class="scroll-pt-22 bg-[#f6f4ee] text-[#17252b]">
+<html lang="it" class="scroll-pt-22 bg-bg">
 	<head>
 		<BaseHead {...Astro.props} />
 		<slot name="head" />
 	</head>
-	<body class="min-h-screen bg-[#f6f4ee] text-[#17252b]">
+	<body class="flex min-h-screen flex-col bg-bg text-text-body">
 		<SkipLink />
 		<Navbar />
 		<SmoothScroll />
-		<main id="main-content" tabindex="-1" class="focus:outline-none">
+		<main id="main-content" tabindex="-1" class="grow pb-24 focus:outline-none">
 			<slot />
 		</main>
-		<Footer />
+		<PageContainer>
+			<Footer class="border-t border-line/60 py-12" />
+		</PageContainer>
 		<CookieConsent />
 	</body>
 </html>

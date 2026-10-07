@@ -1,5 +1,6 @@
 ---
 import { externalLinkAttributes, linkArrow } from "../../helpers/links";
+import { cn } from "../lib/cn";
 import { NEW_TAB_HINT } from "../utils/constants";
 
 // The action link at the end of a section ("Tutti gli articoli →"): the site has no filled buttons.
@@ -17,7 +18,7 @@ const externalAttributes = externalLinkAttributes(href);
 
 <a
 	href={href}
-	class:list={["mt-4 inline-flex min-h-11 items-center gap-2 font-semibold text-text transition-colors duration-200 hover:text-accent", extraClass]}
+	class={cn("mt-4 inline-flex min-h-11 items-center gap-2 font-semibold text-text transition-colors duration-200 hover:text-accent", extraClass)}
 	{...externalAttributes}
 >
 	{label}

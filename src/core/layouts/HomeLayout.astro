@@ -5,6 +5,7 @@ import CookieConsent from "../../shared/components/CookieConsent.astro";
 import Footer from "../../shared/components/Footer.astro";
 import ProfileColumn from "../../shared/components/ProfileColumn.astro";
 import SkipLink from "../../shared/components/SkipLink.astro";
+import SmoothScroll from "../../shared/components/SmoothScroll.astro";
 import { AUTHOR_NAME, HOME_INTRO, HOME_SECTIONS, JOB_TITLE } from "../../shared/utils/constants";
 import "../../styles/global.css";
 
@@ -23,6 +24,7 @@ const sectionIds = JSON.stringify(indexItems.map((item) => item.id));
 	</head>
 	<body class="min-h-screen bg-bg text-text-body">
 		<SkipLink />
+		<SmoothScroll />
 		<div class="mx-auto flex max-w-page flex-wrap gap-x-16 px-6 lg:flex-nowrap lg:px-12" x-data={`sectionIndex(${sectionIds})`}>
 			<ProfileColumn name={AUTHOR_NAME} role={JOB_TITLE} intro={HOME_INTRO} items={indexItems} />
 			<div class="min-w-0 flex-[1_1_var(--container-column-right)] pt-12 pb-24 lg:py-24">

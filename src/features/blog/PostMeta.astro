@@ -11,8 +11,8 @@ interface Props {
 const { pubDate, updatedDate, minutes, class: extraClass } = Astro.props;
 ---
 
-<p class:list={["flex flex-wrap gap-x-4 gap-y-1 text-sm", extraClass]}>
+<p class:list={["flex flex-wrap gap-x-2 gap-y-1 text-small text-text-muted", extraClass]}>
 	<time datetime={toIsoDate(pubDate)}>{formatDate(pubDate)}</time>
-	{updatedDate && <span>Aggiornato il <time datetime={toIsoDate(updatedDate)}>{formatDate(updatedDate)}</time></span>}
-	{minutes > 0 && <span>{minutes} min di lettura</span>}
+	{updatedDate && <span><span aria-hidden="true">· </span>Aggiornato il <time datetime={toIsoDate(updatedDate)}>{formatDate(updatedDate)}</time></span>}
+	{minutes > 0 && <span><span aria-hidden="true">· </span>{minutes} min di lettura</span>}
 </p>

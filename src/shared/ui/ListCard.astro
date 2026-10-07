@@ -13,7 +13,7 @@ interface Props {
 	description?: string;
 	tags?: readonly string[];
 	detail?: boolean;
-	headingLevel?: "h3" | "h4";
+	headingLevel?: "h2" | "h3" | "h4";
 }
 
 const { meta, datetime, title, href, description, tags = [], detail = true, headingLevel: Heading = "h3" } = Astro.props;

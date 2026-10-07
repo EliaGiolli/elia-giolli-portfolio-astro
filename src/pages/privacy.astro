@@ -1,16 +1,17 @@
 ---
 import MainLayout from "../core/layouts/MainLayout.astro";
 import Breadcrumbs from "../shared/components/Breadcrumbs.astro";
+import PageContainer from "../shared/components/PageContainer.astro";
 import PageHeader from "../shared/components/PageHeader.astro";
 import { AUTHOR_NAME, CONTACT_EMAIL } from "../shared/utils/constants";
 ---
 
 <MainLayout title="Privacy e cookie" description="Informativa privacy e cookie del sito di Elia Giolli: quali dati vengono raccolti, con Google Analytics 4 solo previo consenso.">
-	<PageHeader kicker="Informativa" title="Privacy e cookie">
+	<PageHeader kicker="Informativa" title="Privacy e cookie" width="prose">
 		<Breadcrumbs slot="before" items={[{ name: "Home", href: "/" }, { name: "Privacy e cookie", href: "/privacy/" }]} />
 	</PageHeader>
 
-	<div class="prose-document mx-auto max-w-3xl px-6 py-14 lg:py-20">
+	<PageContainer width="prose" class="prose-document">
 		<h2>Titolare del trattamento</h2>
 		<p>{AUTHOR_NAME}, contattabile all'indirizzo <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.</p>
 
@@ -31,5 +32,5 @@ import { AUTHOR_NAME, CONTACT_EMAIL } from "../shared/utils/constants";
 
 		<h2>I tuoi diritti</h2>
 		<p>Puoi chiedere accesso, rettifica o cancellazione dei tuoi dati scrivendo all'indirizzo indicato sopra, e hai diritto di proporre reclamo al Garante per la protezione dei dati personali.</p>
-	</div>
+	</PageContainer>
 </MainLayout>

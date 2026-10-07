@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { externalLinkAttributes, isExternalUrl, linkArrow } from "./links";
+import { displayUrl, externalLinkAttributes, isExternalUrl, linkArrow } from "./links";
 
 describe("isExternalUrl", () => {
 	it("treats absolute and protocol-relative URLs as external", () => {
@@ -61,5 +61,18 @@ describe("externalLinkAttributes", () => {
 	it("leaves internal and mailto links in the same tab", () => {
 		expect(externalLinkAttributes("/blog/")).toEqual({});
 		expect(externalLinkAttributes("mailto:eliagiolli22@gmail.com")).toEqual({});
+	});
+});
+
+describe("displayUrl", () => {
+	it("drops the protocol, www and the trailing slash", () => {
+		expect(displayUrl("https://www.linkedin.com/in/eliagiolli/")).toBe("linkedin.com/in/eliagiolli");
+		expect(displayUrl("http://github.com/EliaGiolli")).toBe("github.com/EliaGiolli");
+	});
+
+	it("returns nothing for addresses that are not web pages", () => {
+		expect(displayUrl("mailto:eliagiolli22@gmail.com")).toBeUndefined();
+		expect(displayUrl("tel:+393405335525")).toBeUndefined();
+		expect(displayUrl("/cv/")).toBeUndefined();
 	});
 });

@@ -16,18 +16,18 @@ const siteUrl = Astro.site ?? new URL(Astro.url.origin);
 const schema = buildBreadcrumbSchema(items.map((item) => ({ name: item.name, url: new URL(item.href, siteUrl).href })));
 ---
 
-<nav aria-label="Percorso" class="text-sm text-slate-300">
-	<ol class="flex flex-wrap items-center gap-2">
+<nav aria-label="Percorso" class="text-small text-text-muted">
+	<ol class="flex list-none flex-wrap items-center gap-x-2 p-0">
 		{items.map((item, index) => {
 			const isLast = index === items.length - 1;
 			return (
-				<li class="flex items-center gap-2">
+				<li class="flex min-w-0 items-center gap-2">
 					{isLast ? (
-						<span aria-current="page" class="text-white">{item.name}</span>
+						<span aria-current="page" class="line-clamp-1 text-text-body">{item.name}</span>
 					) : (
 						<>
-							<a href={item.href} class="font-bold text-[#f2b84b] underline-offset-4 hover:text-[#ffd477] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">{item.name}</a>
-							<span aria-hidden="true">›</span>
+							<a href={item.href} class="inline-flex min-h-11 items-center font-medium text-text transition-colors duration-200 hover:text-accent">{item.name}</a>
+							<span aria-hidden="true">/</span>
 						</>
 					)}
 				</li>

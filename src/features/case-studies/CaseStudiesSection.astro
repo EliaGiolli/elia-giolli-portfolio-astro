@@ -1,13 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import { formatShortDate, publishedEntries, toIsoDate } from "../../helpers";
+import { publishedEntries } from "../../helpers";
 import ArrowLink from "../../shared/ui/ArrowLink.astro";
 import EmptyState from "../../shared/ui/EmptyState.astro";
-import ListCard from "../../shared/ui/ListCard.astro";
 import ListCardList from "../../shared/ui/ListCardList.astro";
-import MetricList from "../../shared/ui/MetricList.astro";
-import MetricTile from "../../shared/ui/MetricTile.astro";
 import HomeSection from "../home/HomeSection.astro";
+import CaseStudyListItem from "./CaseStudyListItem.astro";
 
 const caseStudies = publishedEntries(await getCollection("caseStudies"), import.meta.env.DEV);
 ---
@@ -16,22 +14,7 @@ const caseStudies = publishedEntries(await getCollection("caseStudies"), import.
 	{caseStudies.length > 0 ? (
 		<>
 			<ListCardList>
-				{caseStudies.map(({ id, data }) => (
-					<ListCard
-						meta={formatShortDate(data.pubDate)}
-						datetime={toIsoDate(data.pubDate)}
-						title={data.draft ? `${data.title} (bozza)` : data.title}
-						href={`/case-studies/${id}/`}
-						description={data.description}
-						tags={data.tags}
-					>
-						{data.metrics.length > 0 && (
-							<MetricList label={`Metriche di ${data.title}`}>
-								{data.metrics.map((metric) => <MetricTile label={metric.label} value={metric.value} />)}
-							</MetricList>
-						)}
-					</ListCard>
-				))}
+				{caseStudies.map((caseStudy) => <CaseStudyListItem caseStudy={caseStudy} />)}
 			</ListCardList>
 			<ArrowLink label="Tutti i case study" href="/case-studies/" />
 		</>

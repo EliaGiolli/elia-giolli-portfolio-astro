@@ -4,8 +4,12 @@ import MainLayout from "../../core/layouts/MainLayout.astro";
 import CaseStudySteps from "../../features/case-studies/CaseStudySteps.astro";
 import { publishedEntries } from "../../helpers";
 import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
+import PageContainer from "../../shared/components/PageContainer.astro";
 import PageHeader from "../../shared/components/PageHeader.astro";
-import TagList from "../../shared/ui/TagList.astro";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import ChipList from "../../shared/ui/ChipList.astro";
+import MetricList from "../../shared/ui/MetricList.astro";
+import MetricTile from "../../shared/ui/MetricTile.astro";
 
 export async function getStaticPaths() {
 	const caseStudies = publishedEntries(await getCollection("caseStudies"), import.meta.env.DEV);
@@ -19,13 +23,11 @@ export async function getStaticPaths() {
 const { caseStudy } = Astro.props;
 const { data } = caseStudy;
 const { Content } = await render(caseStudy);
-
-const externalLink = "inline-flex items-center gap-2 font-bold text-indigo-600 underline-offset-4 hover:text-violet-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500";
 ---
 
 <MainLayout title={data.title} description={data.description} ogType="article" publishedTime={data.pubDate}>
 	<article aria-labelledby="page-title">
-		<PageHeader kicker="Case study" title={data.title} dek={data.description}>
+		<PageHeader kicker="Case study" title={data.title} dek={data.description} width="prose">
 			<Breadcrumbs
 				slot="before"
 				items={[
@@ -34,26 +36,31 @@ const externalLink = "inline-flex items-center gap-2 font-bold text-indigo-600 u
 					{ name: data.title, href: `/case-studies/${caseStudy.id}/` },
 				]}
 			/>
-			<div class="mt-6">
-				<TagList tags={data.tags} label="Competenze del case study" tone="dark" />
-			</div>
+			<ChipList tags={data.tags} label="Competenze del case study" class="mt-6" />
+			{data.metrics.length > 0 && (
+				<MetricList label="Risultati misurati">
+					{data.metrics.map((metric) => <MetricTile label={metric.label} value={metric.value} />)}
+				</MetricList>
+			)}
 		</PageHeader>
 
-		<div class="mx-auto max-w-6xl px-6 py-16 lg:px-8 lg:py-20">
+		<PageContainer width="prose">
 			<CaseStudySteps challenge={data.challenge} approach={data.approach} result={data.result} />
 
-			<section class="mt-16 border-t border-[#d9d6cb] pt-10" aria-labelledby="documentation-title">
-				<div class="flex flex-wrap items-center justify-between gap-4">
-					<h2 id="documentation-title" class="text-2xl font-extrabold">Il case study completo</h2>
-					<div class="flex flex-wrap gap-5">
-						{data.liveUrl && <a href={data.liveUrl} target="_blank" rel="noopener noreferrer" class={externalLink}>Sito live <span aria-hidden="true">↗</span></a>}
-						{data.githubUrl && <a href={data.githubUrl} target="_blank" rel="noopener noreferrer" class={externalLink}>Repository GitHub <span aria-hidden="true">↗</span></a>}
+			<section class="mt-16 border-t border-line pt-10" aria-labelledby="documentation-title">
+				<h2 id="documentation-title" class="text-[28px] leading-tight font-bold tracking-[-0.02em] text-text">Il case study completo</h2>
+				{(data.liveUrl || data.githubUrl) && (
+					<div class="mt-2 flex flex-wrap gap-x-6">
+						{data.liveUrl && <ArrowLink label="Sito live" href={data.liveUrl} class="mt-0" />}
+						{data.githubUrl && <ArrowLink label="Repository GitHub" href={data.githubUrl} class="mt-0" />}
 					</div>
-				</div>
-				<div class="prose-document mt-8 rounded-2xl border border-[#d9d6cb] bg-white p-6 sm:p-10">
+				)}
+				<div class="prose-document mt-8">
 					<Content />
 				</div>
 			</section>
-		</div>
+
+			<ArrowLink label="Tutti i case study" href="/case-studies/" class="mt-12" />
+		</PageContainer>
 	</article>
 </MainLayout>

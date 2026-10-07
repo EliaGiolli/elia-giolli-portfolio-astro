@@ -1,26 +1,22 @@
 ---
-import { Image } from "astro:assets";
-import image404 from '../shared/assets/404.png';
-
 import MainLayout from "../core/layouts/MainLayout.astro";
-import Button from "../shared/ui/Button.astro";
+import PageContainer from "../shared/components/PageContainer.astro";
+import ArrowLink from "../shared/ui/ArrowLink.astro";
+
+const suggestions = [
+	{ label: "Torna alla home", href: "/" },
+	{ label: "Vai al blog", href: "/blog/" },
+	{ label: "Vai ai case study", href: "/case-studies/" },
+];
 ---
 
 <MainLayout title="Pagina non trovata" description="La pagina che cerchi non esiste o è stata spostata." noindex>
-	<section class="mx-auto flex max-w-3xl flex-col items-center gap-7 px-6 py-20 text-center" aria-labelledby="not-found-title">
-		<Image
-			src={image404}
-			width={250}
-			height={200}
-			alt=""
-		/>
-		<h1 id="not-found-title" class="text-5xl font-extrabold text-indigo-700">404 · Pagina non trovata</h1>
-		<p class="text-xl text-slate-600">
-			La pagina che stai cercando non esiste o è stata spostata. Magari ti interessa il blog o i case studies.
-		</p>
-		<div class="flex flex-wrap justify-center gap-4">
-			<Button href="/" variant="primary">Torna alla home</Button>
-			<Button href="/blog/" variant="secondary">Vai al blog</Button>
-		</div>
-	</section>
+	<PageContainer as="section" class="py-20 lg:py-28" aria-labelledby="not-found-title">
+		<p class="mb-4 font-mono text-meta text-accent uppercase">Errore 404</p>
+		<h1 id="not-found-title" class="text-[34px] leading-[1.1] font-bold tracking-[-0.03em] text-text sm:text-[42px]">404 · Pagina non trovata</h1>
+		<p class="mt-5 max-w-xl text-lead">La pagina che stai cercando non esiste o è stata spostata. Magari ti interessa il blog o i case study.</p>
+		<ul class="mt-6 flex list-none flex-wrap gap-x-8 p-0">
+			{suggestions.map((link) => <li><ArrowLink label={link.label} href={link.href} class="mt-0" /></li>)}
+		</ul>
+	</PageContainer>
 </MainLayout>

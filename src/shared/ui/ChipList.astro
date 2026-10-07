@@ -1,5 +1,6 @@
 ---
 import Chip from "./Chip.astro";
+import { cn } from "../lib/cn";
 
 interface Props {
 	tags: readonly string[];
@@ -12,7 +13,7 @@ const visibleTags = tags.map((tag) => tag.trim()).filter(Boolean);
 ---
 
 {visibleTags.length > 0 && (
-	<ul class:list={["mt-4 flex list-none flex-wrap gap-2 p-0", extraClass]} aria-label={label}>
+	<ul class={cn("mt-4 flex list-none flex-wrap gap-2 p-0", extraClass)} aria-label={label}>
 		{visibleTags.map((tag) => <Chip label={tag} />)}
 	</ul>
 )}

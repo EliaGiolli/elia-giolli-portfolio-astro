@@ -26,3 +26,9 @@ export function linkArrow(href: string, options: { detail?: boolean; siteHost?: 
 export function externalLinkAttributes(href: string, siteHost?: string): { target?: "_blank"; rel?: string } {
 	return isExternalUrl(href, siteHost) ? { target: "_blank", rel: "noopener noreferrer" } : {};
 }
+
+/** Readable form of a web address for print: "https://www.linkedin.com/in/x/" → "linkedin.com/in/x". */
+export function displayUrl(href: string): string | undefined {
+	if (!/^https?:\/\//i.test(href.trim())) return undefined;
+	return href.trim().replace(/^https?:\/\/(www\.)?/i, "").replace(/\/+$/, "");
+}

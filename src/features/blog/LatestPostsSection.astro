@@ -1,11 +1,11 @@
 ---
 import { getCollection } from "astro:content";
-import { formatShortDate, publishedEntries, toIsoDate } from "../../helpers";
+import { publishedEntries } from "../../helpers";
 import ArrowLink from "../../shared/ui/ArrowLink.astro";
 import EmptyState from "../../shared/ui/EmptyState.astro";
-import ListCard from "../../shared/ui/ListCard.astro";
 import ListCardList from "../../shared/ui/ListCardList.astro";
 import HomeSection from "../home/HomeSection.astro";
+import PostListItem from "./PostListItem.astro";
 
 // The homepage blog is a preview: each article has its own page.
 const LATEST_POSTS = 3;
@@ -16,15 +16,7 @@ const posts = publishedEntries(await getCollection("blog"), import.meta.env.DEV)
 	{posts.length > 0 ? (
 		<>
 			<ListCardList>
-				{posts.map(({ id, data }) => (
-					<ListCard
-						meta={formatShortDate(data.pubDate)}
-						datetime={toIsoDate(data.pubDate)}
-						title={data.draft ? `${data.title} (bozza)` : data.title}
-						href={`/blog/${id}/`}
-						description={data.description}
-					/>
-				))}
+				{posts.map((post) => <PostListItem post={post} />)}
 			</ListCardList>
 			<ArrowLink label="Tutti gli articoli" href="/blog/" />
 		</>
