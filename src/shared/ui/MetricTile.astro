@@ -1,0 +1,21 @@
+---
+import { formatMetricValue } from "../../helpers/metrics";
+
+// One measured number (Search Console, GA4, PageSpeed). Without a value it shows the placeholder
+// on a dashed border; with real data the tile becomes solid.
+interface Props {
+	label: string;
+	value?: string | number | null;
+}
+
+const { label, value } = Astro.props;
+const { text, filled } = formatMetricValue(value);
+---
+
+<div
+	class:list={["rounded-tile border px-3.5 py-3", filled ? "border-solid border-line bg-surface" : "border-dashed border-line"]}
+	data-metric-filled={String(filled)}
+>
+	<dt class="text-xs text-text-muted">{label}</dt>
+	<dd class="mt-1 font-mono text-metric text-text">{text}</dd>
+</div>

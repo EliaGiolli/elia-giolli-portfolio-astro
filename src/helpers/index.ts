@@ -5,3 +5,6 @@ export * from './structuredData';
 export * from './readingTime';
 export * from './publishedEntries';
 export * from './navigation';
+export * from './indexNav';
+export * from './links';
+export * from './metrics';

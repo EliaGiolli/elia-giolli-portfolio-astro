@@ -1,0 +1,44 @@
+---
+import { linkArrow } from "../../helpers/links";
+import ChipList from "./ChipList.astro";
+
+// The card behind every homepage list: case studies, posts, skills, certificates.
+// Flat and transparent at rest; on hover it lights up while the other cards of the list dim.
+// One link per card, on the title. Extra content (MetricList, ...) goes in the default slot.
+interface Props {
+	meta: string;
+	datetime?: string;
+	title: string;
+	href?: string;
+	description?: string;
+	tags?: readonly string[];
+	detail?: boolean;
+	headingLevel?: "h3" | "h4";
+}
+
+const { meta, datetime, title, href, description, tags = [], detail = true, headingLevel: Heading = "h3" } = Astro.props;
+const arrow = href ? linkArrow(href, { detail }) : "";
+---
+
+<li
+	class="group/card flex flex-wrap gap-x-7 gap-y-2 rounded-card p-5 transition-[opacity,background-color,box-shadow] duration-200 group-focus-within/list:opacity-50 group-hover/list:opacity-50 focus-within:bg-surface focus-within:opacity-100! focus-within:shadow-card hover:bg-surface hover:opacity-100! hover:shadow-card"
+>
+	<p class="mt-1 shrink-0 grow-0 basis-24 font-mono text-meta text-text-muted uppercase">
+		{datetime ? <time datetime={datetime}>{meta}</time> : meta}
+	</p>
+	<div class="min-w-0 flex-[1_1_320px]">
+		<Heading class="text-card-title text-text">
+			{href ? (
+				<a href={href} class="transition-colors duration-200 group-hover/card:text-accent">
+					{title}
+					{arrow && <>{" "}<span aria-hidden="true">{arrow}</span></>}
+				</a>
+			) : (
+				title
+			)}
+		</Heading>
+		{description && <p class="mt-2.5 text-card-body">{description}</p>}
+		<slot />
+		<ChipList tags={tags} />
+	</div>
+</li>

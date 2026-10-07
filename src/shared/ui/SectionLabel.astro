@@ -1,0 +1,12 @@
+---
+// The h2 of a homepage section: visible on mobile, visually hidden on desktop where the index
+// stands in for it (screen readers still read it).
+interface Props {
+	id: string;
+	label: string;
+}
+
+const { id, label } = Astro.props;
+---
+
+<h2 id={id} class="mb-5 text-[13px] font-bold tracking-[0.15em] text-text uppercase lg:sr-only">{label}</h2>

@@ -1,0 +1,10 @@
+---
+// A non-interactive label for a tag or a tool: never a link or a filter.
+interface Props {
+	label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<li class="rounded-pill bg-surface-2 px-3 py-[5px] text-chip text-accent">{label}</li>

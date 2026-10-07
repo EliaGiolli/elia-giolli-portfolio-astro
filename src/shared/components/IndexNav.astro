@@ -1,0 +1,36 @@
+---
+import type { IndexItem } from "../../helpers/indexNav";
+
+// Vertical summary of the homepage sections. It must sit inside an x-data="sectionIndex(...)"
+// scope: the active entry (aria-current="true") follows the section in view.
+// Without JavaScript the entries still work as plain anchors.
+interface Props {
+	items: readonly IndexItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Indice" class="mt-16 hidden lg:block">
+	<ol class="flex list-none flex-col gap-1 p-0">
+		{items.map((item) => (
+			<li>
+				<a
+					href={item.href}
+					class="group inline-flex min-h-11 items-center gap-4"
+					:aria-current={`isActive('${item.id}') ? 'true' : 'false'`}
+					@click={`select('${item.id}')`}
+				>
+					<span class="w-5 font-mono text-meta text-text-muted">{item.num}</span>
+					<span
+						class="inline-block h-px w-8 bg-toc-line transition-[width,background-color] duration-200 group-hover:w-16 group-hover:bg-text group-aria-[current=true]:w-16 group-aria-[current=true]:bg-text"
+						aria-hidden="true"
+					></span>
+					<span class="text-toc text-text-muted uppercase transition-colors duration-200 group-hover:text-text group-aria-[current=true]:text-text">
+						{item.label}
+					</span>
+				</a>
+			</li>
+		))}
+	</ol>
+</nav>
