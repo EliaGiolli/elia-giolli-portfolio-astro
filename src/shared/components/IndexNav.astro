@@ -11,8 +11,8 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav aria-label="Indice" class="mt-16 hidden lg:block">
-	<ol class="flex list-none flex-col gap-1 p-0">
+<nav aria-label="Indice" class="mt-16 hidden lg:block lg:short:mt-8">
+	<ol class="flex list-none flex-col gap-1 p-0 lg:short:gap-0">
 		{items.map((item) => (
 			<li>
 				<a

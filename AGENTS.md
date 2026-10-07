@@ -38,6 +38,8 @@ Separate the UI from the logic: when you can, outsource business logic inside th
 Always check @UI-rebrand/design-system/DESIGN-SYSTEM.md before styling components: it is the source of truth for tone, colors, typography, layout, tokens and components.
 The folder is local reference material (git-ignored): the tokens used by the site live in `src/styles/global.css` (`@theme` block), so use the Tailwind utilities they generate (`bg-bg`, `bg-surface`, `text-text-body`, `text-accent`, `rounded-card`, `shadow-card`, ...) instead of hard-coded colors.
 
+Never write custom CSS classes in `src/styles/global.css`. Tailwind v4 is configured in CSS (there is no `tailwind.config.js`): tokens go in `@theme`, plugins in `@plugin`, new variants in `@custom-variant`, element defaults in `@layer base`. Everything else is utilities in the components; long-form Markdown uses the Typography plugin through `src/shared/components/Prose.astro`.
+
 ## Typography
 - font-sans - Figtree (all text)
 - font-mono - DM Mono (dates, index numbers, metric values only)

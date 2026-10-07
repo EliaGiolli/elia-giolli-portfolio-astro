@@ -126,7 +126,7 @@ describe("blog", () => {
 
 	it("serves the article screenshots as optimized WebP with captions", () => {
 		const { document } = loadPage("/blog/seo-tecnica-portfolio-astro/");
-		const images = [...document.querySelectorAll(".prose-document img")];
+		const images = [...document.querySelectorAll(".prose img")];
 
 		expect(images).toHaveLength(4);
 		for (const image of images) {
@@ -154,7 +154,7 @@ describe("case study", () => {
 	});
 
 	it("renders the full Markdown write-up", () => {
-		expect(text(document.querySelector(".prose-document"))).toContain("Perché partire dal mio sito");
+		expect(text(document.querySelector(".prose"))).toContain("Perché partire dal mio sito");
 	});
 });
 

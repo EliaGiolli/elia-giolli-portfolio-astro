@@ -37,7 +37,7 @@ const bulletList = "mt-3 list-disc space-y-2 pl-5 text-card-body marker:text-toc
 <main id="main-content" tabindex="-1" class="focus:outline-none" aria-labelledby="cv-title">
 	<header class="border-b border-line/60">
 		<div class="mx-auto grid max-w-page gap-8 px-6 py-14 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-12 lg:px-12 lg:py-20 print:grid-cols-[auto_1fr] print:py-6">
-			<Image src={profilePhoto} alt="Elia Giolli" width={160} height={160} class="size-28 rounded-card object-cover shadow-logo sm:size-36" />
+			<Image src={profilePhoto} alt="Elia Giolli" width={160} height={160} class="size-28 rounded-card object-cover shadow-logo sm:size-36 print:shadow-none" />
 			<div>
 				<p class="mb-3 text-toc text-accent uppercase">Curriculum vitae</p>
 				<h1 id="cv-title" class="text-[42px] leading-[1.05] font-bold tracking-[-0.03em] text-text lg:text-name">Elia Giolli</h1>
@@ -92,7 +92,7 @@ const bulletList = "mt-3 list-disc space-y-2 pl-5 text-card-body marker:text-toc
 			<CvSection id="projects-title" kicker="Lavori documentati" title="Case studies">
 				<div class="mt-8 grid gap-5">
 					{caseStudies.map((caseStudy) => (
-						<article class="rounded-card bg-surface p-6 shadow-card">
+						<article class="rounded-card bg-surface p-6 shadow-card print:border print:border-line print:shadow-none">
 							<h3 class="text-card-title text-text">{caseStudy.data.title}</h3>
 							<p class="mt-3 text-card-body">{caseStudy.data.description}</p>
 							<ArrowLink label="Apri il case study" href={`/case-studies/${caseStudy.id}/`} detail class="print:hidden" />

@@ -9,6 +9,7 @@ import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
 import JsonLd from "../../shared/components/JsonLd.astro";
 import PageContainer from "../../shared/components/PageContainer.astro";
 import PageHeader from "../../shared/components/PageHeader.astro";
+import Prose from "../../shared/components/Prose.astro";
 import ArrowLink from "../../shared/ui/ArrowLink.astro";
 import ChipList from "../../shared/ui/ChipList.astro";
 import { OG_IMAGE_PATH } from "../../shared/utils/constants";
@@ -70,11 +71,11 @@ const schema = buildBlogPostingSchema({
 
 		<PageContainer width="prose">
 			{data.cover && (
-				<Image src={data.cover} alt={data.coverAlt ?? ""} class="mb-10 h-auto w-full rounded-card shadow-logo" loading="eager" fetchpriority="high" widths={[480, 768, 1200]} sizes="(min-width: 768px) 720px, 100vw" />
+				<Image src={data.cover} alt={data.coverAlt ?? ""} class="mb-10 h-auto w-full rounded-card shadow-logo print:shadow-none" loading="eager" fetchpriority="high" widths={[480, 768, 1200]} sizes="(min-width: 768px) 720px, 100vw" />
 			)}
-			<div class="prose-document">
+			<Prose>
 				<Content />
-			</div>
+			</Prose>
 
 			<div class="mt-12 border-t border-line pt-6">
 				<ChipList tags={data.tags} label="Argomenti dell'articolo" class="mt-0" />

@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Tailwind v4 is configured in CSS: no tailwind.config.js. This file only holds configuration
+   (@theme tokens, @plugin, @custom-variant) and element defaults in @layer base. Components are
+   styled with utilities; long-form Markdown uses the Typography plugin (see Prose.astro). */
 
 /* Design system tokens (source: UI-rebrand/design-system/tailwind-theme.css).
    They generate utilities such as bg-bg, bg-surface, text-text-body, text-accent,
@@ -65,11 +70,14 @@
 	--container-column-right: 560px;
 }
 
+/* Windows too short for the fixed homepage column at full spacing (e.g. a small laptop or a
+   browser with toolbars): `short:` tightens it. */
+@custom-variant short (@media (max-height: 920px));
+
 /* Figtree and DM Mono are loaded with <link> + preconnect in BaseHead.astro: an @import here would
    chain the font request behind this stylesheet and delay the first render (LCP). */
 
-/* Base styles live in the base layer, so Tailwind utilities on the same elements win over them.
-   Anchor offsets (scroll-padding) are set per layout, with utilities. */
+/* Element defaults, in the base layer so utilities always win over them. */
 @layer base {
 	:root {
 		font-family: var(--font-sans);
@@ -79,27 +87,6 @@
 		font-synthesis: none;
 		text-rendering: optimizeLegibility;
 		-webkit-font-smoothing: antialiased;
-	}
-
-	html {
-		scroll-behavior: smooth;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		html {
-			scroll-behavior: auto;
-		}
-
-		*,
-		*::before,
-		*::after {
-			transition-duration: 0.01ms !important;
-			animation-duration: 0.01ms !important;
-		}
-	}
-
-	body {
-		margin: 0;
 	}
 
 	::selection {
@@ -112,197 +99,37 @@
 		outline: 2px solid var(--color-accent);
 		outline-offset: 3px;
 	}
-}
 
-/* Print: the light palette of the design system (paper, ink, accent-strong). Every utility reads
-   these variables, so the whole page flips to dark text on white without per-component styles. */
-@media print {
-	:root {
-		--color-bg: #ffffff;
-		--color-surface: #ffffff;
-		--color-surface-2: var(--color-paper);
-		--color-line: #c9d0e0;
-		--color-toc-line: #8a94ad;
-		--color-text: var(--color-ink);
-		--color-text-body: #2b3550;
-		--color-text-muted: #4a5778;
-		--color-accent: var(--color-accent-strong);
-		--shadow-card: none;
-		--shadow-logo: none;
-		color-scheme: light;
+	/* Alpine.js: hide x-cloak elements until Alpine has initialised them. */
+	[x-cloak] {
+		display: none !important;
 	}
 
-	body {
-		print-color-adjust: exact;
+	/* Transitions are 200ms colour/opacity/shadow changes: switch them all off for reduced motion. */
+	@media (prefers-reduced-motion: reduce) {
+		*,
+		*::before,
+		*::after {
+			transition-duration: 0.01ms !important;
+			animation-duration: 0.01ms !important;
+		}
 	}
 
-	/* Shadow utilities inline their values, so they are switched off here rather than via tokens. */
-	*,
-	*::before,
-	*::after {
-		box-shadow: none !important;
+	/* Print: the light palette of the design system (paper, ink, accent-strong). Utilities read these
+	   theme variables, so every page prints dark on white; components add print:hidden / print:shadow-none. */
+	@media print {
+		:root {
+			--color-bg: #ffffff;
+			--color-surface: #ffffff;
+			--color-surface-2: var(--color-paper);
+			--color-line: #c9d0e0;
+			--color-toc-line: #8a94ad;
+			--color-text: var(--color-ink);
+			--color-text-body: #2b3550;
+			--color-text-muted: #4a5778;
+			--color-accent: var(--color-accent-strong);
+			color-scheme: light;
+			print-color-adjust: exact;
+		}
 	}
-}
-
-[x-cloak] {
-	display: none !important;
-}
-
-/* Long-form Markdown: blog posts and case studies share the same reading style. */
-.prose-document {
-	color: var(--color-text-body);
-	font-size: 1.0625rem;
-	line-height: 1.8;
-}
-
-.prose-document h2,
-.prose-document h3,
-.prose-document h4 {
-	margin-top: 2.25rem;
-	margin-bottom: 0.75rem;
-	color: var(--color-text);
-	font-weight: 700;
-	line-height: 1.25;
-	letter-spacing: -0.01em;
-}
-
-.prose-document h2 {
-	padding-top: 1.5rem;
-	font-size: 1.75rem;
-}
-
-.prose-document h3 {
-	font-size: 1.25rem;
-}
-
-.prose-document > :first-child {
-	margin-top: 0;
-	border-top: 0;
-	padding-top: 0;
-}
-
-.prose-document p,
-.prose-document ul,
-.prose-document ol,
-.prose-document blockquote,
-.prose-document table,
-.prose-document pre {
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-}
-
-.prose-document ul,
-.prose-document ol {
-	padding-left: 1.5rem;
-}
-
-.prose-document ul {
-	list-style: disc;
-}
-
-.prose-document ol {
-	list-style: decimal;
-}
-
-.prose-document li + li {
-	margin-top: 0.4rem;
-}
-
-.prose-document strong {
-	color: var(--color-text);
-}
-
-.prose-document a {
-	color: var(--color-accent);
-	font-weight: 600;
-	text-decoration: underline;
-	text-underline-offset: 0.2em;
-}
-
-.prose-document a:hover {
-	color: var(--color-text);
-}
-
-.prose-document code {
-	border-radius: 0.35rem;
-	background: var(--color-surface-2);
-	padding: 0.15rem 0.35rem;
-	color: var(--color-text);
-	font-family: var(--font-mono);
-	font-size: 0.9em;
-}
-
-.prose-document pre {
-	overflow-x: auto;
-	border-radius: var(--radius-tile);
-	background: var(--color-surface) !important;
-	box-shadow: var(--shadow-card);
-	padding: 1rem;
-	color: var(--color-text);
-}
-
-.prose-document pre code {
-	background: transparent;
-	padding: 0;
-	color: inherit;
-}
-
-.prose-document blockquote {
-	border-left: 3px solid var(--color-accent);
-	padding-left: 1rem;
-	font-weight: 500;
-	color: var(--color-text);
-}
-
-.prose-document hr {
-	margin: 2rem 0;
-	border: 0;
-	border-top: 1px solid var(--color-line);
-}
-
-.prose-document table {
-	display: block;
-	overflow-x: auto;
-	width: 100%;
-	border-collapse: collapse;
-	font-size: 0.95rem;
-}
-
-.prose-document th,
-.prose-document td {
-	border: 1px solid var(--color-line);
-	padding: 0.65rem 0.75rem;
-	text-align: left;
-	vertical-align: top;
-}
-
-.prose-document th {
-	background: var(--color-surface);
-	color: var(--color-text);
-	font-weight: 700;
-}
-
-.prose-document img {
-	max-width: 100%;
-	height: auto;
-	border-radius: var(--radius-tile);
-	box-shadow: var(--shadow-logo);
-}
-
-.prose-document .contains-task-list {
-	list-style: none;
-	padding-left: 0;
-}
-
-.prose-document .task-list-item input {
-	margin-right: 0.5rem;
-	accent-color: var(--color-accent);
-}
-
-/* Caption written as an italic line right under a Markdown image. */
-.prose-document p:has(> img) + p > em:only-child {
-	display: block;
-	margin-top: -0.5rem;
-	font-size: 0.9rem;
-	color: var(--color-text-muted);
 }

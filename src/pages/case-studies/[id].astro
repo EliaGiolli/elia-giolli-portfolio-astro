@@ -6,6 +6,7 @@ import { publishedEntries } from "../../helpers";
 import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
 import PageContainer from "../../shared/components/PageContainer.astro";
 import PageHeader from "../../shared/components/PageHeader.astro";
+import Prose from "../../shared/components/Prose.astro";
 import ArrowLink from "../../shared/ui/ArrowLink.astro";
 import ChipList from "../../shared/ui/ChipList.astro";
 import MetricList from "../../shared/ui/MetricList.astro";
@@ -55,9 +56,9 @@ const { Content } = await render(caseStudy);
 						{data.githubUrl && <ArrowLink label="Repository GitHub" href={data.githubUrl} class="mt-0" />}
 					</div>
 				)}
-				<div class="prose-document mt-8">
+				<Prose class="mt-8">
 					<Content />
-				</div>
+				</Prose>
 			</section>
 
 			<ArrowLink label="Tutti i case study" href="/case-studies/" class="mt-12" />

@@ -17,7 +17,7 @@ const indexItems = buildIndexItems(HOME_SECTIONS);
 const sectionIds = JSON.stringify(indexItems.map((item) => item.id));
 ---
 
-<html lang="it" class="scroll-pt-6 bg-bg">
+<html lang="it" class="scroll-pt-6 scroll-smooth bg-bg motion-reduce:scroll-auto">
 	<head>
 		<BaseHead {...Astro.props} />
 		<slot name="head" />

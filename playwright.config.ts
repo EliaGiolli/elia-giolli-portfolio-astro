@@ -9,14 +9,15 @@ export default defineConfig({
 	workers: 2,
 	reporter: "list",
 	use: {
-		baseURL: "http://127.0.0.1:4321",
+		// Same port as tests/e2e/server.mjs, distinct from the dev server's 4321.
+		baseURL: "http://127.0.0.1:4329",
 		trace: "on-first-retry",
 	},
 	// Serves the production build (`npm run test:e2e` builds it first), so the suite sees exactly
 	// what Vercel ships, including the consent banner that only exists in production.
 	webServer: {
 		command: "node tests/e2e/server.mjs",
-		url: "http://127.0.0.1:4321",
+		url: "http://127.0.0.1:4329",
 		reuseExistingServer: !process.env.CI,
 		timeout: 60_000,
 	},

@@ -8,7 +8,7 @@ interface Props {
 const { linkedinUrl } = Astro.props;
 ---
 
-<aside class="rounded-card bg-surface p-6 shadow-card sm:p-8" aria-labelledby="linkedin-callout-title">
+<aside class="rounded-card bg-surface p-6 shadow-card sm:p-8 print:shadow-none" aria-labelledby="linkedin-callout-title">
 	<h2 id="linkedin-callout-title" class="text-card-title text-text">Continuiamo la conversazione su LinkedIn</h2>
 	<p class="mt-2 text-card-body">
 		{linkedinUrl

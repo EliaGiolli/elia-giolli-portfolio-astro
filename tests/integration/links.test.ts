@@ -47,7 +47,7 @@ describe("internal links", () => {
 describe("cross-linking between posts", () => {
 	it("links the first post to the technical article and the case study", () => {
 		const { document } = loadPage("/blog/da-developer-a-seo-specialist/");
-		const hrefs = [...document.querySelectorAll(".prose-document a")].map((link) => link.getAttribute("href"));
+		const hrefs = [...document.querySelectorAll(".prose a")].map((link) => link.getAttribute("href"));
 
 		expect(hrefs).toContain("/blog/seo-tecnica-portfolio-astro/");
 		expect(hrefs).toContain("/case-studies/audit-seo-tecnico-portfolio/");
@@ -55,7 +55,7 @@ describe("cross-linking between posts", () => {
 
 	it("links the technical article back to the first post", () => {
 		const { document } = loadPage("/blog/seo-tecnica-portfolio-astro/");
-		const hrefs = [...document.querySelectorAll(".prose-document a")].map((link) => link.getAttribute("href"));
+		const hrefs = [...document.querySelectorAll(".prose a")].map((link) => link.getAttribute("href"));
 
 		expect(hrefs).toContain("/blog/da-developer-a-seo-specialist/");
 	});
