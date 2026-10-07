@@ -26,6 +26,8 @@ pnpm-debug.log*
 PALETTE.md
 ROADMAP.md
 FINAL-REVISION.md
+# design system and brand assets (local reference for the UI rebrand)
+UI-rebrand/
 # playwright mcp output
 .playwright-mcp/
 

@@ -34,8 +34,10 @@ Create small components that follow the SoC and DRY principle (Separation of Con
 
 Separate the UI from the logic: when you can, outsource business logic inside the /helpers folder
 
-## Color palette
-Always check @PALETTE.md file before styling components
+## Design system
+Always check @UI-rebrand/design-system/DESIGN-SYSTEM.md before styling components: it is the source of truth for tone, colors, typography, layout, tokens and components.
+The folder is local reference material (git-ignored): the tokens used by the site live in `src/styles/global.css` (`@theme` block), so use the Tailwind utilities they generate (`bg-bg`, `bg-surface`, `text-text-body`, `text-accent`, `rounded-card`, `shadow-card`, ...) instead of hard-coded colors.
 
 ## Typography
-font - Noto Sans
+- font-sans - Figtree (all text)
+- font-mono - DM Mono (dates, index numbers, metric values only)

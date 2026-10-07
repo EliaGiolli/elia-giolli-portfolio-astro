@@ -16,6 +16,7 @@
     "test": "npm run test:unit && npm run test:integration && npm run test:e2e"
   },
   "dependencies": {
+    "@alpinejs/intersect": "^3.17.4",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@emailjs/browser": "^4.4.1",
