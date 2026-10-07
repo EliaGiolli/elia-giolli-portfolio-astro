@@ -1,0 +1,17 @@
+---
+import { cn } from "../lib/cn";
+
+// Wraps ListCards: the negative margin lets only the hover background bleed out of the column,
+// and hovering (or focusing) one card dims the others.
+interface Props {
+	as?: "ol" | "ul";
+	label?: string;
+	class?: string;
+}
+
+const { as: Tag = "ol", label, class: extraClass } = Astro.props;
+---
+
+<Tag class={cn("group/list -mx-5 flex list-none flex-col gap-2 p-0", extraClass)} aria-label={label}>
+	<slot />
+</Tag>

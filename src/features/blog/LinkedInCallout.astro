@@ -1,5 +1,5 @@
 ---
-import { LINKEDIN_URL } from "../../shared/utils/constants";
+import { NEW_TAB_HINT, LINKEDIN_URL } from "../../shared/utils/constants";
 
 interface Props {
 	linkedinUrl?: string;
@@ -8,9 +8,9 @@ interface Props {
 const { linkedinUrl } = Astro.props;
 ---
 
-<aside class="rounded-2xl bg-[#17252b] p-6 text-white shadow-[8px_8px_0_#f2b84b] sm:p-8" aria-labelledby="linkedin-callout-title">
-	<h2 id="linkedin-callout-title" class="text-xl font-extrabold">Continuiamo la conversazione su LinkedIn</h2>
-	<p class="mt-2 leading-7 text-slate-300">
+<aside class="rounded-card bg-surface p-6 shadow-card sm:p-8 print:shadow-none" aria-labelledby="linkedin-callout-title">
+	<h2 id="linkedin-callout-title" class="text-card-title text-text">Continuiamo la conversazione su LinkedIn</h2>
+	<p class="mt-2 text-card-body">
 		{linkedinUrl
 			? "Ho condiviso una versione breve di questo articolo su LinkedIn: lì trovi la discussione e i commenti."
 			: "Pubblico su LinkedIn riflessioni brevi su SEO tecnica e analytics. Seguimi per non perdere i prossimi articoli."}
@@ -19,9 +19,10 @@ const { linkedinUrl } = Astro.props;
 		href={linkedinUrl ?? LINKEDIN_URL}
 		target="_blank"
 		rel="noopener noreferrer"
-		class="mt-5 inline-flex items-center gap-2 rounded-lg bg-[#f2b84b] px-4 py-2 font-bold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+		class="mt-4 inline-flex min-h-11 items-center gap-2 font-semibold text-text transition-colors duration-200 hover:text-accent"
 	>
 		{linkedinUrl ? "Leggi il post su LinkedIn" : "Seguimi su LinkedIn"}
 		<span aria-hidden="true">↗</span>
+		<span class="sr-only">{NEW_TAB_HINT}</span>
 	</a>
 </aside>

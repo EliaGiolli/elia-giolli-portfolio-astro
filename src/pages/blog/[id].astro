@@ -7,8 +7,11 @@ import PostMeta from "../../features/blog/PostMeta.astro";
 import { buildBlogPostingSchema, publishedEntries, readingTime } from "../../helpers";
 import Breadcrumbs from "../../shared/components/Breadcrumbs.astro";
 import JsonLd from "../../shared/components/JsonLd.astro";
+import PageContainer from "../../shared/components/PageContainer.astro";
 import PageHeader from "../../shared/components/PageHeader.astro";
-import TagList from "../../shared/ui/TagList.astro";
+import Prose from "../../shared/components/Prose.astro";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import ChipList from "../../shared/ui/ChipList.astro";
 import { OG_IMAGE_PATH } from "../../shared/utils/constants";
 
 export async function getStaticPaths() {
@@ -53,7 +56,7 @@ const schema = buildBlogPostingSchema({
 	<JsonLd slot="head" schema={schema} />
 
 	<article aria-labelledby="page-title">
-		<PageHeader kicker={data.tags[0] ?? "Articolo"} title={data.title} dek={data.description}>
+		<PageHeader kicker={data.tags[0] ?? "Articolo"} title={data.title} dek={data.description} width="prose">
 			<Breadcrumbs
 				slot="before"
 				items={[
@@ -62,25 +65,27 @@ const schema = buildBlogPostingSchema({
 					{ name: data.title, href: postPath },
 				]}
 			/>
-			<p class="mt-6 text-sm text-slate-300">di <strong class="font-semibold text-white">{data.author}</strong></p>
-			<PostMeta pubDate={data.pubDate} updatedDate={data.updatedDate} minutes={readingTime(post.body ?? "")} class="mt-1 text-slate-300" />
+			<p class="mt-6 text-small text-text-muted">di <strong class="font-semibold text-text">{data.author}</strong></p>
+			<PostMeta pubDate={data.pubDate} updatedDate={data.updatedDate} minutes={readingTime(post.body ?? "")} class="mt-1" />
 		</PageHeader>
 
-		<div class="mx-auto max-w-3xl px-6 py-14 lg:py-20">
+		<PageContainer width="prose">
 			{data.cover && (
-				<Image src={data.cover} alt={data.coverAlt ?? ""} class="mb-10 h-auto w-full rounded-2xl border border-[#d9d6cb]" loading="eager" fetchpriority="high" widths={[480, 768, 1200]} sizes="(min-width: 768px) 720px, 100vw" />
+				<Image src={data.cover} alt={data.coverAlt ?? ""} class="mb-10 h-auto w-full rounded-card shadow-logo print:shadow-none" loading="eager" fetchpriority="high" widths={[480, 768, 1200]} sizes="(min-width: 768px) 720px, 100vw" />
 			)}
-			<div class="prose-document">
+			<Prose>
 				<Content />
-			</div>
+			</Prose>
 
-			<div class="mt-12 border-t border-[#d9d6cb] pt-8">
-				<TagList tags={data.tags} label="Argomenti dell'articolo" />
+			<div class="mt-12 border-t border-line pt-6">
+				<ChipList tags={data.tags} label="Argomenti dell'articolo" class="mt-0" />
 			</div>
 
 			<div class="mt-12">
 				<LinkedInCallout linkedinUrl={data.linkedinUrl} />
 			</div>
-		</div>
+
+			<ArrowLink label="Tutti gli articoli" href="/blog/" class="mt-8" />
+		</PageContainer>
 	</article>
 </MainLayout>

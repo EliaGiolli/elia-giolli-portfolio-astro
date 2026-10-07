@@ -1,55 +1,26 @@
 ---
-import SectionHeading from "../../shared/components/SectionHeading.astro";
-import CertificateCard from "./CertificateCard.astro";
+import { getImage } from "astro:assets";
+import ListCard from "../../shared/ui/ListCard.astro";
+import ListCardList from "../../shared/ui/ListCardList.astro";
+import HomeSection from "../home/HomeSection.astro";
 import { certificates } from "./certificates";
+
+// The title opens the official verification page when there is one, otherwise the optimized
+// image of the certificate: either way the claim comes with its proof.
+const entries = await Promise.all(
+	certificates.map(async (certificate) => ({
+		certificate,
+		href: certificate.verifyUrl ?? (await getImage({ src: certificate.image, width: 1200, format: "webp" })).src,
+	})),
+);
 ---
 
-<section
-	id="certificates"
-	class="border-b border-[#d9d6cb] bg-[#ebe9e1]"
-	aria-labelledby="certificates-title"
-	x-data="{ activeCertificate: 0 }"
->
-	<div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-		<div class="mb-12 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-			<SectionHeading
-				id="certificates-title"
-				kicker="Formazione continua"
-				title="Certificazioni"
-				intro="Studio SEO e analytics con percorsi certificati, sopra una base tecnica di reti e sicurezza."
-			/>
-			<div role="tablist" aria-label="Seleziona una certificazione" class="flex flex-wrap gap-2">
-				{certificates.map((certificate, index) => (
-					<button
-						type="button"
-						role="tab"
-						id={`certificate-tab-${index}`}
-						aria-controls={`certificate-panel-${index}`}
-						:aria-selected={`(activeCertificate === ${index}).toString()`}
-						:tabindex={`activeCertificate === ${index} ? 0 : -1`}
-						x-on:click={`activeCertificate = ${index}`}
-						x-on:keydown.right.prevent={`activeCertificate = ${(index + 1) % certificates.length}; $nextTick(() => document.getElementById('certificate-tab-' + activeCertificate).focus())`}
-						x-on:keydown.left.prevent={`activeCertificate = ${(index - 1 + certificates.length) % certificates.length}; $nextTick(() => document.getElementById('certificate-tab-' + activeCertificate).focus())`}
-						:class={`activeCertificate === ${index} ? 'border-[#17252b] bg-[#17252b] text-white' : 'border-[#d9d6cb] bg-white text-slate-700'`}
-						class="rounded-lg border px-4 py-2 text-sm font-semibold transition-colors hover:border-[#17252b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-					>
-						{certificate.title}
-					</button>
-				))}
-			</div>
-		</div>
-
-		{certificates.map((certificate, index) => (
-			<div
-				id={`certificate-panel-${index}`}
-				role="tabpanel"
-				aria-labelledby={`certificate-tab-${index}`}
-				x-show={`activeCertificate === ${index}`}
-				x-cloak={index > 0}
-				x-transition.opacity.duration.200ms
-			>
-				<CertificateCard certificate={certificate} headingId={`certificate-title-${index}`} />
-			</div>
+<HomeSection id="certificates" label="Certificati">
+	<ListCardList>
+		{entries.map(({ certificate, href }) => (
+			<ListCard meta={certificate.provider} title={certificate.title} href={href} description={certificate.copy} tags={[certificate.status]}>
+				<p class="mt-2 text-small text-text-muted">{certificate.issuer}</p>
+			</ListCard>
 		))}
-	</div>
-</section>
+	</ListCardList>
+</HomeSection>

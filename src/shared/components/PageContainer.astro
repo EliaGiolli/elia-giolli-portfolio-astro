@@ -1,0 +1,15 @@
+---
+// Horizontal frame of the inner pages: "page" for lists and wide layouts, "prose" for reading.
+interface Props {
+	width?: "page" | "prose";
+	as?: "div" | "section";
+	class?: string;
+	[key: string]: unknown;
+}
+
+const { width = "page", as: Tag = "div", class: extraClass, ...attributes } = Astro.props;
+---
+
+<Tag class:list={["mx-auto w-full px-6 lg:px-12", width === "page" ? "max-w-page" : "max-w-[46rem] lg:px-6", extraClass]} {...attributes}>
+	<slot />
+</Tag>

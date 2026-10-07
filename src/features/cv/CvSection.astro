@@ -1,0 +1,17 @@
+---
+// A CV block: small uppercase kicker, the h2 and its content.
+interface Props {
+	id: string;
+	kicker: string;
+	title: string;
+	size?: "lg" | "md";
+}
+
+const { id, kicker, title, size = "lg" } = Astro.props;
+---
+
+<section aria-labelledby={id} class="break-inside-avoid-page">
+	<p class="mb-3 text-toc text-accent uppercase">{kicker}</p>
+	<h2 id={id} class:list={["font-bold tracking-[-0.02em] text-text", size === "lg" ? "text-[28px] leading-tight" : "text-[22px] leading-snug"]}>{title}</h2>
+	<slot />
+</section>

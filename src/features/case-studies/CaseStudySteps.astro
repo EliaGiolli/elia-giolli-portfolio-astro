@@ -1,4 +1,7 @@
 ---
+import ListCard from "../../shared/ui/ListCard.astro";
+import ListCardList from "../../shared/ui/ListCardList.astro";
+
 interface Props {
 	challenge: string;
 	approach: string;
@@ -8,17 +11,14 @@ interface Props {
 const { challenge, approach, result } = Astro.props;
 
 const steps = [
-	{ label: "01 / Sfida", copy: challenge },
-	{ label: "02 / Approccio", copy: approach },
-	{ label: "03 / Risultato", copy: result },
+	{ num: "01", label: "Sfida", copy: challenge },
+	{ num: "02", label: "Approccio", copy: approach },
+	{ num: "03", label: "Risultato", copy: result },
 ];
 ---
 
-<ol class="grid gap-6 lg:grid-cols-3">
+<ListCardList label="Il case study in tre passaggi">
 	{steps.map((step) => (
-		<li class="rounded-2xl border border-[#d9d6cb] bg-white p-6 shadow-[6px_6px_0_#ebe9e1]">
-			<h2 class="font-mono text-sm font-bold uppercase text-[#a36a00]">{step.label}</h2>
-			<p class="mt-4 text-base leading-7 text-slate-600">{step.copy}</p>
-		</li>
+		<ListCard meta={step.num} title={step.label} description={step.copy} headingLevel="h2" />
 	))}
-</ol>
+</ListCardList>

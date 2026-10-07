@@ -1,0 +1,51 @@
+---
+import { cn } from "../lib/cn";
+
+// Long-form Markdown (articles, case studies, privacy): the Tailwind Typography plugin, mapped onto
+// the design system tokens through its --tw-prose-* variables and element modifiers.
+interface Props {
+	as?: "div" | "article" | "section";
+	class?: string;
+	[key: string]: unknown;
+}
+
+const { as: Tag = "div", class: extraClass, ...attributes } = Astro.props;
+
+const tokens = [
+	"[--tw-prose-body:var(--color-text-body)]",
+	"[--tw-prose-headings:var(--color-text)]",
+	"[--tw-prose-lead:var(--color-text-body)]",
+	"[--tw-prose-links:var(--color-accent)]",
+	"[--tw-prose-bold:var(--color-text)]",
+	"[--tw-prose-counters:var(--color-text-muted)]",
+	"[--tw-prose-bullets:var(--color-toc-line)]",
+	"[--tw-prose-hr:var(--color-line)]",
+	"[--tw-prose-quotes:var(--color-text)]",
+	"[--tw-prose-quote-borders:var(--color-accent)]",
+	"[--tw-prose-captions:var(--color-text-muted)]",
+	"[--tw-prose-code:var(--color-text)]",
+	"[--tw-prose-pre-code:var(--color-text)]",
+	"[--tw-prose-pre-bg:var(--color-surface)]",
+	"[--tw-prose-th-borders:var(--color-line)]",
+	"[--tw-prose-td-borders:var(--color-line)]",
+];
+
+const elements = [
+	"prose-headings:font-bold prose-headings:tracking-[-0.01em]",
+	"prose-a:font-semibold prose-a:underline-offset-[0.2em] hover:prose-a:text-text",
+	// Inline code as a soft chip, without the plugin's backticks.
+	"prose-code:rounded-[0.35rem] prose-code:bg-surface-2 prose-code:px-1.5 prose-code:py-0.5 prose-code:font-mono prose-code:font-normal prose-code:before:content-none prose-code:after:content-none",
+	"prose-pre:rounded-tile prose-pre:shadow-card print:prose-pre:shadow-none [&_pre_code]:bg-transparent [&_pre_code]:p-0",
+	"prose-img:rounded-tile prose-img:shadow-logo print:prose-img:shadow-none",
+	"prose-table:block prose-table:overflow-x-auto prose-th:bg-surface prose-th:px-3 prose-td:px-3",
+	"prose-blockquote:font-medium prose-blockquote:not-italic",
+	// Task lists rendered from "- [x]" in Markdown.
+	"[&_.contains-task-list]:list-none [&_.contains-task-list]:pl-0 [&_.task-list-item_input]:mr-2 [&_.task-list-item_input]:accent-accent",
+	// Caption written as an italic line right under a Markdown image.
+	"[&_p:has(>img)+p>em:only-child]:-mt-2 [&_p:has(>img)+p>em:only-child]:block [&_p:has(>img)+p>em:only-child]:text-small [&_p:has(>img)+p>em:only-child]:text-text-muted",
+];
+---
+
+<Tag class={cn("prose prose-lg max-w-none", tokens, elements, extraClass)} {...attributes}>
+	<slot />
+</Tag>

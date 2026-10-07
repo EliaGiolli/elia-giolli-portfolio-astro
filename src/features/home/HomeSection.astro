@@ -1,0 +1,23 @@
+---
+import SectionLabel from "../../shared/ui/SectionLabel.astro";
+
+// One homepage section: anchor, h2 (SectionLabel) and the x-intersect hook that moves the index.
+// Must sit inside the sectionIndex scope of HomeLayout.
+interface Props {
+	id: string;
+	label: string;
+}
+
+const { id, label } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<section
+	id={id}
+	aria-labelledby={titleId}
+	class="mb-24 last:mb-0 lg:mb-30 lg:last:mb-0"
+	x-intersect:enter.margin.-30%.0px.-65%.0px={`enter('${id}')`}
+>
+	<SectionLabel id={titleId} label={label} />
+	<slot />
+</section>

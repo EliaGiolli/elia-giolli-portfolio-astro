@@ -1,9 +1,11 @@
 ---
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import Card from "../../shared/ui/Card.astro";
-import { SITE_TAGLINE } from "../../shared/utils/constants";
+import { displayUrl, externalLinkAttributes } from "../../helpers";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import { CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TAGLINE } from "../../shared/utils/constants";
 import profilePhoto from "../home/assets/foto-elia.jpg";
+import CvSection from "./CvSection.astro";
 
 const technicalSkills = [
 	["SEO tecnica", "Core Web Vitals · HTML semantico · dati strutturati Schema.org · sitemap, robots.txt e canonical"],
@@ -15,125 +17,117 @@ const technicalSkills = [
 	["Scripting e dati", "Python · PowerShell · Bash · SQL (MySQL, PostgreSQL)"],
 ];
 
+const contacts = [
+	{ label: "+39 340 5335525", href: "tel:+393405335525" },
+	{ label: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+	{ label: "LinkedIn", href: LINKEDIN_URL },
+	{ label: "GitHub", href: GITHUB_URL },
+].map((contact) => ({
+	...contact,
+	// On paper a link cannot be clicked: print the address of the web profiles.
+	printed: displayUrl(contact.href),
+}));
+
 const caseStudies = (await getCollection("caseStudies")).filter((entry) => !entry.data.draft);
+
+const roleMeta = "mt-1 font-mono text-meta text-text-muted uppercase";
+const bulletList = "mt-3 list-disc space-y-2 pl-5 text-card-body marker:text-toc-line";
 ---
 
-<main id="main-content" tabindex="-1" class="bg-[#f6f4ee] text-[#17252b] focus:outline-none" aria-labelledby="cv-title">
-	<header class="border-b border-[#31454c] bg-[#17252b] text-white">
-		<div class="mx-auto grid max-w-6xl gap-10 px-6 py-14 lg:grid-cols-[auto_1fr] lg:items-center lg:px-8 lg:py-20">
-			<div class="flex items-center gap-5">
-				<a href="/" aria-label="Torna alla home" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-white/20 text-xl text-[#f2b84b] transition-colors hover:border-[#f2b84b] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">←</a>
-				<Image src={profilePhoto} alt="Elia Giolli" width={160} height={160} class="h-28 w-28 rounded-2xl border-2 border-[#f2b84b] object-cover sm:h-36 sm:w-36" />
-			</div>
+<main id="main-content" tabindex="-1" class="focus:outline-none" aria-labelledby="cv-title">
+	<header class="border-b border-line/60">
+		<div class="mx-auto grid max-w-page gap-8 px-6 py-14 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-12 lg:px-12 lg:py-20 print:grid-cols-[auto_1fr] print:py-6">
+			<Image src={profilePhoto} alt="Elia Giolli" width={160} height={160} class="size-28 rounded-card object-cover shadow-logo sm:size-36 print:shadow-none" />
 			<div>
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-[#f2b84b]">Curriculum vitae</p>
-				<h1 id="cv-title" class="text-4xl font-extrabold tracking-tight sm:text-6xl">Elia Giolli</h1>
-				<p class="mt-3 text-xl font-medium text-slate-200">{SITE_TAGLINE}</p>
-				<p class="mt-5 max-w-3xl text-sm leading-6 text-slate-300">Peccioli (PI) · Patente B, automunito · Disponibile al trasferimento e agli spostamenti in Italia e in Europa</p>
-				<nav class="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-sm" aria-label="Contatti CV">
-					<a href="tel:+393405335525" class="text-[#f2b84b] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">+39 340 5335525</a>
-					<a href="mailto:eliagiolli22@gmail.com" class="text-[#f2b84b] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">eliagiolli22@gmail.com</a>
-					<a href="https://www.linkedin.com/in/eliagiolli/" target="_blank" rel="noopener noreferrer" class="text-[#f2b84b] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">LinkedIn</a>
-					<a href="https://github.com/EliaGiolli" target="_blank" rel="noopener noreferrer" class="text-[#f2b84b] underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">GitHub</a>
+				<p class="mb-3 text-toc text-accent uppercase">Curriculum vitae</p>
+				<h1 id="cv-title" class="text-[42px] leading-[1.05] font-bold tracking-[-0.03em] text-text lg:text-name">Elia Giolli</h1>
+				<p class="mt-3 text-role text-text">{SITE_TAGLINE}</p>
+				<p class="mt-4 max-w-3xl text-small text-text-muted">Peccioli (PI) · Patente B, automunito · Disponibile al trasferimento e agli spostamenti in Italia e in Europa</p>
+				<nav class="mt-4" aria-label="Contatti CV">
+					<ul class="flex list-none flex-wrap gap-x-6 p-0 text-small">
+						{contacts.map((contact) => (
+							<li>
+								<a href={contact.href} class="inline-flex min-h-11 items-center font-medium text-text transition-colors duration-200 hover:text-accent" {...externalLinkAttributes(contact.href)}>
+									{contact.label}
+									{contact.printed && <span class="hidden print:inline">: {contact.printed}</span>}
+								</a>
+							</li>
+						))}
+					</ul>
 				</nav>
 			</div>
 		</div>
 	</header>
 
-	<div class="mx-auto grid max-w-6xl gap-16 px-6 py-14 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:py-20">
-		<div class="space-y-16">
-			<section aria-labelledby="profile-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Profilo</p>
-				<h2 id="profile-title" class="text-3xl font-extrabold tracking-tight">Dal codice alla SERP</h2>
-				<p class="mt-5 max-w-3xl text-lg leading-8 text-slate-600">Front-end developer con esperienza di supporto IT in ambiente enterprise, oggi in transizione verso la SEO tecnica e la web analytics. Certificato HubSpot Digital Marketing, unisco la conoscenza di HTML, performance e architettura web all'analisi dei dati con Google Analytics 4 e Search Console. Laureato in Lingue, parlo cinque lingue straniere: un vantaggio per la SEO internazionale e per contenuti chiari.</p>
-			</section>
+	<div class="mx-auto grid max-w-page gap-16 px-6 py-14 lg:grid-cols-[1.25fr_0.75fr] lg:px-12 lg:py-20 print:grid-cols-[1.25fr_0.75fr] print:gap-10 print:py-6">
+		<div class="space-y-16 print:space-y-8">
+			<CvSection id="profile-title" kicker="Profilo" title="Dal codice alla SERP">
+				<p class="mt-5 max-w-3xl text-lead">Front-end developer con esperienza di supporto IT in ambiente enterprise, oggi in transizione verso la SEO tecnica e la web analytics. Certificato HubSpot Digital Marketing, unisco la conoscenza di HTML, performance e architettura web all'analisi dei dati con Google Analytics 4 e Search Console. Laureato in Lingue, parlo cinque lingue straniere: un vantaggio per la SEO internazionale e per contenuti chiari.</p>
+			</CvSection>
 
-			<section aria-labelledby="experience-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Esperienza professionale</p>
-				<h2 id="experience-title" class="text-3xl font-extrabold tracking-tight">Esperienza</h2>
+			<CvSection id="experience-title" kicker="Esperienza professionale" title="Esperienza">
 				<div class="mt-8 space-y-8">
-					<article class="border-l-2 border-[#f2b84b] pl-5">
-						<h3 class="text-xl font-extrabold">IT Help Desk Technician</h3>
-						<p class="mt-1 font-semibold text-slate-700">Var Group S.p.A., Empoli (FI) · 12/2025 · contratto a termine</p>
-						<p class="mt-3 leading-7 text-slate-600">Supporto remoto per la rete logistica automotive Volkswagen/MAN, con assistenza a magazzini, concessionari e utenti finali.</p>
-						<ul class="mt-3 list-disc space-y-2 pl-5 leading-7 text-slate-600">
+					<article class="border-l border-toc-line pl-5">
+						<h3 class="text-card-title text-text">IT Help Desk Technician</h3>
+						<p class={roleMeta}>Var Group S.p.A., Empoli (FI) · 12/2025 · contratto a termine</p>
+						<p class="mt-3 text-card-body">Supporto remoto per la rete logistica automotive Volkswagen/MAN, con assistenza a magazzini, concessionari e utenti finali.</p>
+						<ul class={bulletList}>
 							<li>Supporto di primo livello e gestione del ciclo di vita dei ticket su ServiceNow.</li>
 							<li>Collaborazione quotidiana tramite Microsoft Teams e Microsoft 365 / Office 365.</li>
 							<li>Troubleshooting di Cross, ElsaPro e PetrA, documentazione ed escalation al secondo livello.</li>
 						</ul>
 					</article>
-					<article class="border-l-2 border-[#f2b84b] pl-5">
-						<h3 class="text-xl font-extrabold">Operatore di scalo / Addetto Lost & Found</h3>
-						<p class="mt-1 font-semibold text-slate-700">Consulta S.p.A. (gruppo Aviapartner), Aeroporto di Pisa · 04/2024–08/2024 e 08/2022–11/2022</p>
-						<ul class="mt-3 list-disc space-y-2 pl-5 leading-7 text-slate-600">
+					<article class="border-l border-toc-line pl-5">
+						<h3 class="text-card-title text-text">Operatore di scalo / Addetto Lost & Found</h3>
+						<p class={roleMeta}>Consulta S.p.A. (gruppo Aviapartner), Aeroporto di Pisa · 04/2024–08/2024 e 08/2022–11/2022</p>
+						<ul class={bulletList}>
 							<li>Assistenza agli utenti e risoluzione dei problemi in tempo reale in un ambiente time-critical.</li>
 							<li>Gestione degli incidenti on-site, prioritizzazione e coordinamento con team interni e compagnie aeree.</li>
 						</ul>
 					</article>
 				</div>
-				<p class="mt-6 text-sm leading-6 text-slate-500">Altre esperienze: receptionist in agriturismo · promoter Iliad · consulente commerciale.</p>
-			</section>
+				<p class="mt-6 text-small text-text-muted">Altre esperienze: receptionist in agriturismo · promoter Iliad · consulente commerciale.</p>
+			</CvSection>
 
-			<section aria-labelledby="projects-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Lavori documentati</p>
-				<h2 id="projects-title" class="text-3xl font-extrabold tracking-tight">Case studies</h2>
+			<CvSection id="projects-title" kicker="Lavori documentati" title="Case studies">
 				<div class="mt-8 grid gap-5">
 					{caseStudies.map((caseStudy) => (
-						<Card as="article" class="p-6">
-							<h3 class="text-xl font-extrabold">{caseStudy.data.title}</h3>
-							<p class="mt-3 leading-7 text-slate-600">{caseStudy.data.description}</p>
-							<a href={`/case-studies/${caseStudy.id}/`} class="mt-5 inline-flex font-bold text-indigo-600 underline-offset-4 hover:text-violet-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">Apri il case study <span class="ml-2" aria-hidden="true">→</span></a>
-						</Card>
+						<article class="rounded-card bg-surface p-6 shadow-card print:border print:border-line print:shadow-none">
+							<h3 class="text-card-title text-text">{caseStudy.data.title}</h3>
+							<p class="mt-3 text-card-body">{caseStudy.data.description}</p>
+							<ArrowLink label="Apri il case study" href={`/case-studies/${caseStudy.id}/`} detail class="print:hidden" />
+						</article>
 					))}
 				</div>
-			</section>
+			</CvSection>
 		</div>
 
-		<aside class="space-y-8" aria-label="Competenze e formazione">
-			<section aria-labelledby="skills-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Competenze tecniche</p>
-				<h2 id="skills-title" class="text-2xl font-extrabold">Strumenti e aree di competenza</h2>
+		<aside class="space-y-12 print:space-y-6" aria-label="Competenze e formazione">
+			<CvSection id="skills-title" kicker="Competenze tecniche" title="Strumenti e aree di competenza" size="md">
 				<div class="mt-6 space-y-5">
 					{technicalSkills.map(([label, skills]) => (
-						<div class="border-t border-[#d9d6cb] pt-4">
-							<h3 class="font-extrabold">{label}</h3>
-							<p class="mt-1 text-sm leading-6 text-slate-600">{skills}</p>
+						<div class="border-t border-line pt-4">
+							<h3 class="font-semibold text-text">{label}</h3>
+							<p class="mt-1 text-small">{skills}</p>
 						</div>
 					))}
 				</div>
-			</section>
+			</CvSection>
 
-			<section aria-labelledby="education-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Formazione</p>
-				<h2 id="education-title" class="text-2xl font-extrabold">Certificazioni e istruzione</h2>
-				<ul class="mt-6 space-y-5 text-sm leading-6 text-slate-600">
-					<li><strong class="text-[#17252b]">Digital Marketing Certified</strong><br />HubSpot Academy · settembre 2026, valida fino a ottobre 2028</li>
-					<li><strong class="text-[#17252b]">Active Directory & Group Policy Lab</strong><br />Udemy, 7 ore · completato agosto 2026</li>
-					<li><strong class="text-[#17252b]">Cisco Networking Academy</strong><br />Networking Basics · Network Devices and Initial Configuration · Network Support and Security · Introduction to Cybersecurity</li>
-					<li><strong class="text-[#17252b]">Tecnico di reti IT</strong><br />Talentform, patrocinato da Forma.Temp</li>
-					<li><strong class="text-[#17252b]">Laurea in Lingue e Letterature Straniere</strong><br />Università di Pisa · 2019</li>
-					<li><strong class="text-[#17252b]">Diploma di Perito in Informatica e Telecomunicazioni</strong><br />ITIS G. Marconi · 2014</li>
+			<CvSection id="education-title" kicker="Formazione" title="Certificazioni e istruzione" size="md">
+				<ul class="mt-6 list-none space-y-5 p-0 text-small [&_strong]:font-semibold [&_strong]:text-text">
+					<li><strong>Digital Marketing Certified</strong><br />HubSpot Academy · settembre 2026, valida fino a ottobre 2028</li>
+					<li><strong>Active Directory & Group Policy Lab</strong><br />Udemy, 7 ore · completato agosto 2026</li>
+					<li><strong>Cisco Networking Academy</strong><br />Networking Basics · Network Devices and Initial Configuration · Network Support and Security · Introduction to Cybersecurity</li>
+					<li><strong>Tecnico di reti IT</strong><br />Talentform, patrocinato da Forma.Temp</li>
+					<li><strong>Laurea in Lingue e Letterature Straniere</strong><br />Università di Pisa · 2019</li>
+					<li><strong>Diploma di Perito in Informatica e Telecomunicazioni</strong><br />ITIS G. Marconi · 2014</li>
 				</ul>
-			</section>
+			</CvSection>
 
-			<section aria-labelledby="languages-title">
-				<p class="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-indigo-600">Lingue</p>
-				<h2 id="languages-title" class="text-2xl font-extrabold">Comunicazione internazionale</h2>
-				<p class="mt-4 leading-7 text-slate-600">Italiano madrelingua · Inglese C1 · Russo C1 · Spagnolo B2 · Tedesco B1 · Polacco B1</p>
-			</section>
+			<CvSection id="languages-title" kicker="Lingue" title="Comunicazione internazionale" size="md">
+				<p class="mt-4 text-card-body">Italiano madrelingua · Inglese C1 · Russo C1 · Spagnolo B2 · Tedesco B1 · Polacco B1</p>
+			</CvSection>
 		</aside>
 	</div>
 </main>
-
-<style>
-	@media print {
-		:global(header),
-		:global(footer) {
-			display: none;
-		}
-
-		main {
-			background: white;
-		}
-	}
-</style>

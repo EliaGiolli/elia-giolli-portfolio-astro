@@ -1,26 +1,31 @@
 import { expect, test } from "./fixtures";
 
-const HEADLINE = "Da front-end developer a Technical SEO & Analytics specialist";
+test.describe("homepage index", () => {
+	test.use({ viewport: { width: 1440, height: 900 } });
 
-test.describe("main navigation", () => {
-	test("scrolls to each homepage section from the navbar", async ({ page }) => {
+	test("jumps to each section and marks its entry as current", async ({ page }) => {
 		await page.goto("/");
-		const nav = page.getByRole("navigation", { name: "Navigazione principale" });
+		const index = page.getByRole("navigation", { name: "Indice" });
 
 		for (const [label, id] of [
-			["Su di me", "about"],
-			["Certificazioni", "certificates"],
-			["Case studies", "case-studies"],
+			["Case study", "case-studies"],
+			["Competenze", "skills"],
 			["Contatti", "contact"],
+			["Chi sono", "about"],
 		]) {
-			await nav.getByRole("link", { name: label, exact: true }).click();
+			const entry = index.getByRole("link", { name: label });
+			await entry.click();
 			await expect(page).toHaveURL(new RegExp(`#${id}$`));
 			await expect(page.locator(`#${id}`)).toBeInViewport();
+			await expect(entry).toHaveAttribute("aria-current", "true");
+			await expect(index.locator('[aria-current="true"]')).toHaveCount(1);
 		}
 	});
+});
 
+test.describe("main navigation", () => {
 	test("opens the blog and marks it as the current page", async ({ page }) => {
-		await page.goto("/");
+		await page.goto("/privacy/");
 		const nav = page.getByRole("navigation", { name: "Navigazione principale" });
 
 		await nav.getByRole("link", { name: "Blog", exact: true }).click();
@@ -32,9 +37,9 @@ test.describe("main navigation", () => {
 	test("reaches a homepage section from another page", async ({ page }) => {
 		await page.goto("/blog/");
 
-		await page.getByRole("navigation", { name: "Navigazione principale" }).getByRole("link", { name: "Su di me" }).click();
+		await page.getByRole("navigation", { name: "Navigazione principale" }).getByRole("link", { name: "Chi sono" }).click();
 		await expect(page).toHaveURL(/\/#about$/);
-		await expect(page.getByRole("heading", { name: "Su di me", level: 2 })).toBeVisible();
+		await expect(page.locator("#about")).toBeInViewport();
 	});
 
 	test("returns home from the logo", async ({ page }) => {
@@ -42,7 +47,7 @@ test.describe("main navigation", () => {
 
 		await page.getByRole("link", { name: "Elia Giolli, homepage" }).click();
 		await expect(page).toHaveURL(/\/$/);
-		await expect(page.getByRole("heading", { level: 1 })).toHaveText(HEADLINE);
+		await expect(page.getByRole("heading", { level: 1 })).toHaveText("Elia Giolli");
 	});
 });
 
@@ -50,7 +55,7 @@ test.describe("mobile menu", () => {
 	test.use({ viewport: { width: 390, height: 844 } });
 
 	test("opens, navigates and closes", async ({ page }) => {
-		await page.goto("/");
+		await page.goto("/blog/");
 		const toggle = page.getByRole("button", { name: "Apri il menu di navigazione" });
 		const menu = page.getByRole("navigation", { name: "Navigazione mobile" });
 
@@ -59,14 +64,13 @@ test.describe("mobile menu", () => {
 		await expect(toggle).toHaveAttribute("aria-expanded", "true");
 		await expect(menu).toBeVisible();
 
-		await menu.getByRole("link", { name: "Case studies" }).click();
-		await expect(page).toHaveURL(/#case-studies$/);
+		await menu.getByRole("link", { name: "Case study" }).click();
+		await expect(page).toHaveURL(/\/case-studies\/$/);
 		await expect(menu).toBeHidden();
-		await expect(toggle).toHaveAttribute("aria-expanded", "false");
 	});
 
 	test("closes with the Escape key", async ({ page }) => {
-		await page.goto("/");
+		await page.goto("/blog/");
 		await page.getByRole("button", { name: "Apri il menu di navigazione" }).click();
 		const menu = page.getByRole("navigation", { name: "Navigazione mobile" });
 		await expect(menu).toBeVisible();

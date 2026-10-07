@@ -1,0 +1,27 @@
+---
+import { externalLinkAttributes, isExternalUrl } from "../../helpers/links";
+import { NEW_TAB_HINT, SOCIAL_LINKS } from "../utils/constants";
+
+// Text links, not logos: "LinkedIn ↗", "GitHub ↗", "Email", "RSS".
+interface Props {
+	label?: string;
+	class?: string;
+}
+
+const { label = "Profili e contatti", class: extraClass } = Astro.props;
+---
+
+<ul class:list={["flex list-none flex-wrap gap-x-6 gap-y-2 p-0 text-[15px] font-medium", extraClass]} aria-label={label}>
+	{SOCIAL_LINKS.map((link) => {
+		const external = isExternalUrl(link.href);
+		return (
+			<li>
+				<a href={link.href} class="inline-flex min-h-11 items-center gap-1 text-text transition-colors duration-200 hover:text-accent" {...externalLinkAttributes(link.href)}>
+					{link.label}
+					{external && <span aria-hidden="true">↗</span>}
+					{external && <span class="sr-only">{NEW_TAB_HINT}</span>}
+				</a>
+			</li>
+		);
+	})}
+</ul>

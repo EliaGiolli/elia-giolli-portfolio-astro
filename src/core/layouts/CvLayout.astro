@@ -1,38 +1,38 @@
 ---
 import BaseHead, { type SeoProps } from "../../shared/components/BaseHead.astro";
+import BrandLink from "../../shared/components/BrandLink.astro";
 import CookieConsent from "../../shared/components/CookieConsent.astro";
+import PageContainer from "../../shared/components/PageContainer.astro";
 import SkipLink from "../../shared/components/SkipLink.astro";
-import { LOGO_ALT_TEXT } from "../../shared/utils/constants";
 import "../../styles/global.css";
 
 type Props = SeoProps;
 ---
 
-<html lang="it" class="bg-[#f6f4ee] text-[#17252b]">
+<html lang="it" class="scroll-smooth bg-bg motion-reduce:scroll-auto">
 	<head>
 		<BaseHead {...Astro.props} />
 	</head>
-	<body class="min-h-screen bg-[#f6f4ee] text-[#17252b]">
+	<body class="min-h-screen bg-bg text-text-body">
 		<SkipLink />
-		<header class="border-b border-[#31454c] bg-[#17252b] text-white">
-			<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-4 lg:px-8">
-				<a href="/" aria-label="Torna alla home" class="flex items-center gap-3 rounded-full px-2 py-1.5 text-white transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]">
-					<div class="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/5 shadow-sm shadow-black/20">
-						<img src="/logo.svg" width="44" height="44" alt={LOGO_ALT_TEXT} class="h-full w-full object-contain" />
-					</div>
-					<div class="hidden sm:block">
-						<div class="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-300">Portfolio</div>
-						<div class="text-base font-bold text-white">Elia Giolli</div>
-					</div>
-				</a>
-
-				<a href="/" class="inline-flex items-center rounded-full bg-[#f2b84b] px-4 py-2 text-sm font-semibold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b] focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]">
-					Torna alla home
-				</a>
-			</div>
+		<header class="border-b border-line/60 print:hidden">
+			<PageContainer class="flex min-h-18 flex-wrap items-center justify-between gap-x-6 gap-y-2">
+				<BrandLink label="Elia Giolli, torna alla home" />
+				<button
+					type="button"
+					class="inline-flex min-h-11 cursor-pointer items-center gap-2 font-semibold text-text transition-colors duration-200 hover:text-accent"
+					x-data
+					x-on:click="window.print()"
+				>
+					Stampa o salva in PDF
+				</button>
+			</PageContainer>
 		</header>
 
 		<slot />
 		<CookieConsent />
+		<script>
+			import "../../shared/lib/alpine";
+		</script>
 	</body>
 </html>

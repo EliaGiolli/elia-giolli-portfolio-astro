@@ -11,10 +11,10 @@ interface Props {
 const { href, variant = "desktop", ...attributes } = Astro.props;
 
 const variants = {
-	desktop: "rounded-full px-3.5 py-2 text-sm font-semibold text-slate-700 hover:bg-indigo-100 hover:text-indigo-700",
-	cta: "rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-indigo-200 hover:bg-indigo-700",
-	mobile: "block rounded-2xl px-4 py-3 font-semibold text-slate-800 hover:bg-indigo-100 hover:text-indigo-700",
-	"mobile-cta": "mt-1 block rounded-2xl bg-indigo-600 px-4 py-3 font-semibold text-white shadow-sm shadow-indigo-200 hover:bg-indigo-700",
+	desktop: "inline-flex min-h-11 items-center px-3 text-small font-medium text-text-body hover:text-text aria-[current=page]:text-text",
+	cta: "ml-2 inline-flex min-h-11 items-center rounded-pill border border-toc-line px-5 text-small font-semibold text-text hover:border-accent hover:text-accent",
+	mobile: "flex min-h-11 items-center rounded-tile px-4 font-medium text-text-body hover:bg-surface hover:text-text aria-[current=page]:text-text",
+	"mobile-cta": "mt-2 flex min-h-11 items-center rounded-pill border border-toc-line px-4 font-semibold text-text hover:border-accent hover:text-accent",
 };
 
 const isCurrent = isCurrentPath(href, Astro.url.pathname);
@@ -23,12 +23,9 @@ const isCurrent = isCurrentPath(href, Astro.url.pathname);
 <a
 	href={href}
 	aria-current={isCurrent ? "page" : undefined}
-	class={cn(
-		"no-underline transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
-		variants[variant],
-		isCurrent && variant === "desktop" && "bg-indigo-100 text-indigo-700",
-	)}
+	class={cn("transition-colors duration-200", variants[variant])}
 	{...attributes}
 >
 	<slot />
+	{isCurrent && (variant === "desktop" || variant === "mobile") && <span class="ml-2 inline-block h-px w-4 bg-accent" aria-hidden="true"></span>}
 </a>

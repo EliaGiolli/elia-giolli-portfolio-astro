@@ -6,6 +6,10 @@ tags: ["Technical SEO", "Core Web Vitals", "Schema.org", "Accessibilità", "GA4"
 challenge: "Il portfolio era corretto per un utente umano, ma quasi invisibile per un motore di ricerca: stesso title e stessa description su ogni pagina, nessuna sitemap, nessun canonical, due H1 nella home e nessun dato strutturato."
 approach: "Ho trattato il sito come quello di un cliente: inventario delle pagine, controllo di head, gerarchia dei titoli e landmark, poi interventi a livello di layout, così che ogni pagina nuova erediti la SEO senza doverci ripensare."
 result: "Ogni pagina ha ora title, description e canonical propri, Open Graph, sitemap, robots.txt, feed RSS e JSON-LD. La misurazione parte con Search Console e GA4 (solo dopo consenso) per confrontare i dati prima e dopo."
+metrics:
+  - label: "Impressioni"
+  - label: "Pagine indicizzate"
+  - label: "LCP mobile"
 githubUrl: "https://github.com/EliaGiolli/elia-giolli-portfolio-astro"
 ---
 

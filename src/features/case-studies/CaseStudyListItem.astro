@@ -1,0 +1,32 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatShortDate, toIsoDate } from "../../helpers";
+import ListCard from "../../shared/ui/ListCard.astro";
+import MetricList from "../../shared/ui/MetricList.astro";
+import MetricTile from "../../shared/ui/MetricTile.astro";
+
+// A case study in a list (homepage, /case-studies/): date, title, description, metrics, tags.
+interface Props {
+	caseStudy: CollectionEntry<"caseStudies">;
+	headingLevel?: "h2" | "h3";
+}
+
+const { caseStudy, headingLevel = "h3" } = Astro.props;
+const { id, data } = caseStudy;
+---
+
+<ListCard
+	meta={formatShortDate(data.pubDate)}
+	datetime={toIsoDate(data.pubDate)}
+	title={data.draft ? `${data.title} (bozza)` : data.title}
+	href={`/case-studies/${id}/`}
+	description={data.description}
+	tags={data.tags}
+	headingLevel={headingLevel}
+>
+	{data.metrics.length > 0 && (
+		<MetricList label={`Metriche di ${data.title}`}>
+			{data.metrics.map((metric) => <MetricTile label={metric.label} value={metric.value} />)}
+		</MetricList>
+	)}
+</ListCard>

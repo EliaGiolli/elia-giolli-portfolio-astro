@@ -1,0 +1,42 @@
+---
+import { buildIndexItems } from "../../helpers";
+import BaseHead, { type SeoProps } from "../../shared/components/BaseHead.astro";
+import CookieConsent from "../../shared/components/CookieConsent.astro";
+import Footer from "../../shared/components/Footer.astro";
+import ProfileColumn from "../../shared/components/ProfileColumn.astro";
+import SkipLink from "../../shared/components/SkipLink.astro";
+import SmoothScroll from "../../shared/components/SmoothScroll.astro";
+import { AUTHOR_NAME, HOME_INTRO, HOME_SECTIONS, JOB_TITLE } from "../../shared/utils/constants";
+import "../../styles/global.css";
+
+// The homepage is an index: a fixed left column (name, role, summary) and the sections scrolling
+// on the right. Below 1024px the left column becomes the page header and the index hides.
+type Props = SeoProps;
+
+const indexItems = buildIndexItems(HOME_SECTIONS);
+const sectionIds = JSON.stringify(indexItems.map((item) => item.id));
+---
+
+<html lang="it" class="scroll-pt-6 scroll-smooth bg-bg motion-reduce:scroll-auto">
+	<head>
+		<BaseHead {...Astro.props} />
+		<slot name="head" />
+	</head>
+	<body class="min-h-screen bg-bg text-text-body">
+		<SkipLink />
+		<SmoothScroll />
+		<div class="mx-auto flex max-w-page flex-wrap gap-x-16 px-6 lg:flex-nowrap lg:px-12" x-data={`sectionIndex(${sectionIds})`}>
+			<ProfileColumn name={AUTHOR_NAME} role={JOB_TITLE} intro={HOME_INTRO} items={indexItems} />
+			<div class="min-w-0 flex-[1_1_var(--container-column-right)] pt-12 pb-24 lg:py-24">
+				<main id="main-content" tabindex="-1" class="focus:outline-none">
+					<slot />
+				</main>
+				<Footer class="mt-24 lg:mt-30" />
+			</div>
+		</div>
+		<CookieConsent />
+		<script>
+			import "../../shared/lib/alpine";
+		</script>
+	</body>
+</html>

@@ -1,0 +1,17 @@
+---
+import { formatIndexNumber, joinInline } from "../../helpers";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import ListCard from "../../shared/ui/ListCard.astro";
+import ListCardList from "../../shared/ui/ListCardList.astro";
+import HomeSection from "../home/HomeSection.astro";
+import { skillGroups } from "./skills";
+---
+
+<HomeSection id="skills" label="Competenze">
+	<ListCardList as="ul">
+		{skillGroups.map((group, index) => (
+			<ListCard meta={formatIndexNumber(index + 1)} title={group.title} description={joinInline(group.items)} />
+		))}
+	</ListCardList>
+	<ArrowLink label="Curriculum completo" href="/cv/" detail />
+</HomeSection>

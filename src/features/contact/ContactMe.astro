@@ -1,6 +1,10 @@
 ---
-import Input from "../../shared/forms/Input.astro";
 import Form from "../../shared/forms/Form.astro";
+import Input from "../../shared/forms/Input.astro";
+import Textarea from "../../shared/forms/Textarea.astro";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import { CONTACT_EMAIL } from "../../shared/utils/constants";
+import HomeSection from "../home/HomeSection.astro";
 
 const emailJs = {
 	serviceId: import.meta.env.PUBLIC_EMAILJS_SERVICE_ID ?? "",
@@ -9,56 +13,33 @@ const emailJs = {
 };
 ---
 
-<section id="contact" class="bg-[#17252b] text-white" aria-labelledby="contact-title">
-	<div class="mx-auto grid max-w-6xl gap-10 px-6 py-20 lg:grid-cols-[0.8fr_1.2fr] lg:items-start lg:px-8 lg:py-24">
-		<div class="max-w-xl lg:sticky lg:top-28">
-			<p class="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-[#f2b84b]">Parliamone</p>
-			<h2 id="contact-title" class="text-3xl font-extrabold tracking-tight sm:text-4xl">Il tuo sito si fa trovare?</h2>
-			<p class="mt-5 text-lg leading-8 text-slate-300">Cerco opportunità come SEO specialist junior, Technical SEO e web analyst, in Italia o in contesti internazionali. Scrivimi anche solo per confrontarci.</p>
-			<div class="mt-8 border-t border-white/15 pt-5 text-sm leading-6 text-slate-300">
-				<p>Preferisci scrivere direttamente?</p>
-				<a href="mailto:eliagiolli22@gmail.com" class="mt-1 inline-flex font-bold text-[#f2b84b] underline-offset-4 hover:text-[#ffd477] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]">eliagiolli22@gmail.com</a>
-			</div>
-		</div>
-
-		<div class="rounded-2xl bg-white p-6 text-[#17252b] shadow-[10px_10px_0_#f2b84b] sm:p-10">
-			<div class="mb-8">
-				<p class="text-sm font-bold uppercase tracking-[0.16em] text-indigo-600">Contatto diretto</p>
-				<h3 class="mt-2 text-2xl font-extrabold">Raccontami il tuo progetto.</h3>
-			</div>
-			<Form
-				id="contact-form"
-				serviceId={emailJs.serviceId}
-				templateId={emailJs.templateId}
-				publicKey={emailJs.publicKey}
-				class="grid gap-5"
-			>
-				<div class="grid gap-5 sm:grid-cols-2">
-					<Input name="from_name" label="Nome" placeholder="Il tuo nome" autocomplete="name" required>
-						<span slot="icon">•</span>
-					</Input>
-					<Input name="reply_to" label="Email" type="email" placeholder="nome@azienda.it" autocomplete="email" required>
-						<span slot="icon">@</span>
-					</Input>
-				</div>
-				<Input name="subject" label="Oggetto" placeholder="Opportunità di lavoro, audit SEO, collaborazione..." required>
-					<span slot="icon">#</span>
-				</Input>
-				<div class="grid gap-2">
-					<label for="contact-message" class="text-sm font-bold">Messaggio<span class="ml-1 text-indigo-600" aria-hidden="true">*</span><span class="sr-only"> obbligatorio</span></label>
-					<textarea id="contact-message" name="message" rows="6" placeholder="Descrivi brevemente il contesto..." required class="w-full resize-y rounded-lg border border-[#d9d6cb] bg-[#f6f4ee] px-3 py-3 text-[#17252b] outline-none transition-colors placeholder:text-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-600/20"></textarea>
-				</div>
-				<div class="flex flex-wrap items-center gap-4">
-					<button type="submit" class="inline-flex items-center gap-2 rounded-lg bg-[#f2b84b] px-5 py-3 font-bold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 focus-visible:ring-offset-2">
-						<span aria-hidden="true">↗</span>
-						<span data-submit-label>Invia messaggio</span>
-					</button>
-					<p id="contact-status" class="text-sm text-slate-600" role="status" aria-live="polite"></p>
-				</div>
-			</Form>
-		</div>
+<HomeSection id="contact" label="Contatti">
+	<div class="text-lead">
+		<p>
+			Cerco opportunità come <strong class="font-medium text-text">SEO specialist junior</strong>, <strong class="font-medium text-text">Technical SEO</strong> e <strong class="font-medium text-text">web analyst</strong>, in Italia o in contesti internazionali. Scrivimi anche solo per confrontarci.
+		</p>
+		<ArrowLink label={CONTACT_EMAIL} href={`mailto:${CONTACT_EMAIL}`} />
 	</div>
-</section>
+
+	<Form id="contact-form" serviceId={emailJs.serviceId} templateId={emailJs.templateId} publicKey={emailJs.publicKey} class="mt-8 grid gap-5">
+		<div class="grid gap-5 sm:grid-cols-2">
+			<Input name="from_name" label="Nome" placeholder="Il tuo nome" autocomplete="name" required />
+			<Input name="reply_to" label="Email" type="email" placeholder="nome@azienda.it" autocomplete="email" required />
+		</div>
+		<Input name="subject" label="Oggetto" placeholder="Opportunità di lavoro, audit SEO, collaborazione..." required />
+		<Textarea name="message" label="Messaggio" placeholder="Descrivi brevemente il contesto..." required />
+		<div class="flex flex-wrap items-center gap-4">
+			<button
+				type="submit"
+				class="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-pill bg-accent px-6 font-semibold text-bg transition-colors duration-200 hover:bg-text disabled:cursor-wait disabled:opacity-70"
+			>
+				<span data-submit-label>Invia messaggio</span>
+				<span aria-hidden="true">→</span>
+			</button>
+			<p id="contact-status" class="text-small text-text-muted" role="status" aria-live="polite"></p>
+		</div>
+	</Form>
+</HomeSection>
 
 <script>
 	import emailjs from "@emailjs/browser";
@@ -72,6 +53,7 @@ const emailJs = {
 			const publicKey = form.dataset.publicKey;
 			const status = document.querySelector<HTMLElement>("#contact-status");
 			const submitLabel = form.querySelector<HTMLElement>("[data-submit-label]");
+			const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
 
 			if (!serviceId || !templateId || !publicKey) {
 				if (status) status.textContent = "Si aprirà il tuo client email per completare l'invio.";
@@ -79,8 +61,12 @@ const emailJs = {
 			}
 
 			event.preventDefault();
+			// With EmailJS on, native validation is off (novalidate): check the fields before sending.
+			if (!form.reportValidity()) return;
+
 			if (status) status.textContent = "Invio in corso...";
 			if (submitLabel) submitLabel.textContent = "Invio...";
+			if (submitButton) submitButton.disabled = true;
 
 			try {
 				await emailjs.sendForm(serviceId, templateId, form, { publicKey });
@@ -90,6 +76,7 @@ const emailJs = {
 				if (status) status.textContent = "Invio non riuscito. Puoi scrivermi direttamente via email.";
 			} finally {
 				if (submitLabel) submitLabel.textContent = "Invia messaggio";
+				if (submitButton) submitButton.disabled = false;
 			}
 		});
 	});

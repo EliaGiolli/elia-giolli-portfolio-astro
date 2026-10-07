@@ -76,8 +76,9 @@ describe.each([
 	});
 
 	it("matches the visible breadcrumbs", () => {
+		// The crumb name lives in the link (or in the current page span); the separator is decorative.
 		const visible = [...loadPage(route).document.querySelectorAll('nav[aria-label="Percorso"] li')].map((li) =>
-			li.textContent?.replace("›", "").trim(),
+			li.querySelector("a, [aria-current]")?.textContent?.trim(),
 		);
 
 		expect(visible).toEqual(names);

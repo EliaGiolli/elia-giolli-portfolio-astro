@@ -45,38 +45,29 @@ test.describe("blog", () => {
 });
 
 test.describe("case studies", () => {
-	test("opens the audit from its whole card", async ({ page }) => {
+	test("opens the audit from its title", async ({ page }) => {
 		await page.goto("/case-studies/");
 
 		await page.getByRole("link", { name: "Audit SEO tecnico del mio portfolio" }).click();
 		await expect(page).toHaveURL(/\/case-studies\/audit-seo-tecnico-portfolio\/$/);
-		await expect(page.getByRole("heading", { name: "01 / Sfida" })).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Sfida" })).toBeVisible();
 		await expect(page.getByRole("heading", { name: "Il case study completo" })).toBeVisible();
 	});
 });
 
 test.describe("certificates", () => {
-	test("switches certificate with clicks and arrow keys", async ({ page }) => {
+	test("lists every certificate, HubSpot first, with a link to its proof", async ({ page }) => {
 		await page.goto("/#certificates");
-		const tabs = page.getByRole("tablist", { name: "Seleziona una certificazione" });
-		const hubspot = tabs.getByRole("tab", { name: "Digital Marketing" });
-		const cisco = tabs.getByRole("tab", { name: "Network Support and Security" });
+		const titles = page.locator("#certificates h3");
 
-		await expect(hubspot).toHaveAttribute("aria-selected", "true");
-		await expect(page.getByRole("tabpanel", { name: "Digital Marketing" })).toBeVisible();
+		await expect(titles).toHaveCount(4);
+		await expect(titles.first()).toContainText("Digital Marketing");
 
-		await cisco.click();
-		await expect(cisco).toHaveAttribute("aria-selected", "true");
-		await expect(page.getByRole("tabpanel", { name: "Network Support and Security" })).toBeVisible();
-		await expect(page.getByRole("tabpanel", { name: "Digital Marketing" })).toBeHidden();
-
-		await page.keyboard.press("ArrowLeft");
-		await expect(hubspot).toBeFocused();
-		await expect(hubspot).toHaveAttribute("aria-selected", "true");
-
-		// Wraps around from the first tab to the last.
-		await page.keyboard.press("ArrowLeft");
-		await expect(tabs.getByRole("tab", { name: "Introduction to Cybersecurity" })).toBeFocused();
+		const proof = page.getByRole("link", { name: /^Network Support and Security/ });
+		const href = await proof.getAttribute("href");
+		const response = await page.request.get(href ?? "");
+		expect(response.ok()).toBe(true);
+		expect(response.headers()["content-type"]).toContain("image/webp");
 	});
 });
 

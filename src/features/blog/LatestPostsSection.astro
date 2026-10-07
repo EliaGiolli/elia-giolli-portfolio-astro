@@ -1,31 +1,26 @@
 ---
 import { getCollection } from "astro:content";
 import { publishedEntries } from "../../helpers";
-import SectionHeading from "../../shared/components/SectionHeading.astro";
-import PostCard from "./PostCard.astro";
+import ArrowLink from "../../shared/ui/ArrowLink.astro";
+import EmptyState from "../../shared/ui/EmptyState.astro";
+import ListCardList from "../../shared/ui/ListCardList.astro";
+import HomeSection from "../home/HomeSection.astro";
+import PostListItem from "./PostListItem.astro";
 
-const posts = publishedEntries(await getCollection("blog"), import.meta.env.DEV).slice(0, 3);
+// The homepage blog is a preview: each article has its own page.
+const LATEST_POSTS = 3;
+const posts = publishedEntries(await getCollection("blog"), import.meta.env.DEV).slice(0, LATEST_POSTS);
 ---
 
-{posts.length > 0 && (
-	<section id="blog" class="border-b border-[#d9d6cb] bg-[#f6f4ee]" aria-labelledby="latest-posts-title">
-		<div class="mx-auto max-w-6xl px-6 py-20 lg:px-8 lg:py-24">
-			<div class="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-				<SectionHeading
-					id="latest-posts-title"
-					kicker="Dal blog"
-					title="Ultimi articoli"
-					intro="Quello che studio e sperimento su SEO tecnica e analytics, spiegato con l'occhio di uno sviluppatore."
-				/>
-				<a href="/blog/" class="font-bold text-indigo-600 underline-offset-4 hover:text-violet-600 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-					Tutti gli articoli <span aria-hidden="true">→</span>
-				</a>
-			</div>
-			<ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{posts.map((post) => (
-					<li><PostCard post={post} headingLevel="h3" /></li>
-				))}
-			</ul>
-		</div>
-	</section>
-)}
+<HomeSection id="blog" label="Blog">
+	{posts.length > 0 ? (
+		<>
+			<ListCardList>
+				{posts.map((post) => <PostListItem post={post} />)}
+			</ListCardList>
+			<ArrowLink label="Tutti gli articoli" href="/blog/" />
+		</>
+	) : (
+		<EmptyState message="Il primo articolo è in arrivo." />
+	)}
+</HomeSection>

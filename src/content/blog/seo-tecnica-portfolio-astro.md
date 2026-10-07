@@ -76,7 +76,7 @@ Lo schema viene costruito dai dati dell'articolo, non scritto a mano: se cambio 
 ## 6. HTML semantico e Core Web Vitals
 
 - **Un solo `h1` per pagina.** Nella navbar c'era un secondo `h1` nascosto, invisibile per l'utente ma non per un crawler.
-- **Font senza blocchi.** Noto Sans era caricato con un `@import` dentro il CSS: il browser doveva scaricare il CSS, leggerlo e solo dopo chiedere il font. Ora usa `<link>` con `preconnect`, e le due richieste partono in parallelo. Meno attesa per il primo contenuto visibile (LCP).
+- **Font senza blocchi.** Il font del sito era caricato con un `@import` dentro il CSS: il browser doveva scaricare il CSS, leggerlo e solo dopo chiedere il font. Ora i font (Figtree e DM Mono, dopo il restyling) arrivano con `<link>` e `preconnect`, e le richieste partono in parallelo. Meno attesa per il primo contenuto visibile (LCP).
 - **Immagini ottimizzate.** Astro converte le immagini in WebP e scrive larghezza e altezza nell'HTML, così la pagina non "salta" mentre si caricano (CLS). Le immagini dei certificati sono passate da circa 300-340 kB a poche decine di kB ciascuna.
 
 ## 7. GA4 senza cookie prima del consenso

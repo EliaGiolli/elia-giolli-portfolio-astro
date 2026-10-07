@@ -1,0 +1,27 @@
+---
+import { externalLinkAttributes, linkArrow } from "../../helpers/links";
+import { cn } from "../lib/cn";
+import { NEW_TAB_HINT } from "../utils/constants";
+
+// The action link at the end of a section ("Tutti gli articoli →"): the site has no filled buttons.
+interface Props {
+	label: string;
+	href: string;
+	detail?: boolean;
+	class?: string;
+}
+
+const { label, href, detail = false, class: extraClass } = Astro.props;
+const arrow = linkArrow(href, { detail });
+const externalAttributes = externalLinkAttributes(href);
+---
+
+<a
+	href={href}
+	class={cn("mt-4 inline-flex min-h-11 items-center gap-2 font-semibold text-text transition-colors duration-200 hover:text-accent", extraClass)}
+	{...externalAttributes}
+>
+	{label}
+	{arrow && <span aria-hidden="true">{arrow}</span>}
+	{externalAttributes.target && <span class="sr-only">{NEW_TAB_HINT}</span>}
+</a>

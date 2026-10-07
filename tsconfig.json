@@ -5,7 +5,11 @@
     "**/*"
   ],
   "exclude": [
-    "dist"
+    "dist",
+    "UI-rebrand",
+    ".playwright-mcp",
+    "test-results",
+    "playwright-report"
   ],
   "compilerOptions": {
     "jsx": "preserve"

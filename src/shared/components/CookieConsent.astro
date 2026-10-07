@@ -12,25 +12,26 @@ import { ANALYTICS_ID as measurementId } from "../utils/analytics";
 		aria-modal="false"
 		aria-labelledby="cookie-consent-title"
 		aria-describedby="cookie-consent-text"
-		class="fixed inset-x-4 bottom-4 z-60 mx-auto max-w-2xl rounded-2xl border border-white/10 bg-[#17252b] p-5 text-white shadow-[8px_8px_0_#f2b84b] sm:p-6"
+		class="fixed inset-x-4 bottom-4 z-60 print:hidden mx-auto max-w-2xl rounded-card bg-surface p-5 text-text-body shadow-card ring-1 ring-line sm:p-6"
 	>
-		<h2 id="cookie-consent-title" class="text-lg font-extrabold">Statistiche anonime, solo se vuoi</h2>
-		<p id="cookie-consent-text" class="mt-2 text-sm leading-6 text-slate-300">
+		<h2 id="cookie-consent-title" class="text-card-title text-text">Statistiche anonime, solo se vuoi</h2>
+		<p id="cookie-consent-text" class="mt-2 text-small">
 			Uso Google Analytics 4 per capire quali contenuti sono utili. Nessun cookie viene installato finché non accetti.{" "}
-			<a href="/privacy" class="font-bold text-[#f2b84b] underline underline-offset-4 hover:text-[#ffd477]">Privacy e cookie</a>
+			<a href="/privacy" class="font-semibold text-accent underline underline-offset-4 hover:text-text">Privacy e cookie</a>
 		</p>
+		{/* Same weight for both choices: refusing must be as easy as accepting. */}
 		<div class="mt-4 flex flex-wrap gap-3">
 			<button
 				type="button"
 				x-on:click="choose('granted')"
-				class="rounded-lg bg-[#f2b84b] px-4 py-2 text-sm font-bold text-[#17252b] transition-colors hover:bg-[#ffd477] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+				class="min-h-11 cursor-pointer rounded-pill border border-toc-line px-5 text-small font-semibold text-text transition-colors duration-200 hover:border-accent hover:text-accent"
 			>
 				Accetta
 			</button>
 			<button
 				type="button"
 				x-on:click="choose('denied')"
-				class="rounded-lg border border-white/25 px-4 py-2 text-sm font-bold text-white transition-colors hover:border-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#17252b]"
+				class="min-h-11 cursor-pointer rounded-pill border border-toc-line px-5 text-small font-semibold text-text transition-colors duration-200 hover:border-accent hover:text-accent"
 			>
 				Rifiuta
 			</button>
