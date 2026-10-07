@@ -1,10 +1,15 @@
 // @ts-expect-error Alpine is used at runtime and its package has no declarations.
 import Alpine from "alpinejs";
+// @ts-expect-error The plugin ships without type declarations, like Alpine itself.
+import intersect from "@alpinejs/intersect";
 
 import { loadGoogleAnalytics, readConsent, saveConsent, type ConsentChoice } from "../../helpers/analyticsConsent";
 import { CONSENT_STORAGE_KEY } from "../utils/constants";
 
 // Every component imports this module; the bundler evaluates it once, so Alpine starts once.
+// x-intersect drives the active entry of the homepage index.
+Alpine.plugin(intersect);
+
 Alpine.data("cookieConsent", (measurementId: string) => ({
 	visible: false,
 

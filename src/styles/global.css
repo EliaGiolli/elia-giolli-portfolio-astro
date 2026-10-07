@@ -1,14 +1,81 @@
 @import "tailwindcss";
 
-/* Noto Sans is loaded with <link> + preconnect in BaseHead.astro: an @import here would
+/* Design system tokens (source: UI-rebrand/design-system/tailwind-theme.css).
+   They generate utilities such as bg-bg, bg-surface, text-text-body, text-accent,
+   rounded-card, shadow-card, font-mono, text-name, max-w-page, basis-column-left. */
+@theme {
+	--color-bg: #0b1324;
+	--color-surface: #131d36;
+	--color-surface-2: #1a2a52;
+	--color-line: #2b3a61;
+	--color-toc-line: #4a5778;
+	--color-text: #e6eaf5;
+	--color-text-body: #97a3c2;
+	--color-text-muted: #7a87a8;
+	--color-accent: #86a8ff;
+	--color-accent-strong: #4b56d2;
+	--color-paper: #eef1f8;
+	--color-ink: #0b1324;
+
+	--font-sans: "Figtree", system-ui, sans-serif;
+	--font-mono: "DM Mono", ui-monospace, monospace;
+
+	/* Type scale. The design system "body" style is exposed as text-lead,
+	   so it does not read like the text-body colour. */
+	--text-name: 50px;
+	--text-name--line-height: 1.05;
+	--text-name--letter-spacing: -0.03em;
+	--text-name--font-weight: 700;
+	--text-role: 20px;
+	--text-role--line-height: 1.4;
+	--text-role--font-weight: 600;
+	--text-card-title: 19px;
+	--text-card-title--line-height: 1.35;
+	--text-card-title--font-weight: 600;
+	--text-lead: 17px;
+	--text-lead--line-height: 1.7;
+	--text-card-body: 16px;
+	--text-card-body--line-height: 1.65;
+	--text-small: 14px;
+	--text-small--line-height: 1.6;
+	--text-chip: 13px;
+	--text-chip--line-height: 1.4;
+	--text-chip--font-weight: 500;
+	--text-toc: 12px;
+	--text-toc--line-height: 1.4;
+	--text-toc--letter-spacing: 0.15em;
+	--text-toc--font-weight: 700;
+	--text-meta: 12px;
+	--text-meta--line-height: 1.5;
+	--text-metric: 15px;
+	--text-metric--line-height: 1.4;
+	--text-metric--font-weight: 500;
+
+	--radius-logo: 12px;
+	--radius-tile: 14px;
+	--radius-card: 18px;
+	--radius-pill: 9999px;
+
+	--shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 24px 48px -28px rgba(0, 0, 0, 0.7);
+	--shadow-logo: 0 12px 30px -12px rgba(0, 0, 0, 0.7);
+
+	--breakpoint-lg: 1024px;
+	--container-page: 1200px;
+	--container-column-left: 420px;
+	--container-column-right: 560px;
+}
+
+/* Figtree and DM Mono are loaded with <link> + preconnect in BaseHead.astro: an @import here would
    chain the font request behind this stylesheet and delay the first render (LCP). */
 
 :root {
-	font-family: "Noto Sans", sans-serif;
-	color: #17252b;
-	background: #f6f4ee;
+	font-family: var(--font-sans);
+	color: var(--color-text-body);
+	background: var(--color-bg);
+	color-scheme: dark;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -20,6 +87,13 @@ html {
 	html {
 		scroll-behavior: auto;
 	}
+
+	*,
+	*::before,
+	*::after {
+		transition-duration: 0.01ms !important;
+		animation-duration: 0.01ms !important;
+	}
 }
 
 body {
@@ -27,8 +101,14 @@ body {
 }
 
 ::selection {
-	background: #f2b84b;
-	color: #17252b;
+	background: var(--color-accent);
+	color: var(--color-bg);
+}
+
+/* Focus is always visible: a 2px ring in the accent colour. */
+:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 3px;
 }
 
 .hero-primary {
@@ -57,7 +137,7 @@ body {
 
 /* Long-form Markdown: blog posts and case studies share the same reading style. */
 .prose-document {
-	color: #475569;
+	color: var(--color-text-body);
 	font-size: 1.0625rem;
 	line-height: 1.8;
 }
@@ -67,13 +147,13 @@ body {
 .prose-document h4 {
 	margin-top: 2.25rem;
 	margin-bottom: 0.75rem;
-	color: #17252b;
-	font-weight: 800;
-	line-height: 1.2;
+	color: var(--color-text);
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
 }
 
 .prose-document h2 {
-	border-top: 1px solid #d9d6cb;
 	padding-top: 1.5rem;
 	font-size: 1.75rem;
 }
@@ -116,34 +196,36 @@ body {
 }
 
 .prose-document strong {
-	color: #17252b;
+	color: var(--color-text);
 }
 
 .prose-document a {
-	color: #4f46e5;
-	font-weight: 700;
+	color: var(--color-accent);
+	font-weight: 600;
 	text-decoration: underline;
 	text-underline-offset: 0.2em;
 }
 
 .prose-document a:hover {
-	color: #7c3aed;
+	color: var(--color-text);
 }
 
 .prose-document code {
 	border-radius: 0.35rem;
-	background: #ebe9e1;
+	background: var(--color-surface-2);
 	padding: 0.15rem 0.35rem;
-	color: #17252b;
+	color: var(--color-text);
+	font-family: var(--font-mono);
 	font-size: 0.9em;
 }
 
 .prose-document pre {
 	overflow-x: auto;
-	border-radius: 0.75rem;
-	background: #17252b !important;
+	border-radius: var(--radius-tile);
+	background: var(--color-surface) !important;
+	box-shadow: var(--shadow-card);
 	padding: 1rem;
-	color: #e2e8f0;
+	color: var(--color-text);
 }
 
 .prose-document pre code {
@@ -153,16 +235,16 @@ body {
 }
 
 .prose-document blockquote {
-	border-left: 4px solid #f2b84b;
+	border-left: 3px solid var(--color-accent);
 	padding-left: 1rem;
-	font-weight: 600;
-	color: #334155;
+	font-weight: 500;
+	color: var(--color-text);
 }
 
 .prose-document hr {
 	margin: 2rem 0;
 	border: 0;
-	border-top: 1px solid #d9d6cb;
+	border-top: 1px solid var(--color-line);
 }
 
 .prose-document table {
@@ -175,23 +257,23 @@ body {
 
 .prose-document th,
 .prose-document td {
-	border: 1px solid #d9d6cb;
+	border: 1px solid var(--color-line);
 	padding: 0.65rem 0.75rem;
 	text-align: left;
 	vertical-align: top;
 }
 
 .prose-document th {
-	background: #ebe9e1;
-	color: #17252b;
-	font-weight: 800;
+	background: var(--color-surface);
+	color: var(--color-text);
+	font-weight: 700;
 }
 
 .prose-document img {
 	max-width: 100%;
 	height: auto;
-	border-radius: 0.75rem;
-	border: 1px solid #d9d6cb;
+	border-radius: var(--radius-tile);
+	box-shadow: var(--shadow-logo);
 }
 
 .prose-document .contains-task-list {
@@ -201,7 +283,7 @@ body {
 
 .prose-document .task-list-item input {
 	margin-right: 0.5rem;
-	accent-color: #4f46e5;
+	accent-color: var(--color-accent);
 }
 
 /* Caption written as an italic line right under a Markdown image. */
@@ -209,5 +291,5 @@ body {
 	display: block;
 	margin-top: -0.5rem;
 	font-size: 0.9rem;
-	color: #64748b;
+	color: var(--color-text-muted);
 }
