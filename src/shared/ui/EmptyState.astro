@@ -1,0 +1,10 @@
+---
+// What a list says when it has nothing to show yet: the section and its index entry stay.
+interface Props {
+	message: string;
+}
+
+const { message } = Astro.props;
+---
+
+<p class="rounded-card border border-dashed border-line px-5 py-4 text-card-body">{message}</p>

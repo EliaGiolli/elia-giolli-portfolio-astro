@@ -17,6 +17,12 @@ const caseStudiesCollection = defineCollection({
         challenge: z.string(),
         approach: z.string(),
         result: z.string(),
+        // Measured results shown as MetricTiles. Leave `value` out until the data exists:
+        // the tile then reads "[in arrivo]". Never put estimated numbers here.
+        metrics: z.array(z.object({
+            label: z.string().min(1),
+            value: z.string().optional(),
+        })).max(6).default([]),
         githubUrl: z.string().url().optional(),
         liveUrl: z.string().url().optional(),
         draft: z.boolean().default(false),

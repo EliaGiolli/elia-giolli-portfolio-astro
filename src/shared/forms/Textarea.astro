@@ -1,0 +1,21 @@
+---
+import FieldLabel from "./FieldLabel.astro";
+import { fieldClass } from "./fieldStyles";
+
+interface Props {
+	name: string;
+	label: string;
+	placeholder?: string;
+	required?: boolean;
+	rows?: number;
+	class?: string;
+}
+
+const { name, label, placeholder, required = false, rows = 6, class: extraClass } = Astro.props;
+const fieldId = `contact-${name}`;
+---
+
+<div class:list={["grid gap-2", extraClass]}>
+	<FieldLabel for={fieldId} label={label} required={required} />
+	<textarea id={fieldId} name={name} rows={rows} placeholder={placeholder} required={required} class:list={[fieldClass, "resize-y"]}></textarea>
+</div>

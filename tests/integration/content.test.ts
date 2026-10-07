@@ -6,14 +6,30 @@ const text = (element: Element | null | undefined) => element?.textContent?.repl
 describe("homepage", () => {
 	const { document } = loadPage("/");
 
-	it("leads with the Italian positioning", () => {
-		expect(text(document.querySelector("h1"))).toBe("Da front-end developer a Technical SEO & Analytics specialist");
+	it("uses the name as the only h1, followed by the role and the positioning", () => {
+		expect(text(document.querySelector("h1"))).toBe("Elia Giolli");
+		expect(text(document.querySelector("header"))).toContain("Technical SEO & Analytics specialist");
+		expect(text(document.querySelector("header"))).toContain("Da front-end developer a SEO");
 	});
 
-	it("renders the sections in order", () => {
+	it("renders the sections in index order", () => {
 		const ids = [...document.querySelectorAll("main > section")].map((section) => section.id);
 
-		expect(ids).toEqual(["hero", "about", "case-studies", "certificates", "blog", "contact"]);
+		expect(ids).toEqual(["about", "case-studies", "blog", "skills", "certificates", "contact"]);
+	});
+
+	it("numbers the index 01–06 and points each entry at its section", () => {
+		const entries = [...document.querySelectorAll('nav[aria-label="Indice"] a')];
+
+		expect(entries.map((link) => link.getAttribute("href"))).toEqual(["#about", "#case-studies", "#blog", "#skills", "#certificates", "#contact"]);
+		expect(entries.map((link) => text(link.querySelector("span")))).toEqual(["01", "02", "03", "04", "05", "06"]);
+	});
+
+	it("labels every section with an h2 named like its index entry", () => {
+		const entries = [...document.querySelectorAll('nav[aria-label="Indice"] a')].map((link) => text(link.lastElementChild));
+		const labels = [...document.querySelectorAll("main > section")].map((section) => text(document.getElementById(section.getAttribute("aria-labelledby") ?? "")));
+
+		expect(labels).toEqual(entries);
 	});
 
 	it("links the case study and the latest posts", () => {
@@ -24,9 +40,36 @@ describe("homepage", () => {
 		expect(hrefs).toContain("/blog/da-developer-a-seo-specialist/");
 	});
 
-	it("shows the HubSpot certificate first", () => {
-		expect(text(document.querySelector("#certificate-tab-0"))).toBe("Digital Marketing");
-		expect(document.querySelectorAll('#certificates [role="tab"]')).toHaveLength(4);
+	it("shows the case study metrics as placeholders until real data exists", () => {
+		const tiles = [...document.querySelectorAll("#case-studies [data-metric-filled]")];
+
+		expect(tiles.map((tile) => text(tile.querySelector("dt")))).toEqual(["Impressioni", "Pagine indicizzate", "LCP mobile"]);
+		for (const tile of tiles) {
+			expect(text(tile.querySelector("dd"))).toBe("[in arrivo]");
+			expect(tile.getAttribute("data-metric-filled")).toBe("false");
+		}
+	});
+
+	it("dates the cards in short Italian format with a machine-readable datetime", () => {
+		const date = document.querySelector('#blog time[datetime="2026-10-06"]');
+
+		expect(text(date)).toBe("6 ott 2026");
+	});
+
+	it("lists the HubSpot certificate first, each one linking to its proof", () => {
+		const titles = [...document.querySelectorAll("#certificates h3")].map(text);
+
+		expect(titles).toHaveLength(4);
+		expect(titles[0]).toMatch(/^Digital Marketing/);
+		for (const link of document.querySelectorAll("#certificates h3 a")) {
+			expect(link.getAttribute("href")).toMatch(/^(https:\/\/|\/_astro\/.+\.webp$)/);
+		}
+	});
+
+	it("keeps the contact form with its required fields", () => {
+		for (const name of ["from_name", "reply_to", "subject", "message"]) {
+			expect(document.querySelector(`#contact-form [name="${name}"]`)?.hasAttribute("required"), name).toBe(true);
+		}
 	});
 });
 

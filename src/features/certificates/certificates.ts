@@ -7,6 +7,8 @@ import networkSupport from "./assets/network-support-and-security.png";
 
 export interface Certificate {
 	title: string;
+	// Short name for the card date column ("HubSpot", "Cisco").
+	provider: string;
 	issuer: string;
 	status: string;
 	image: ImageMetadata;
@@ -19,6 +21,7 @@ export interface Certificate {
 export const certificates: Certificate[] = [
 	{
 		title: "Digital Marketing",
+		provider: "HubSpot",
 		issuer: "HubSpot Academy · valida fino a ottobre 2028",
 		status: "SEO e digital marketing",
 		image: hubspotDigitalMarketing,
@@ -27,6 +30,7 @@ export const certificates: Certificate[] = [
 	},
 	{
 		title: "Network Support and Security",
+		provider: "Cisco",
 		issuer: "Cisco Networking Academy",
 		status: "Background tecnico",
 		image: networkSupport,
@@ -35,6 +39,7 @@ export const certificates: Certificate[] = [
 	},
 	{
 		title: "Introduction to Networking",
+		provider: "Cisco",
 		issuer: "Cisco Networking Academy",
 		status: "Background tecnico",
 		image: introToNetworking,
@@ -43,6 +48,7 @@ export const certificates: Certificate[] = [
 	},
 	{
 		title: "Introduction to Cybersecurity",
+		provider: "Cisco",
 		issuer: "Cisco Networking Academy",
 		status: "Background tecnico",
 		image: introToCybersecurity,

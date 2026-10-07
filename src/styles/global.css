@@ -68,67 +68,50 @@
 /* Figtree and DM Mono are loaded with <link> + preconnect in BaseHead.astro: an @import here would
    chain the font request behind this stylesheet and delay the first render (LCP). */
 
-:root {
-	font-family: var(--font-sans);
-	color: var(--color-text-body);
-	background: var(--color-bg);
-	color-scheme: dark;
-	font-synthesis: none;
-	text-rendering: optimizeLegibility;
-	-webkit-font-smoothing: antialiased;
-}
+/* Base styles live in the base layer, so Tailwind utilities on the same elements win over them.
+   Anchor offsets (scroll-padding) are set per layout, with utilities. */
+@layer base {
+	:root {
+		font-family: var(--font-sans);
+		color: var(--color-text-body);
+		background: var(--color-bg);
+		color-scheme: dark;
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+	}
 
-html {
-	scroll-behavior: smooth;
-	scroll-padding-top: 5.5rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
 	html {
-		scroll-behavior: auto;
+		scroll-behavior: smooth;
 	}
 
-	*,
-	*::before,
-	*::after {
-		transition-duration: 0.01ms !important;
-		animation-duration: 0.01ms !important;
+	@media (prefers-reduced-motion: reduce) {
+		html {
+			scroll-behavior: auto;
+		}
+
+		*,
+		*::before,
+		*::after {
+			transition-duration: 0.01ms !important;
+			animation-duration: 0.01ms !important;
+		}
 	}
-}
 
-body {
-	margin: 0;
-}
+	body {
+		margin: 0;
+	}
 
-::selection {
-	background: var(--color-accent);
-	color: var(--color-bg);
-}
+	::selection {
+		background: var(--color-accent);
+		color: var(--color-bg);
+	}
 
-/* Focus is always visible: a 2px ring in the accent colour. */
-:focus-visible {
-	outline: 2px solid var(--color-accent);
-	outline-offset: 3px;
-}
-
-.hero-primary {
-	background: #f2b84b !important;
-	color: #17252b !important;
-}
-
-.hero-primary:hover {
-	background: #ffd477 !important;
-}
-
-.hero-secondary {
-	border-color: rgb(255 255 255 / 25%) !important;
-	background: rgb(255 255 255 / 10%) !important;
-	color: white !important;
-}
-
-.hero-secondary:hover {
-	border-color: white !important;
-	background: rgb(255 255 255 / 15%) !important;
+	/* Focus is always visible: a 2px ring in the accent colour. */
+	:focus-visible {
+		outline: 2px solid var(--color-accent);
+		outline-offset: 3px;
+	}
 }
 
 [x-cloak] {

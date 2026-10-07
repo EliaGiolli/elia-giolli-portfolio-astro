@@ -8,3 +8,4 @@ export * from './navigation';
 export * from './indexNav';
 export * from './links';
 export * from './metrics';
+export * from './inlineList';

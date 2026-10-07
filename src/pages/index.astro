@@ -1,11 +1,11 @@
 ---
 import { getImage } from "astro:assets";
-import MainLayout from "../core/layouts/MainLayout.astro";
-import HeroSection from "../features/home/HeroSection.astro";
+import HomeLayout from "../core/layouts/HomeLayout.astro";
 import AboutSection from "../features/home/AboutSection.astro";
-import CertificatesSection from "../features/certificates/CertificatesSection.astro";
 import CaseStudiesSection from "../features/case-studies/CaseStudiesSection.astro";
 import LatestPostsSection from "../features/blog/LatestPostsSection.astro";
+import SkillsSection from "../features/skills/SkillsSection.astro";
+import CertificatesSection from "../features/certificates/CertificatesSection.astro";
 import ContactMe from "../features/contact/ContactMe.astro";
 import JsonLd from "../shared/components/JsonLd.astro";
 import { buildPersonSchema } from "../helpers";
@@ -13,6 +13,7 @@ import { AUTHOR_NAME, GITHUB_URL, JOB_TITLE, LINKEDIN_URL, SITE_DESCRIPTION } fr
 import profilePhoto from "../features/home/assets/foto-elia.jpg";
 
 const siteUrl = Astro.site ?? new URL(Astro.url.origin);
+// The photo is not on the page any more: it stays as the Person image for search engines.
 const photo = await getImage({ src: profilePhoto, width: 400, format: "jpg" });
 
 const personSchema = buildPersonSchema({
@@ -26,13 +27,14 @@ const personSchema = buildPersonSchema({
 });
 ---
 
-<MainLayout ogType="profile">
+<HomeLayout ogType="profile">
 	<JsonLd slot="head" schema={personSchema} />
 
-	<HeroSection />
+	{/* Same order as HOME_SECTIONS: the index numbers follow it. */}
 	<AboutSection />
 	<CaseStudiesSection />
-	<CertificatesSection />
 	<LatestPostsSection />
+	<SkillsSection />
+	<CertificatesSection />
 	<ContactMe />
-</MainLayout>
+</HomeLayout>

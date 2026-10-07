@@ -1,24 +1,43 @@
 ---
+import { externalLinkAttributes } from "../../helpers/links";
 import { ANALYTICS_ID } from "../utils/analytics";
 import { BLOG_NAME, CONTACT_EMAIL, GITHUB_URL, LINKEDIN_URL, SITE_TAGLINE } from "../utils/constants";
 
-const linkClass = "transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#f2b84b]";
+interface Props {
+	class?: string;
+}
+
+const { class: extraClass } = Astro.props;
 const hasAnalytics = Boolean(ANALYTICS_ID);
+const links = [
+	{ label: "Blog", href: "/blog" },
+	{ label: "Case study", href: "/case-studies/" },
+	{ label: "CV", href: "/cv/" },
+	{ label: "RSS", href: "/rss.xml" },
+	{ label: "Email", href: `mailto:${CONTACT_EMAIL}` },
+	{ label: "LinkedIn", href: LINKEDIN_URL },
+	{ label: "GitHub", href: GITHUB_URL },
+	{ label: "Privacy", href: "/privacy" },
+];
+const linkClass = "inline-flex min-h-11 cursor-pointer items-center text-text-body transition-colors duration-200 hover:text-accent";
 ---
 
-<footer class="border-t border-slate-700 bg-[#17252b] text-slate-300">
-	<div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-6 text-sm max-[600px]:flex-col max-[600px]:items-start lg:px-8">
-		<p>&copy; {new Date().getFullYear()} {BLOG_NAME} · {SITE_TAGLINE}</p>
-		<nav class="flex flex-wrap gap-5" aria-label="Link del footer">
-			<a class={linkClass} href="/blog">Blog</a>
-			<a class={linkClass} href="/rss.xml">RSS</a>
-			<a class={linkClass} href={`mailto:${CONTACT_EMAIL}`}>Email</a>
-			<a class={linkClass} href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a>
-			<a class={linkClass} href={GITHUB_URL} target="_blank" rel="noopener noreferrer">GitHub</a>
-			<a class={linkClass} href="/privacy">Privacy</a>
+<footer class:list={["text-small text-text-muted", extraClass]}>
+	<p class="max-w-[460px]">
+		Costruito con Astro, Tailwind CSS e Alpine.js, pubblicato su Vercel. Testi in Figtree. Nessun dato analytics raccolto
+		prima del tuo consenso.
+	</p>
+	<nav class="mt-4" aria-label="Link del footer">
+		<ul class="flex list-none flex-wrap gap-x-5 p-0">
+			{links.map((link) => (
+				<li><a class={linkClass} href={link.href} {...externalLinkAttributes(link.href)}>{link.label}</a></li>
+			))}
 			{hasAnalytics && (
-				<button type="button" class={`cursor-pointer ${linkClass}`} x-data x-on:click="$dispatch('open-cookie-preferences')">Preferenze cookie</button>
+				<li>
+					<button type="button" class={linkClass} x-data x-on:click="$dispatch('open-cookie-preferences')">Preferenze cookie</button>
+				</li>
 			)}
-		</nav>
-	</div>
+		</ul>
+	</nav>
+	<p class="mt-4">&copy; {new Date().getFullYear()} {BLOG_NAME} · {SITE_TAGLINE}</p>
 </footer>
