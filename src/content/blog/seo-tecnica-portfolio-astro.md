@@ -110,7 +110,7 @@ Search Console è lo strumento che mostra come Google vede il sito: pagine indic
 1. **Proprietà "Prefisso URL"**, non "Dominio": la proprietà Dominio richiede di modificare i DNS, impossibile su un sottodominio `.vercel.app`.
 2. **Verifica con tag HTML.** Il metodo "Google Analytics" non funziona sul mio sito per lo stesso motivo di prima: il tag di GA si carica solo dopo il consenso. Il token di verifica è nel layout, quindi è presente in ogni pagina.
 3. **Invio della sitemap**: basta scrivere `sitemap-index.xml`, il resto lo trova Google.
-4. **Richiesta di indicizzazione** dallo strumento Controllo URL. Sorpresa: su un sito nuovo il limite era di **una richiesta al giorno**. Ho scelto la home; le altre pagine le aggiungo nei prossimi giorni, e comunque la sitemap le farà scoprire.
+4. **Richiesta di indicizzazione** dallo strumento Controllo URL. Sorpresa: su un sito nuovo il limite era di **una richiesta al giorno**. Ho scelto la home; le altre pagine le aggiungo nei prossimi giorni, e comunque la sitemap le farà scoprire. Cosa significa davvero quel limite l'ho raccontato in [questo articolo su Search Console e la quota superata](/blog/search-console-quota-superata/).
 5. **Collegamento con GA4**, per vedere le query di ricerca direttamente dentro Analytics.
 
 ![Collegamento tra Google Analytics 4 e Search Console creato](../../assets/blog/seo-tecnica-portfolio-astro/search-console-collegamento.png)
