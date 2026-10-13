@@ -1,5 +1,6 @@
 import type { ImageMetadata } from "astro";
 
+import hubspotContentMarketing from "./assets/hubspot-content-marketing.png";
 import hubspotDigitalMarketing from "./assets/hubspot-digital-marketing.png";
 import introToNetworking from "./assets/intro-to-networking.png";
 import introToCybersecurity from "./assets/intro-to-cybersecurity.png";
@@ -27,6 +28,15 @@ export const certificates: Certificate[] = [
 		image: hubspotDigitalMarketing,
 		imageAlt: "Certificato HubSpot Academy Digital Marketing Certified rilasciato a Elia Giolli",
 		copy: "Contenuti SEO friendly, ottimizzazione di un sito, strategia social, video, advertising e misurazione dei risultati con una mentalità inbound.",
+	},
+	{
+		title: "Content Marketing",
+		provider: "HubSpot",
+		issuer: "HubSpot Academy · valida fino a novembre 2028",
+		status: "SEO e digital marketing",
+		image: hubspotContentMarketing,
+		imageAlt: "Certificato HubSpot Academy Content Marketing Certified rilasciato a Elia Giolli",
+		copy: "Pianificazione dei contenuti nel lungo periodo, scrittura, promozione e analisi dei risultati: il lavoro che sta dietro a ogni articolo del blog.",
 	},
 	{
 		title: "Network Support and Security",
