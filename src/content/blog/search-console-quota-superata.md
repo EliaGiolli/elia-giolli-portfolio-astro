@@ -3,7 +3,7 @@ title: "Search Console e quota superata: perché basta aspettare"
 description: "Il messaggio di quota superata in Search Console mi aveva fatto pensare a un abbonamento da pagare. Ecco cosa ho controllato e perché, a volte, basta aspettare."
 pubDate: 2026-10-13
 tags: ["Google Search Console", "Indicizzazione", "Technical SEO"]
-draft: true
+draft: false
 ---
 
 Lo ammetto: per qualche giorno ho pensato di dover pagare un abbonamento per far indicizzare il mio sito su Google.
