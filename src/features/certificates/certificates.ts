@@ -29,6 +29,8 @@ export const certificates: Certificate[] = [
 		image: semrushSeoCrashCourse,
 		imageAlt: "Certificato Semrush Academy SEO Crash Course with Brian Dean rilasciato a Elia Giolli",
 		copy: "Ricerca delle parole chiave, SEO on-page, contenuti pensati per posizionarsi, link building e basi di SEO tecnica, con il metodo di Brian Dean e gli strumenti Semrush.",
+		// PDF hosted by Semrush, public and tied to the certificate code.
+		verifyUrl: "https://static.semrush.com/academy/certificates/f2dd1b259e/elia-giolli_2.pdf",
 	},
 	{
 		title: "Digital Marketing",
