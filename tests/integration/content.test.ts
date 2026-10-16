@@ -63,11 +63,12 @@ describe("homepage", () => {
 		expect(text(date)).toBe("6 ott 2026");
 	});
 
-	it("lists the HubSpot certificate first, each one linking to its proof", () => {
+	it("lists the newest SEO certificate first, each one linking to its proof", () => {
 		const titles = [...document.querySelectorAll("#certificates h3")].map(text);
 
-		expect(titles).toHaveLength(4);
-		expect(titles[0]).toMatch(/^Digital Marketing/);
+		expect(titles).toHaveLength(6);
+		expect(titles[0]).toMatch(/^SEO Crash Course with Brian Dean/);
+		expect(titles.some((title) => title.startsWith("Digital Marketing"))).toBe(true);
 		for (const link of document.querySelectorAll("#certificates h3 a")) {
 			expect(link.getAttribute("href")).toMatch(/^(https:\/\/|\/_astro\/.+\.webp$)/);
 		}
@@ -106,7 +107,8 @@ describe("blog", () => {
 	it("lists every published post, newest first", () => {
 		const titles = [...loadPage("/blog/").document.querySelectorAll('main [aria-label="Elenco degli articoli"] h2')].map(accessibleText);
 
-		expect(titles).toHaveLength(2);
+		expect(titles).toHaveLength(3);
+		expect(titles[0]).toBe("Search Console e quota superata: perché basta aspettare");
 		expect(titles).toContain("SEO tecnica in pratica: come ho preparato il mio sito per Google");
 		expect(titles).toContain("Da front-end developer a SEO specialist: perché il codice è un vantaggio");
 		// The arrow that closes the link is decorative: hidden from assistive technologies.
@@ -159,10 +161,11 @@ describe("case study", () => {
 });
 
 describe("CV", () => {
-	it("uses the shared tagline and lists the HubSpot certification", () => {
+	it("uses the shared tagline and lists the Semrush and HubSpot certifications", () => {
 		const page = text(loadPage("/cv/").document.body);
 
 		expect(page).toContain("Da front-end developer a Technical SEO & Analytics specialist");
 		expect(page).toContain("Digital Marketing Certified");
+		expect(page).toContain("SEO Crash Course with Brian Dean");
 	});
 });

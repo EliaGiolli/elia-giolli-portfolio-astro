@@ -5,6 +5,7 @@ const EXPECTED_ROUTES = [
 	"/",
 	"/blog/",
 	"/blog/da-developer-a-seo-specialist/",
+	"/blog/search-console-quota-superata/",
 	"/blog/seo-tecnica-portfolio-astro/",
 	"/case-studies/",
 	"/case-studies/audit-seo-tecnico-portfolio/",
@@ -64,6 +65,7 @@ describe("RSS feed", () => {
 	it("contains every published post with an absolute link", () => {
 		expect(rss).toContain(`<link>${SITE}/blog/da-developer-a-seo-specialist/</link>`);
 		expect(rss).toContain(`<link>${SITE}/blog/seo-tecnica-portfolio-astro/</link>`);
+		expect(rss).toContain(`<link>${SITE}/blog/search-console-quota-superata/</link>`);
 	});
 });
 

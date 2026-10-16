@@ -5,6 +5,7 @@ import hubspotDigitalMarketing from "./assets/hubspot-digital-marketing.png";
 import introToNetworking from "./assets/intro-to-networking.png";
 import introToCybersecurity from "./assets/intro-to-cybersecurity.png";
 import networkSupport from "./assets/network-support-and-security.png";
+import semrushSeoCrashCourse from "./assets/semrush-seo-crash-course.png";
 
 export interface Certificate {
 	title: string;
@@ -20,6 +21,15 @@ export interface Certificate {
 
 // Newest and most relevant first: SEO and analytics, then the technical background.
 export const certificates: Certificate[] = [
+	{
+		title: "SEO Crash Course with Brian Dean",
+		provider: "Semrush",
+		issuer: "Semrush Academy · valida fino a ottobre 2027",
+		status: "SEO",
+		image: semrushSeoCrashCourse,
+		imageAlt: "Certificato Semrush Academy SEO Crash Course with Brian Dean rilasciato a Elia Giolli",
+		copy: "Ricerca delle parole chiave, SEO on-page, contenuti pensati per posizionarsi, link building e basi di SEO tecnica, con il metodo di Brian Dean e gli strumenti Semrush.",
+	},
 	{
 		title: "Digital Marketing",
 		provider: "HubSpot",

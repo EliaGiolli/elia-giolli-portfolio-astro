@@ -56,12 +56,12 @@ test.describe("case studies", () => {
 });
 
 test.describe("certificates", () => {
-	test("lists every certificate, HubSpot first, with a link to its proof", async ({ page }) => {
+	test("lists every certificate, Semrush first, with a link to its proof", async ({ page }) => {
 		await page.goto("/#certificates");
 		const titles = page.locator("#certificates h3");
 
-		await expect(titles).toHaveCount(4);
-		await expect(titles.first()).toContainText("Digital Marketing");
+		await expect(titles).toHaveCount(6);
+		await expect(titles.first()).toContainText("SEO Crash Course with Brian Dean");
 
 		const proof = page.getByRole("link", { name: /^Network Support and Security/ });
 		const href = await proof.getAttribute("href");
